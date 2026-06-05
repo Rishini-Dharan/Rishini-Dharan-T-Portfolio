@@ -1,4 +1,4 @@
-// Modern Portfolio JavaScript with Interactive Features
+//Portfolio JavaScript with Interactive Features
 
 class Portfolio {
     constructor() {
@@ -17,12 +17,10 @@ class Portfolio {
     }
 
     setupEventListeners() {
-        // Wait for DOM to be fully loaded
         document.addEventListener('DOMContentLoaded', () => {
             this.addFadeInAnimations();
         });
 
-        // Handle window resize
         window.addEventListener('resize', () => {
             this.handleResize();
         });
@@ -31,25 +29,21 @@ class Portfolio {
     setupThemeToggle() {
         const themeToggle = document.getElementById('theme-toggle');
         const themeIcon = themeToggle.querySelector('.theme-icon');
-        
-        // Check for saved theme preference or default to light mode
+
         const currentTheme = localStorage.getItem('theme') || 'light';
         document.documentElement.setAttribute('data-color-scheme', currentTheme);
-        
-        // Set initial icon
+
         themeIcon.textContent = currentTheme === 'dark' ? '☀️' : '🌙';
 
         themeToggle.addEventListener('click', () => {
             const currentTheme = document.documentElement.getAttribute('data-color-scheme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
+
             document.documentElement.setAttribute('data-color-scheme', newTheme);
             localStorage.setItem('theme', newTheme);
-            
-            // Update icon
+
             themeIcon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
-            
-            // Add transition class for smooth theme change
+
             document.body.classList.add('theme-transition');
             setTimeout(() => {
                 document.body.classList.remove('theme-transition');
@@ -60,13 +54,12 @@ class Portfolio {
     setupMobileMenu() {
         const mobileToggle = document.getElementById('mobile-menu-toggle');
         const navMenu = document.querySelector('.nav-menu');
-        
+
         mobileToggle.addEventListener('click', () => {
             navMenu.classList.toggle('active');
             mobileToggle.classList.toggle('active');
         });
 
-        // Close mobile menu when clicking on a link
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', () => {
                 navMenu.classList.remove('active');
@@ -84,14 +77,14 @@ class Portfolio {
             'Backend Developer',
             'Problem Solver'
         ];
-        
+
         let textIndex = 0;
         let charIndex = 0;
         let isDeleting = false;
-        
+
         const typeText = () => {
             const currentText = texts[textIndex];
-            
+
             if (isDeleting) {
                 typingElement.textContent = currentText.substring(0, charIndex - 1);
                 charIndex--;
@@ -99,27 +92,25 @@ class Portfolio {
                 typingElement.textContent = currentText.substring(0, charIndex + 1);
                 charIndex++;
             }
-            
+
             let typeSpeed = isDeleting ? 100 : 150;
-            
+
             if (!isDeleting && charIndex === currentText.length) {
-                typeSpeed = 2000; // Pause at end
+                typeSpeed = 2000;
                 isDeleting = true;
             } else if (isDeleting && charIndex === 0) {
                 isDeleting = false;
                 textIndex = (textIndex + 1) % texts.length;
-                typeSpeed = 500; // Pause before next text
+                typeSpeed = 500;
             }
-            
+
             setTimeout(typeText, typeSpeed);
         };
-        
-        // Start typing effect
+
         setTimeout(typeText, 1000);
     }
 
     setupScrollAnimations() {
-        // Create intersection observer for scroll animations
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
@@ -129,18 +120,15 @@ class Portfolio {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('fade-in-up');
-                    
-                    // Animate skill items with stagger effect
+
                     if (entry.target.classList.contains('skill-category')) {
                         this.animateSkillItems(entry.target);
                     }
-                    
-                    // Animate project cards
+
                     if (entry.target.classList.contains('project-card')) {
                         this.animateProjectCard(entry.target);
                     }
-                    
-                    // Animate timeline items
+
                     if (entry.target.classList.contains('timeline-item')) {
                         this.animateTimelineItem(entry.target);
                     }
@@ -148,7 +136,6 @@ class Portfolio {
             });
         }, observerOptions);
 
-        // Observe elements for animation
         document.querySelectorAll('.skill-category, .project-card, .timeline-item, .contact-item').forEach(el => {
             observer.observe(el);
         });
@@ -161,7 +148,7 @@ class Portfolio {
                 item.style.opacity = '0';
                 item.style.transform = 'translateY(20px)';
                 item.style.transition = 'all 0.5s ease';
-                
+
                 setTimeout(() => {
                     item.style.opacity = '1';
                     item.style.transform = 'translateY(0)';
@@ -174,7 +161,7 @@ class Portfolio {
         card.style.opacity = '0';
         card.style.transform = 'translateY(30px)';
         card.style.transition = 'all 0.8s ease';
-        
+
         setTimeout(() => {
             card.style.opacity = '1';
             card.style.transform = 'translateY(0)';
@@ -186,7 +173,7 @@ class Portfolio {
         content.style.opacity = '0';
         content.style.transform = 'translateX(30px)';
         content.style.transition = 'all 0.8s ease';
-        
+
         setTimeout(() => {
             content.style.opacity = '1';
             content.style.transform = 'translateX(0)';
@@ -200,7 +187,7 @@ class Portfolio {
                 e.preventDefault();
                 const targetId = link.getAttribute('href');
                 const targetSection = document.querySelector(targetId);
-                
+
                 if (targetSection) {
                     const offsetTop = targetSection.offsetTop - 70; // Account for fixed navbar
                     window.scrollTo({
@@ -218,7 +205,7 @@ class Portfolio {
                     e.preventDefault();
                     const targetId = btn.getAttribute('href');
                     const targetSection = document.querySelector(targetId);
-                    
+
                     if (targetSection) {
                         const offsetTop = targetSection.offsetTop - 70;
                         window.scrollTo({
@@ -233,14 +220,14 @@ class Portfolio {
 
     setupFormHandling() {
         const contactForm = document.getElementById('contact-form');
-        
+
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            
+
             // Get form data
             const formData = new FormData(contactForm);
             const data = Object.fromEntries(formData);
-            
+
             // Validate form
             if (this.validateForm(data)) {
                 this.submitForm(data);
@@ -295,9 +282,9 @@ class Portfolio {
     validateField(field) {
         const value = field.value.trim();
         field.classList.remove('error', 'valid');
-        
+
         let isValid = true;
-        
+
         switch (field.type) {
             case 'email':
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -310,7 +297,7 @@ class Portfolio {
                 isValid = value.length >= 10;
                 break;
         }
-        
+
         field.classList.add(isValid ? 'valid' : 'error');
         return isValid;
     }
@@ -324,47 +311,47 @@ class Portfolio {
 
         setTimeout(() => {
             document.getElementById('contact-form').reset();
-            
+
             submitBtn.textContent = originalText;
             submitBtn.disabled = false;
-            
+
             this.sendEmail(data);
         }, 2000);
     }
     sendEmail(data) {
-    if (typeof emailjs === "undefined" || !emailjs.send) {
-        this.showNotification("Email service not available. Please try again later.", "error");
-        return;
-    }
-
-    const serviceID = "service_g06qotm";
-    const templateID = "template_qovombc";
-    // const userID = "2XHhlJ0ailyeT-FYS";
-
-    emailjs.send(serviceID, templateID, {
-        from_name: data.name,
-        from_email: data.email,
-        subject: data.subject,
-        message: data.message
-    })
-    .then((response) => {
-        this.showNotification("Thank you for your message! I'll get back to you soon.", "success");
-    })
-    .catch((err) => {
-        let msg = "Failed to send message.";
-        if (err && err.text) {
-            msg += " " + err.text;
+        if (typeof emailjs === "undefined" || !emailjs.send) {
+            this.showNotification("Email service not available. Please try again later.", "error");
+            return;
         }
-        this.showNotification(msg, "error");
-    });
-}
+
+        const serviceID = "service_g06qotm";
+        const templateID = "template_qovombc";
+        // const userID = "2XHhlJ0ailyeT-FYS";
+
+        emailjs.send(serviceID, templateID, {
+            from_name: data.name,
+            from_email: data.email,
+            subject: data.subject,
+            message: data.message
+        })
+            .then((response) => {
+                this.showNotification("Thank you for your message! I'll get back to you soon.", "success");
+            })
+            .catch((err) => {
+                let msg = "Failed to send message.";
+                if (err && err.text) {
+                    msg += " " + err.text;
+                }
+                this.showNotification(msg, "error");
+            });
+    }
 
 
     showNotification(message, type = 'info') {
         const notification = document.createElement('div');
         notification.className = `notification notification--${type}`;
         notification.textContent = message;
-        
+
         notification.style.cssText = `
             position: fixed;
             top: 20px;
@@ -378,7 +365,7 @@ class Portfolio {
             transition: transform 0.3s ease;
             max-width: 400px;
         `;
-        
+
         // Set background color based on type
         switch (type) {
             case 'success':
@@ -390,15 +377,15 @@ class Portfolio {
             default:
                 notification.style.backgroundColor = '#3b82f6';
         }
-        
+
         // Add to page
         document.body.appendChild(notification);
-        
+
         // Animate in
         setTimeout(() => {
             notification.style.transform = 'translateX(0)';
         }, 100);
-        
+
         // Remove after 5 seconds
         setTimeout(() => {
             notification.style.transform = 'translateX(100%)';
@@ -413,24 +400,24 @@ class Portfolio {
     setupNavbarScroll() {
         let lastScrollTop = 0;
         const navbar = document.querySelector('.navbar');
-        
+
         window.addEventListener('scroll', () => {
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            
+
             // Add/remove scrolled class for styling
             if (scrollTop > 50) {
                 navbar.classList.add('scrolled');
             } else {
                 navbar.classList.remove('scrolled');
             }
-            
+
             // Hide/show navbar on scroll
             if (scrollTop > lastScrollTop && scrollTop > 100) {
                 navbar.style.transform = 'translateY(-100%)';
             } else {
                 navbar.style.transform = 'translateY(0)';
             }
-            
+
             lastScrollTop = scrollTop;
         });
     }
@@ -438,12 +425,12 @@ class Portfolio {
     addFadeInAnimations() {
         // Add fade-in animations to elements as they come into view
         const elements = document.querySelectorAll('.hero-content, .section-header, .about-content, .education-card');
-        
+
         elements.forEach((el, index) => {
             el.style.opacity = '0';
             el.style.transform = 'translateY(30px)';
             el.style.transition = 'all 0.8s ease';
-            
+
             setTimeout(() => {
                 el.style.opacity = '1';
                 el.style.transform = 'translateY(0)';
@@ -454,7 +441,7 @@ class Portfolio {
     handleResize() {
         const mobileMenu = document.querySelector('.nav-menu');
         const mobileToggle = document.getElementById('mobile-menu-toggle');
-        
+
         if (window.innerWidth > 768) {
             mobileMenu.classList.remove('active');
             mobileToggle.classList.remove('active');
@@ -502,16 +489,16 @@ class Portfolio {
                 const rect = card.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
-                
+
                 const centerX = rect.width / 2;
                 const centerY = rect.height / 2;
-                
+
                 const rotateX = (y - centerY) / 10;
                 const rotateY = (centerX - x) / 10;
-                
+
                 card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
             });
-            
+
             card.addEventListener('mouseleave', () => {
                 card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
             });
@@ -521,7 +508,7 @@ class Portfolio {
 
 document.addEventListener('DOMContentLoaded', () => {
     const portfolio = new Portfolio();
-    
+
     portfolio.createParticles();
     portfolio.addInteractiveEffects();
 });
@@ -593,7 +580,7 @@ class ImageGallery {
         this.prevBtn = document.getElementById('gallery-prev');
         this.nextBtn = document.getElementById('gallery-next');
         this.galleryContainer = document.querySelector('.gallery-container');
-        
+
         this.init();
     }
 
@@ -678,7 +665,7 @@ class ImageGallery {
 
     handleImageUpload(files) {
         const imageFiles = Array.from(files).filter(file => file.type.startsWith('image/'));
-        
+
         if (imageFiles.length === 0) {
             this.showNotification('Please select valid image files.', 'error');
             return;
@@ -694,7 +681,7 @@ class ImageGallery {
 
     addImageToGallery(file) {
         const reader = new FileReader();
-        
+
         reader.onload = (e) => {
             const imageData = {
                 src: e.target.result,
@@ -777,7 +764,7 @@ class ImageGallery {
     scrollGallery(direction) {
         const scrollAmount = 320; // Width of one item + gap
         const currentScroll = this.galleryScroll.scrollLeft;
-        
+
         if (direction === 'prev') {
             this.galleryScroll.scrollTo({
                 left: currentScroll - scrollAmount,
