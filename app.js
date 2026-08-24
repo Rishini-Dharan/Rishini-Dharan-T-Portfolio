@@ -65,6 +65,9 @@
         el.innerHTML = words.map((w) =>
             `<span class="w">${[...w].map((c) => `<span class="ch" style="--i:${i++}">${c}</span>`).join('')}</span>`
         ).join(' ');
+        el.querySelectorAll('.ch').forEach((ch) => {
+            ch.addEventListener('animationend', () => ch.classList.add('done'), { once: true });
+        });
     });
 
     /* ---------------- Random falling-code events ---------------- */

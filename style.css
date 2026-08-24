@@ -525,17 +525,20 @@ html.cursor-down .cursor-ring { transform-origin: center; }
 .split-letters .w { display: inline-block; white-space: nowrap; }
 .split-letters .ch {
     display: inline-block;
+    will-change: transform, opacity;
     animation: chIn 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
     animation-delay: calc(0.45s + var(--i) * 0.04s);
 }
+.split-letters .ch.done { animation: none; will-change: auto; }
 .grad-text .ch {
     background: var(--grad);
     -webkit-background-clip: text;
     background-clip: text;
+    backface-visibility: hidden;
 }
 @keyframes chIn {
-    from { opacity: 0; transform: translateY(55%) rotateX(-45deg); }
-    to { opacity: 1; transform: translateY(0) rotateX(0); }
+    from { opacity: 0; transform: translateY(55%); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .type-line {
