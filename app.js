@@ -48,6 +48,16 @@
         document.addEventListener('mouseup', () => document.documentElement.classList.remove('cursor-down'));
     }
 
+    /* ---------------- Blur-up lazy images ---------------- */
+    document.querySelectorAll('img.blur-load').forEach((img) => {
+        if (img.complete && img.naturalWidth) {
+            img.classList.add('loaded');
+        } else {
+            img.addEventListener('load', () => img.classList.add('loaded'), { once: true });
+            img.addEventListener('error', () => img.classList.add('loaded'), { once: true });
+        }
+    });
+
     /* ---------------- Hero letter split ---------------- */
     document.querySelectorAll('.split-letters').forEach((el) => {
         let i = 0;
@@ -75,8 +85,13 @@
         function isDark() {
             return document.documentElement.getAttribute('data-theme') !== 'light';
         }
-        function paint() {
-            return isDark() ? 'rgba(4,5,13,0.006)' : 'rgba(242,244,252,0.007)';
+        const FADE = 0.16;
+        function fade() {
+            ctx.save();
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.fillStyle = `rgba(0,0,0,${FADE})`;
+            ctx.fillRect(0, 0, W, H);
+            ctx.restore();
         }
 
         function computeGuard() {
@@ -104,8 +119,7 @@
             colW = Math.max(...TOKENS.map((t) => ctx.measureText(t).width)) + 16;
             drops.length = 0;
             computeGuard();
-            ctx.fillStyle = paint();
-            ctx.fillRect(0, 0, W, H);
+            ctx.clearRect(0, 0, W, H);
         }
 
         function spawn(burst) {
@@ -154,8 +168,7 @@
 
             ctx.font = `${fs}px 'JetBrains Mono', monospace`;
             ctx.textAlign = 'center';
-            ctx.fillStyle = paint();
-            ctx.fillRect(0, 0, W, H);
+            fade();
 
             for (let i = ripples.length - 1; i >= 0; i--) {
                 const rp = ripples[i];
