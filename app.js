@@ -76,7 +76,7 @@
             return document.documentElement.getAttribute('data-theme') !== 'light';
         }
         function paint() {
-            return isDark() ? 'rgba(4,5,13,0.06)' : 'rgba(242,244,252,0.08)';
+            return isDark() ? 'rgba(4,5,13,0.025)' : 'rgba(242,244,252,0.03)';
         }
 
         function computeGuard() {
