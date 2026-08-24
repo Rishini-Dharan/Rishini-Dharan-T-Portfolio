@@ -135,6 +135,14 @@
             if (ripples.length > 5) ripples.shift();
         });
 
+        let resizeTimer = 0;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                size();
+            }, 100);
+        }, { passive: true });
+
         function tick(t) {
             if (!running) return;
             requestAnimationFrame(tick);
