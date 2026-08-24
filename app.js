@@ -76,7 +76,7 @@
             return document.documentElement.getAttribute('data-theme') !== 'light';
         }
         function paint() {
-            return isDark() ? 'rgba(4,5,13,0.005)' : 'rgba(242,244,252,0.006)';
+            return isDark() ? 'rgba(4,5,13,0.012)' : 'rgba(242,244,252,0.015)';
         }
 
         function computeGuard() {
@@ -164,13 +164,13 @@
                 if (rp.a < 0.02) { ripples.splice(i, 1); continue; }
                 ctx.beginPath();
                 ctx.arc(rp.x, rp.y, rp.r, 0, Math.PI * 2);
-                ctx.strokeStyle = `rgba(34,211,238,${rp.a * 0.55})`;
-                ctx.lineWidth = 1.5;
+                ctx.strokeStyle = `rgba(80,255,255,${rp.a * 0.8})`;
+                ctx.lineWidth = 2.5;
                 ctx.stroke();
                 ctx.beginPath();
                 ctx.arc(rp.x, rp.y, rp.r * 0.62, 0, Math.PI * 2);
-                ctx.strokeStyle = `rgba(139,92,246,${rp.a * 0.40})`;
-                ctx.lineWidth = 1;
+                ctx.strokeStyle = `rgba(180,140,255,${rp.a * 0.6})`;
+                ctx.lineWidth = 1.5;
                 ctx.stroke();
             }
 
@@ -193,18 +193,18 @@
                     const near = dx * dx + dy * dy < GLOW_R * GLOW_R;
 
                     if (k === 0 && !d.dying) {
-                        ctx.shadowColor = near ? 'rgba(190,250,255,0.95)' : (dark ? 'rgba(34,211,238,0.75)' : 'rgba(14,116,144,0.7)');
-                        ctx.shadowBlur = near ? 14 : 7;
-                        ctx.fillStyle = near ? '#c8fbff' : (dark ? '#67e8f9' : '#0e7490');
+                        ctx.shadowColor = near ? 'rgba(220,255,255,1)' : (dark ? 'rgba(80,230,255,1)' : 'rgba(30,150,200,1)');
+                        ctx.shadowBlur = near ? 28 : 10;
+                        ctx.fillStyle = near ? '#e0ffff' : (dark ? '#8ae8ff' : '#1e96c8');
                     } else if (near) {
                         ctx.shadowBlur = 0;
-                        ctx.fillStyle = `rgba(${dark ? '125,211,252' : '3,105,161'},${Math.max(0, 0.85 - k / d.len * 0.4)})`;
+                        ctx.fillStyle = `rgba(${dark ? '125,211,252' : '3,105,161'},${Math.max(0, 0.95 - k / d.len * 0.3)})`;
                     } else {
                         ctx.shadowBlur = 0;
                         const v = d.violet || Math.random() < 0.45;
                         ctx.fillStyle = dark
-                            ? `rgba(${v ? '167,139,250' : '34,211,238'},${Math.max(0, 0.42 - k / d.len * 0.28)})`
-                            : `rgba(${v ? '109,93,246' : '8,145,178'},${Math.max(0, 0.38 - k / d.len * 0.24)})`;
+                            ? `rgba(${v ? '167,139,250' : '34,211,238'},${Math.max(0, 0.7 - k / d.len * 0.25)})`
+                            : `rgba(${v ? '109,93,246' : '8,145,178'},${Math.max(0, 0.65 - k / d.len * 0.2)})`;
                     }
                     ctx.fillText(tok, d.x, yy);
                 }
