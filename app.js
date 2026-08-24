@@ -76,7 +76,7 @@
             return document.documentElement.getAttribute('data-theme') !== 'light';
         }
         function paint() {
-            return isDark() ? 'rgba(4,5,13,0.015)' : 'rgba(242,244,252,0.018)';
+            return isDark() ? 'rgba(4,5,13,0.006)' : 'rgba(242,244,252,0.007)';
         }
 
         function computeGuard() {
@@ -149,8 +149,8 @@
             if (t - last < 33) return;
             last = t;
 
-            const cap = W < 640 ? 8 : 16;
-            if (drops.length < cap && Math.random() < 0.035) spawn(Math.random() < 0.2);
+            const cap = W < 640 ? 12 : 24;
+            if (drops.length < cap && Math.random() < 0.05) spawn(Math.random() < 0.25);
 
             ctx.font = `${fs}px 'JetBrains Mono', monospace`;
             ctx.textAlign = 'center';
