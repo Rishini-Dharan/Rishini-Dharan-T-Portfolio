@@ -76,7 +76,7 @@
             return document.documentElement.getAttribute('data-theme') !== 'light';
         }
         function paint() {
-            return isDark() ? 'rgba(4,5,13,0.012)' : 'rgba(242,244,252,0.015)';
+            return isDark() ? 'rgba(4,5,13,0.06)' : 'rgba(242,244,252,0.08)';
         }
 
         function computeGuard() {
@@ -649,7 +649,7 @@
                 const r = wrap.getBoundingClientRect();
                 const mx = e.clientX - r.left, my = e.clientY - r.top;
                 const cam = g.camera().position;
-                let best = null, bestD2 = 14 * 14;
+                let best = null, bestD2 = 22 * 22;
                 for (const d of data) {
                     const phi = (90 - d.lat) * Math.PI / 180, theta = (90 - d.lng) * Math.PI / 180;
                     const vx = Math.sin(phi) * Math.cos(theta), vy = Math.cos(phi), vz = Math.sin(phi) * Math.sin(theta);
