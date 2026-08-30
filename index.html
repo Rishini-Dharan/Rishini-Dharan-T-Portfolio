@@ -24,6 +24,7 @@
 <body>
 
     <canvas id="rain-canvas" aria-hidden="true"></canvas>
+    <canvas id="ambient-canvas" aria-hidden="true"></canvas>
 
     <div class="preloader" id="preloader">
         <div class="preloader-mark">R</div>
@@ -516,7 +517,19 @@
 
     <button class="to-top" id="to-top" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
 
+    <!-- ambient activity log · decorative, hidden from assistive tech -->
+    <aside class="sys-console" id="sys-console" aria-hidden="true">
+        <div class="sys-head">
+            <span class="sys-dots"><i></i><i></i><i></i></span>
+            <span class="sys-title mono">system.log</span>
+            <button class="sys-close" id="sys-toggle" tabindex="-1" aria-label="Hide activity log">×</button>
+        </div>
+        <ul class="sys-body mono" id="sys-body"></ul>
+    </aside>
+    <button class="sys-restore mono" id="sys-restore" tabindex="-1" aria-hidden="true" hidden>_log</button>
+
     <script src="global100.js"></script>
     <script src="app.js"></script>
+    <script src="ambient.js" defer></script>
 </body>
 </html>
