@@ -20,7 +20,7 @@
     /* ---------------- Hero neural network ---------------- */
     (function heroNetwork() {
         const canvas = document.getElementById('hero-canvas');
-        const hero = document.getElementById('home');
+        const hero = canvas && canvas.closest('.hero');
         if (!canvas || !hero) return;
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
@@ -32,12 +32,12 @@
         let visible = true, running = false, lastIdle = 0;
 
         function readColors() {
-            const light = document.documentElement.getAttribute('data-theme') === 'light';
+            const accent = cssVar('--accent') || '#8fd0ff';
             colors = {
-                a: cssVar('--violet') || '#8b5cf6',
-                b: cssVar('--cyan') || '#22d3ee',
-                edge: light ? 'rgba(35, 48, 110, 0.10)' : 'rgba(148, 163, 255, 0.08)',
-                node: light ? 'rgba(35, 48, 110, 0.28)' : 'rgba(163, 170, 196, 0.32)'
+                a: accent,
+                b: accent,
+                edge: cssVar('--net-edge') || 'rgba(159, 187, 219, 0.09)',
+                node: cssVar('--net-node') || 'rgba(159, 187, 219, 0.35)'
             };
         }
 
@@ -51,7 +51,8 @@
             const small = W < 720;
             const layers = small ? [3, 5, 5, 3] : [4, 7, 9, 7, 4, 2];
             const x0 = W * 0.06, x1 = W * 0.94;
-            const top = H * 0.16, bottom = H * 0.9;
+            // desktop hero copy sits in the lower third, so the network owns the band above it
+            const top = H * 0.14, bottom = H * (small ? 0.9 : 0.5);
             nodes = []; edges = []; pulses = [];
 
             layers.forEach((count, li) => {
@@ -300,7 +301,7 @@
                 ? `${label}: used in ${hits} of ${cards.length} projects below`
                 : `${label}: not in a listed project yet. Ask me about it.`;
             clear.hidden = false;
-            if (hits) document.getElementById('projects').scrollIntoView({ behavior: REDUCED ? 'auto' : 'smooth' });
+            if (hits) document.getElementById('work').scrollIntoView({ behavior: REDUCED ? 'auto' : 'smooth' });
         }
 
         chips.forEach(c => c.addEventListener('click', () => apply(current === c ? null : c)));
