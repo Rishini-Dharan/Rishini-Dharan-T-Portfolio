@@ -5,7 +5,7 @@
    A lightweight, self-scheduling scene director that fires
    short-lived "engineering" events onto a dedicated canvas
    layer: signal packets routed across PCB traces, meteors,
-   network topologies, radar pings, CRT scan sweeps, bit flips,
+   radar pings, CRT scan sweeps, bit flips,
    satellite orbits and drifting code ghosts.
 
    Design constraints:
@@ -221,71 +221,6 @@
         };
     }
 
-    /* --- 3. network topology forming and dissolving --- */
-    function evTopology() {
-        const p = palette();
-        const col = pick(accents(p));
-        const cx = rnd(W * 0.12, W * 0.88), cy = rnd(H * 0.14, H * 0.86);
-        const R = rnd(80, 170);
-        const n = irnd(5, 9);
-        const nodes = Array.from({ length: n }, function (_, i) {
-            const a = (i / n) * 6.283 + rnd(-0.35, 0.35);
-            const r = R * rnd(0.32, 1);
-            return { x: cx + Math.cos(a) * r, y: cy + Math.sin(a) * r * 0.78, r: rnd(2, 3.6), d: (i / n) * 0.3 };
-        });
-        const edges = [];
-        nodes.forEach(function (a, i) {
-            nodes.map(function (b, j) { return { j: j, d: Math.hypot(a.x - b.x, a.y - b.y) }; })
-                .filter(function (o) { return o.j !== i; })
-                .sort(function (u, v) { return u.d - v.d; })
-                .slice(0, 2)
-                .forEach(function (o) {
-                    const dup = edges.some(function (e) { return e[0] === o.j && e[1] === i; });
-                    if (!dup) edges.push([i, o.j]);
-                });
-        });
-        const label = Math.random() < 0.6
-            ? pick(['node-0' + irnd(1, 9), 'shard/' + irnd(1, 4), 'peer:' + irnd(3000, 9999), 'k8s-w' + irnd(1, 6)])
-            : null;
-        return {
-            life: rnd(3600, 5200),
-            draw: function (ctx, prog) {
-                const a = ease.pulse(prog, 0.2, 0.3) * p.k;
-                ctx.lineWidth = 1;
-                edges.forEach(function (e, i) {
-                    const g = clamp((prog - 0.1 - i * 0.03) / 0.3, 0, 1);
-                    if (g <= 0) return;
-                    const A = nodes[e[0]], B = nodes[e[1]];
-                    ctx.beginPath();
-                    ctx.moveTo(A.x, A.y);
-                    ctx.lineTo(A.x + (B.x - A.x) * ease.out(g), A.y + (B.y - A.y) * ease.out(g));
-                    ctx.strokeStyle = 'rgba(' + col + ',' + (0.3 * a) + ')';
-                    ctx.stroke();
-                });
-                nodes.forEach(function (nd, i) {
-                    const g = clamp((prog - nd.d * 0.5) / 0.18, 0, 1);
-                    if (g <= 0) return;
-                    const pulse = 1 + Math.sin(prog * 14 + i) * 0.14;
-                    ctx.beginPath();
-                    ctx.arc(nd.x, nd.y, nd.r * g * pulse, 0, 6.283);
-                    ctx.fillStyle = 'rgba(' + col + ',' + (0.75 * a) + ')';
-                    ctx.fill();
-                    ctx.beginPath();
-                    ctx.arc(nd.x, nd.y, nd.r * 2.9 * g, 0, 6.283);
-                    ctx.strokeStyle = 'rgba(' + col + ',' + (0.16 * a) + ')';
-                    ctx.lineWidth = 1;
-                    ctx.stroke();
-                });
-                if (label && prog > 0.25) {
-                    ctx.font = '10px "JetBrains Mono", monospace';
-                    ctx.textAlign = 'left';
-                    ctx.fillStyle = 'rgba(' + col + ',' + (0.42 * a) + ')';
-                    ctx.fillText(label, nodes[0].x + 10, nodes[0].y - 8);
-                }
-            }
-        };
-    }
-
     /* --- 4. CRT scan sweep with glitch slices --- */
     function evScan() {
         const p = palette();
@@ -487,7 +422,6 @@
     const SCENE = [
         { make: evPacket, w: 20, heavy: false },
         { make: evMeteor, w: 16, heavy: false },
-        { make: evTopology, w: 14, heavy: true },
         { make: evPing, w: 13, heavy: false },
         { make: evScan, w: 9, heavy: false },
         { make: evOrbit, w: 11, heavy: true },
