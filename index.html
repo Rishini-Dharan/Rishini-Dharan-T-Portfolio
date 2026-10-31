@@ -62,10 +62,8 @@
 
     <main>
         <section id="home" class="hero">
-            <div class="aurora aurora-1" aria-hidden="true"></div>
-            <div class="aurora aurora-2" aria-hidden="true"></div>
-            <div class="aurora aurora-3" aria-hidden="true"></div>
-            <div class="grid-overlay" aria-hidden="true"></div>
+            <canvas id="hero-canvas" aria-hidden="true"></canvas>
+            <p class="net-hint mono" aria-hidden="true">move the cursor to feed the network · click to run a forward pass</p>
 
             <div class="hero-inner">
                 <div class="hero-copy">
@@ -178,27 +176,27 @@
                 <div class="skills-grid">
                     <div class="skill-card glass-card spot tilt reveal" data-tilt-max="7">
                         <div class="skill-head"><i class="fa-solid fa-terminal"></i><h3>Languages</h3></div>
-                        <div class="chips"><span>Java</span><span>Python</span><span>C++</span></div>
+                        <div class="chips"><button type="button" class="chip">Java</button><button type="button" class="chip">Python</button><button type="button" class="chip">C++</button></div>
                     </div>
                     <div class="skill-card glass-card spot tilt reveal" data-tilt-max="7">
                         <div class="skill-head"><i class="fa-solid fa-screwdriver-wrench"></i><h3>Developer Tools</h3></div>
-                        <div class="chips"><span>GitHub</span><span>VS Code</span><span>Jupyter Notebook</span></div>
+                        <div class="chips"><button type="button" class="chip">GitHub</button><button type="button" class="chip">VS Code</button><button type="button" class="chip">Jupyter Notebook</button></div>
                     </div>
                     <div class="skill-card glass-card spot tilt reveal" data-tilt-max="7">
                         <div class="skill-head"><i class="fa-solid fa-palette"></i><h3>Design</h3></div>
-                        <div class="chips"><span>Figma</span></div>
+                        <div class="chips"><button type="button" class="chip">Figma</button></div>
                     </div>
                     <div class="skill-card glass-card spot tilt reveal" data-tilt-max="7">
                         <div class="skill-head"><i class="fa-solid fa-cloud"></i><h3>Cloud &amp; DevOps</h3></div>
-                        <div class="chips"><span>Google Cloud Platform</span><span>Docker</span></div>
+                        <div class="chips"><button type="button" class="chip">Google Cloud Platform</button><button type="button" class="chip">Docker</button></div>
                     </div>
                     <div class="skill-card glass-card spot tilt reveal" data-tilt-max="7">
                         <div class="skill-head"><i class="fa-solid fa-brain"></i><h3>Data Science</h3></div>
-                        <div class="chips"><span>PyTorch</span><span>NumPy</span><span>Pandas</span><span>Scikit-learn</span></div>
+                        <div class="chips"><button type="button" class="chip">PyTorch</button><button type="button" class="chip">NumPy</button><button type="button" class="chip">Pandas</button><button type="button" class="chip">Scikit-learn</button></div>
                     </div>
                     <div class="skill-card glass-card spot tilt reveal" data-tilt-max="7">
                         <div class="skill-head"><i class="fa-solid fa-layer-group"></i><h3>Frameworks</h3></div>
-                        <div class="chips"><span>Keras</span><span>TensorFlow</span></div>
+                        <div class="chips"><button type="button" class="chip">Keras</button><button type="button" class="chip">TensorFlow</button></div>
                     </div>
                 </div>
 
@@ -217,12 +215,21 @@
                         </div>
                         <div class="cc-stat">Rating <b>1,895</b></div>
                         <div class="cc-sub">Knight • Global Rank 85,720</div>
-                        <div class="cc-bar">
-                            <span class="easy" style="width:32%"></span>
-                            <span class="medium" style="width:53%"></span>
-                            <span class="hard" style="width:15%"></span>
+                        <div class="lc-donut" id="lc-donut">
+                            <svg viewBox="0 0 120 120" role="img" aria-labelledby="lc-donut-label">
+                                <circle class="lc-track" cx="60" cy="60" r="48"/>
+                                <g id="lc-arcs" transform="rotate(-90 60 60)"></g>
+                            </svg>
+                            <div class="lc-center" id="lc-donut-label" aria-live="polite">
+                                <b id="lc-center-num">729</b>
+                                <span id="lc-center-cap" class="mono">solved</span>
+                            </div>
                         </div>
-                        <div class="cc-detail mono"><em class="c-easy">230 E</em><em class="c-med">390 M</em><em class="c-hard">109 H</em><em>729 total</em></div>
+                        <div class="cc-detail mono">
+                            <button type="button" class="lc-key c-easy" data-k="easy" data-n="230">230 Easy</button>
+                            <button type="button" class="lc-key c-med" data-k="medium" data-n="390">390 Medium</button>
+                            <button type="button" class="lc-key c-hard" data-k="hard" data-n="109">109 Hard</button>
+                        </div>
                         <a href="https://leetcode.com/u/rishini_dharan/" target="_blank" rel="noopener" class="arrow-link">View Profile <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
                     </article>
 
@@ -262,8 +269,12 @@
                     <p class="kicker mono">// 03 — projects</p>
                     <h2>Ideas shipped to production</h2>
                 </header>
+                <div class="filter-bar mono" id="filter-bar" aria-live="polite">
+                    <span id="filter-text">Tip: pick a skill above to see where I used it.</span>
+                    <button type="button" class="filter-clear" id="filter-clear" hidden>clear ×</button>
+                </div>
                 <div class="projects-grid">
-                    <article class="project-card glass-card spot tilt reveal" data-tilt-max="8">
+                    <article class="project-card glass-card spot tilt reveal" data-tilt-max="8" data-skills="python pytorch gcp">
                         <span class="proj-num mono">01</span>
                         <div class="proj-head">
                             <h3>Brain Tumor Detection System</h3>
@@ -272,12 +283,12 @@
                         <p>CNN-based medical imaging solution that classifies brain tumors from MRI scans using transfer learning on EfficientNet-B3, deployed behind a Streamlit interface on GCP.</p>
                         <div class="tags"><span>PyTorch</span><span>EfficientNet-B3</span><span>Streamlit</span><span>GCP</span></div>
                         <div class="proj-links">
-                            <a href="#" class="arrow-link">Case Study <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                            <a href="https://github.com/Rishini-Dharan/HackIndia-Spark-1-2025-Nueral-Titans" target="_blank" rel="noopener" class="arrow-link">Source <i class="fa-brands fa-github"></i></a>
                             <span class="muted-note mono">97.8% test accuracy</span>
                         </div>
                     </article>
 
-                    <article class="project-card glass-card spot tilt reveal" data-tilt-max="8" style="--d:.08s">
+                    <article class="project-card glass-card spot tilt reveal" data-tilt-max="8" data-skills="python" style="--d:.08s">
                         <span class="proj-num mono">02</span>
                         <div class="proj-head">
                             <h3>Smart Expense Tracker</h3>
@@ -286,12 +297,12 @@
                         <p>Expense management platform with rule-based + ML auto-categorization, monthly budget forecasting, and interactive dashboards rendered client-side.</p>
                         <div class="tags"><span>React</span><span>Flask</span><span>PostgreSQL</span><span>Chart.js</span></div>
                         <div class="proj-links">
-                            <a href="#" class="arrow-link">View Code <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                            <a href="#contact" class="arrow-link">Code on request</a>
                             <span class="muted-note mono">REST + JWT auth</span>
                         </div>
                     </article>
 
-                    <article class="project-card glass-card spot tilt reveal" data-tilt-max="8" style="--d:.16s">
+                    <article class="project-card glass-card spot tilt reveal" data-tilt-max="8" data-skills="github" style="--d:.16s">
                         <span class="proj-num mono">03</span>
                         <div class="proj-head">
                             <h3>Interactive Portfolio</h3>
@@ -305,7 +316,7 @@
                         </div>
                     </article>
 
-                    <article class="project-card glass-card spot tilt reveal" data-tilt-max="8" style="--d:.24s">
+                    <article class="project-card glass-card spot tilt reveal" data-tilt-max="8" data-skills="python docker gcp github" style="--d:.24s">
                         <span class="proj-num mono">04</span>
                         <div class="proj-head">
                             <h3>ML Pipeline Automation</h3>
@@ -314,7 +325,7 @@
                         <p>Containerized training-to-deployment pipeline: versioned datasets, automated retraining triggers, evaluation gates, and one-click model rollout.</p>
                         <div class="tags"><span>Docker</span><span>GitHub Actions</span><span>Vertex AI</span><span>Python</span></div>
                         <div class="proj-links">
-                            <a href="#" class="arrow-link">View Code <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                            <a href="#contact" class="arrow-link">Code on request</a>
                             <span class="muted-note mono">CI/CD end-to-end</span>
                         </div>
                     </article>
@@ -530,6 +541,7 @@
 
     <script src="global100.js"></script>
     <script src="app.js"></script>
+    <script src="visuals.js" defer></script>
     <script src="ambient.js" defer></script>
 </body>
 </html>
