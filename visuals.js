@@ -91,7 +91,7 @@
                     const d = Math.hypot(n.x - pointer.x, n.y - pointer.y);
                     if (d < 130) fire(n, (1 - d / 130) * 0.08);
                 }
-            } else if (now - lastIdle > 2600 && now - pointer.last > 3000) {
+            } else if (!REDUCED && now - lastIdle > 2600 && now - pointer.last > 3000) {
                 // idle: a single faint input so the hero never reads as a still image
                 lastIdle = now;
                 const inputs = nodes.filter(n => n.layer === 0);
@@ -155,15 +155,18 @@
             }
         }
 
+        function settled() {
+            return !pointer.active && !pulses.length && nodes.every(n => n.act < 0.01);
+        }
+
         function loop() {
-            if (!visible || document.hidden) { running = false; return; }
+            if (!visible || document.hidden || (REDUCED && settled())) { running = false; return; }
             step();
             draw();
             requestAnimationFrame(loop);
         }
 
         function wake() {
-            if (REDUCED) { draw(); return; }
             if (!running && visible && !document.hidden) { running = true; requestAnimationFrame(loop); }
         }
 
@@ -176,14 +179,13 @@
         new MutationObserver(() => { readColors(); draw(); })
             .observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 
-        if (REDUCED) return;
-
         hero.addEventListener('pointermove', ev => {
             const r = hero.getBoundingClientRect();
             pointer.x = ev.clientX - r.left;
             pointer.y = ev.clientY - r.top;
             pointer.active = true;
             pointer.last = performance.now();
+            wake();
         }, { passive: true });
         hero.addEventListener('pointerleave', () => { pointer.active = false; });
         hero.addEventListener('click', ev => {
@@ -197,8 +199,10 @@
         }).observe(hero);
         document.addEventListener('visibilitychange', wake);
 
-        wake();
-        setTimeout(forwardPass, 900);
+        if (!REDUCED) {
+            wake();
+            setTimeout(forwardPass, 900);
+        }
     })();
 
     /* ---------------- LeetCode difficulty donut ---------------- */

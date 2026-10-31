@@ -966,6 +966,7 @@ html.cursor-down .cursor-ring { transform-origin: center; }
     gap: 12px;
     justify-content: space-between;
     margin-bottom: 2px;
+    padding-right: 64px; /* clear the large .proj-num in the corner */
 }
 .proj-head h3 {
     font-family: var(--font-display);
@@ -1414,13 +1415,13 @@ html.cursor-down .cursor-ring { transform-origin: center; }
 
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
+    /* gentle mode: no looping or travelling motion, short opacity fades only */
     *, *::before, *::after {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
     }
     html { scroll-behavior: auto; }
-    .reveal { opacity: 1; transform: none; }
+    .reveal, .reveal:not(.in) { transform: none; transition: opacity 0.45s ease var(--d, 0s); }
     .cursor-dot, .cursor-ring { display: none; }
     #rain-canvas { display: none; }
     #ambient-canvas { display: none; }
@@ -1667,3 +1668,6 @@ html.cursor-down .cursor-ring { transform-origin: center; }
 .project-card.in { transition: opacity 0.35s ease, filter 0.35s ease, border-color 0.3s ease, box-shadow 0.35s ease, transform 0.15s ease-out; }
 .project-card.is-dim { opacity: 0.35; filter: saturate(0.3); }
 .project-card.is-match { border-color: var(--cyan); }
+.project-card.featured { grid-column: 1 / -1; }
+.project-card.featured p { max-width: 72ch; }
+.project-card.featured .proj-head h3 { font-size: 1.6rem; }

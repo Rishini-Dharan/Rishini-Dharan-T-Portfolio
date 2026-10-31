@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rishini Dharan T — AI & Full Stack Developer</title>
-    <meta name="description" content="Portfolio of Rishini Dharan T — AI & Full Stack Developer. HackIndia 2025 National Champion, LeetCode Knight, building intelligent web experiences.">
+    <meta name="description" content="Portfolio of Rishini Dharan T — AI & Full Stack Developer. HackIndia 2025 national winner (Q-Guardian OS), LeetCode Knight, building intelligent web experiences.">
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%238b5cf6'/%3E%3Cstop offset='1' stop-color='%2322d3ee'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='24' fill='%230a0c18'/%3E%3Ctext x='50' y='70' font-size='54' font-family='Arial,sans-serif' font-weight='800' fill='url(%23g)' text-anchor='middle'%3ER%3C/text%3E%3C/svg%3E">
     <script>
         document.documentElement.setAttribute('data-theme', localStorage.getItem('rd-theme') || 'dark');
@@ -137,7 +137,7 @@
                                 <div class="stat-label">LeetCode Solved</div>
                             </div>
                             <div class="stat-card glass-card spot tilt reveal" data-tilt-max="6">
-                                <div class="stat-num grad-text"><span class="counter" data-target="4">0</span>+</div>
+                                <div class="stat-num grad-text"><span class="counter" data-target="6">0</span></div>
                                 <div class="stat-label">Projects</div>
                             </div>
                             <div class="stat-card glass-card spot tilt reveal" data-tilt-max="6">
@@ -175,7 +175,7 @@
                 <div class="skills-grid">
                     <div class="skill-card glass-card spot tilt reveal" data-tilt-max="7">
                         <div class="skill-head"><i class="fa-solid fa-terminal"></i><h3>Languages</h3></div>
-                        <div class="chips"><button type="button" class="chip">Java</button><button type="button" class="chip">Python</button><button type="button" class="chip">C++</button></div>
+                        <div class="chips"><button type="button" class="chip">Java</button><button type="button" class="chip">Python</button><button type="button" class="chip">C++</button><button type="button" class="chip">TypeScript</button></div>
                     </div>
                     <div class="skill-card glass-card spot tilt reveal" data-tilt-max="7">
                         <div class="skill-head"><i class="fa-solid fa-screwdriver-wrench"></i><h3>Developer Tools</h3></div>
@@ -191,11 +191,11 @@
                     </div>
                     <div class="skill-card glass-card spot tilt reveal" data-tilt-max="7">
                         <div class="skill-head"><i class="fa-solid fa-brain"></i><h3>Data Science</h3></div>
-                        <div class="chips"><button type="button" class="chip">PyTorch</button><button type="button" class="chip">NumPy</button><button type="button" class="chip">Pandas</button><button type="button" class="chip">Scikit-learn</button></div>
+                        <div class="chips"><button type="button" class="chip">PyTorch</button><button type="button" class="chip">NumPy</button><button type="button" class="chip">Pandas</button><button type="button" class="chip">Scikit-learn</button><button type="button" class="chip">LightGBM</button></div>
                     </div>
                     <div class="skill-card glass-card spot tilt reveal" data-tilt-max="7">
                         <div class="skill-head"><i class="fa-solid fa-layer-group"></i><h3>Frameworks</h3></div>
-                        <div class="chips"><button type="button" class="chip">Keras</button><button type="button" class="chip">TensorFlow</button></div>
+                        <div class="chips"><button type="button" class="chip">React</button><button type="button" class="chip">FastAPI</button><button type="button" class="chip">Node.js</button><button type="button" class="chip">TensorFlow</button><button type="button" class="chip">Keras</button></div>
                     </div>
                 </div>
 
@@ -275,59 +275,86 @@
                     <button type="button" class="filter-clear" id="filter-clear" hidden>clear ×</button>
                 </div>
                 <div class="projects-grid">
-                    <article class="project-card glass-card spot tilt reveal" data-tilt-max="8" data-skills="python pytorch gcp">
+                    <article class="project-card glass-card spot tilt reveal featured" data-tilt-max="8" data-skills="python react typescript fastapi docker">
                         <span class="proj-num mono">01</span>
                         <div class="proj-head">
-                            <h3>Brain Tumor Detection System</h3>
-                            <span class="pill pill-green">HackIndia Winner</span>
+                            <h3>Q-Guardian OS</h3>
+                            <span class="pill pill-green">HackIndia 2025 · National Winner</span>
                         </div>
-                        <p>CNN-based medical imaging solution that classifies brain tumors from MRI scans using transfer learning on EfficientNet-B3, deployed behind a Streamlit interface on GCP.</p>
-                        <div class="tags"><span>PyTorch</span><span>EfficientNet-B3</span><span>Streamlit</span><span>GCP</span></div>
+                        <p>An AI security operations center. Telemetry streams over WebSockets into a FastAPI orchestration hub, where an LLM intent planner with Gemini embeddings decides the response and the React canvas rebuilds itself around the threat. Analysts can block a node straight from the graph.</p>
+                        <div class="tags"><span>FastAPI</span><span>WebSockets</span><span>Gemini</span><span>React</span><span>TypeScript</span><span>Zustand</span><span>Docker</span></div>
                         <div class="proj-links">
-                            <a href="https://github.com/Rishini-Dharan/HackIndia-Spark-1-2025-Nueral-Titans" target="_blank" rel="noopener" class="arrow-link">Source <i class="fa-brands fa-github"></i></a>
-                            <span class="muted-note mono">97.8% test accuracy</span>
+                            <a href="https://rishini-dharan.github.io/HackIndia2026/" target="_blank" rel="noopener" class="arrow-link">Live demo <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                            <a href="https://github.com/Rishini-Dharan/HackIndia2026" target="_blank" rel="noopener" class="arrow-link">Code <i class="fa-brands fa-github"></i></a>
+                            <span class="muted-note mono">stateful agents · dynamic UI</span>
                         </div>
                     </article>
-
-                    <article class="project-card glass-card spot tilt reveal" data-tilt-max="8" data-skills="python" style="--d:.08s">
+                    <article class="project-card glass-card spot tilt reveal" data-tilt-max="8" data-skills="python react fastapi lightgbm">
                         <span class="proj-num mono">02</span>
                         <div class="proj-head">
-                            <h3>Smart Expense Tracker</h3>
-                            <span class="pill pill-violet">Full Stack</span>
+                            <h3>M5 Forecasting Engine</h3>
+                            <span class="pill pill-violet">Full Stack ML</span>
                         </div>
-                        <p>Expense management platform with rule-based + ML auto-categorization, monthly budget forecasting, and interactive dashboards rendered client-side.</p>
-                        <div class="tags"><span>React</span><span>Flask</span><span>PostgreSQL</span><span>Chart.js</span></div>
+                        <p>28-day unit-sales forecasts for 30,490 Walmart product series, served by 40 Tweedie LightGBM models (one per store per week block) with what-if price and SNAP scenarios. A parity test pins served predictions to the trained models within 1e-9.</p>
+                        <div class="tags"><span>LightGBM</span><span>FastAPI</span><span>PostgreSQL</span><span>React</span><span>Vite</span></div>
                         <div class="proj-links">
-                            <a href="#contact" class="arrow-link">Code on request</a>
-                            <span class="muted-note mono">REST + JWT auth</span>
+                            <a href="https://m5-forecasting-gules.vercel.app" target="_blank" rel="noopener" class="arrow-link">Live demo <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                            <a href="https://github.com/Rishini-Dharan/m5_forecasting" target="_blank" rel="noopener" class="arrow-link">Code <i class="fa-brands fa-github"></i></a>
+                            <span class="muted-note mono">WRMSSE 145.6 · 3 folds</span>
                         </div>
                     </article>
-
-                    <article class="project-card glass-card spot tilt reveal" data-tilt-max="8" data-skills="github" style="--d:.16s">
+                    <article class="project-card glass-card spot tilt reveal" data-tilt-max="8" data-skills="python">
                         <span class="proj-num mono">03</span>
                         <div class="proj-head">
-                            <h3>Interactive Portfolio</h3>
-                            <span class="pill pill-cyan">This Site</span>
+                            <h3>Mining Emission &amp; Filtration</h3>
+                            <span class="pill pill-cyan">HackIndia Prelims Winner</span>
                         </div>
-                        <p>The page you're on: code-rain canvas, custom cursor physics, magnetic buttons, 3D tilt cards, scroll-linked timeline, and an EmailJS contact pipeline — zero frameworks.</p>
-                        <div class="tags"><span>HTML5</span><span>CSS3</span><span>Vanilla JS</span><span>EmailJS</span></div>
+                        <p>Predicts CO&#8322; output and machine failure for mining equipment, then recommends the filter type to fit. Won our HackIndia 2025 preliminary round and is the most-starred repo on my profile.</p>
+                        <div class="tags"><span>Python</span><span>Machine Learning</span><span>HTML</span><span>JavaScript</span></div>
                         <div class="proj-links">
-                            <a href="https://github.com/Rishini-Dharan" target="_blank" rel="noopener" class="arrow-link">Source <i class="fa-brands fa-github"></i></a>
-                            <span class="muted-note mono">60fps · no deps</span>
+                            <a href="https://rishini-dharan.github.io/HackIndia-Spark-1-2025-Nueral-Titans/" target="_blank" rel="noopener" class="arrow-link">Live demo <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                            <a href="https://github.com/Rishini-Dharan/HackIndia-Spark-1-2025-Nueral-Titans" target="_blank" rel="noopener" class="arrow-link">Code <i class="fa-brands fa-github"></i></a>
+                            <span class="muted-note mono">66 GitHub stars</span>
                         </div>
                     </article>
-
-                    <article class="project-card glass-card spot tilt reveal" data-tilt-max="8" data-skills="python docker gcp github" style="--d:.24s">
+                    <article class="project-card glass-card spot tilt reveal" data-tilt-max="8" data-skills="python">
                         <span class="proj-num mono">04</span>
                         <div class="proj-head">
-                            <h3>ML Pipeline Automation</h3>
-                            <span class="pill pill-pink">MLOps</span>
+                            <h3>Lattice Protocol</h3>
+                            <span class="pill pill-pink">Parametric Insurance</span>
                         </div>
-                        <p>Containerized training-to-deployment pipeline: versioned datasets, automated retraining triggers, evaluation gates, and one-click model rollout.</p>
-                        <div class="tags"><span>Docker</span><span>GitHub Actions</span><span>Vertex AI</span><span>Python</span></div>
+                        <p>Income protection for India's gig workers that pays out automatically when rain, heat or a bandh stops deliveries. An XGBoost model prices weekly micro-premiums; an Isolation Forest flags GPS spoofing by cross-checking cell, Wi-Fi and motion signals.</p>
+                        <div class="tags"><span>Next.js</span><span>XGBoost</span><span>Isolation Forest</span><span>Leaflet</span></div>
                         <div class="proj-links">
-                            <a href="#contact" class="arrow-link">Code on request</a>
-                            <span class="muted-note mono">CI/CD end-to-end</span>
+                            <a href="https://dev-trails-liart.vercel.app" target="_blank" rel="noopener" class="arrow-link">Live demo <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                            <a href="https://github.com/Rishini-Dharan/DevTrails" target="_blank" rel="noopener" class="arrow-link">Code <i class="fa-brands fa-github"></i></a>
+                            <span class="muted-note mono">no claim forms</span>
+                        </div>
+                    </article>
+                    <article class="project-card glass-card spot tilt reveal" data-tilt-max="8" data-skills="react node.js tensorflow">
+                        <span class="proj-num mono">05</span>
+                        <div class="proj-head">
+                            <h3>LifeConnect</h3>
+                            <span class="pill pill-green">Social Impact</span>
+                        </div>
+                        <p>A photo report from the street becomes a routed case: TensorFlow.js COCO-SSD detects the person and signs of rough sleeping, then the backend assigns the nearest verified NGO with capacity for food, shelter or medical help.</p>
+                        <div class="tags"><span>React</span><span>Node.js</span><span>TensorFlow.js</span><span>Firebase Auth</span></div>
+                        <div class="proj-links">
+                            <a href="#contact" class="arrow-link">Walkthrough on request</a>
+                            <span class="muted-note mono">private repo</span>
+                        </div>
+                    </article>
+                    <article class="project-card glass-card spot tilt reveal" data-tilt-max="8" data-skills="python github">
+                        <span class="proj-num mono">06</span>
+                        <div class="proj-head">
+                            <h3>Agent System</h3>
+                            <span class="pill pill-violet">Local-first AI</span>
+                        </div>
+                        <p>An orchestrator that splits tasks across specialised agents (research, browser automation, coding, GitHub, security scanning) running on local Ollama models, with state persisted in SQLite so runs survive restarts.</p>
+                        <div class="tags"><span>Python</span><span>Ollama</span><span>SQLite</span><span>WSL2</span></div>
+                        <div class="proj-links">
+                            <a href="https://github.com/Rishini-Dharan/agent-system" target="_blank" rel="noopener" class="arrow-link">Code <i class="fa-brands fa-github"></i></a>
+                            <span class="muted-note mono">runs fully offline</span>
                         </div>
                     </article>
                 </div>
@@ -394,9 +421,8 @@
                             <h3>HackIndia 2025</h3>
                             <h4>National Champion</h4>
                             <ul>
-                                <li>Led team to victory among 50,000+ participants nationwide</li>
-                                <li>Built CNN tumor-detection model hitting 97.8% accuracy</li>
-                                <li>Shipped live demo on GCP within the 36-hour window</li>
+                                <li>Won nationals with Q-Guardian OS, an AI security operations center with a UI that rebuilds around each threat</li>
+                                <li>Qualified by winning the preliminary round with a mining emission and filtration predictor</li>
                             </ul>
                             <div class="t-img"><img src="hiw.jpg" alt="HackIndia win" loading="lazy" decoding="async" class="blur-load"></div>
                         </div>
