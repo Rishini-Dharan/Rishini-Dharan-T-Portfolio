@@ -37,7 +37,7 @@
             requestAnimationFrame(loop);
         })();
 
-        const HOVERABLE = 'a, button, input, textarea, .tilt, .g-item, .chips span, .social-orb';
+        const HOVERABLE = 'a, button, input, textarea, .tilt, .g-item, .social-orb';
         document.addEventListener('mouseover', (e) => {
             if (e.target.closest(HOVERABLE)) document.documentElement.classList.add('cursor-hover');
         });
