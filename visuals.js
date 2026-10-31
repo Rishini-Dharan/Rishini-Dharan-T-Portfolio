@@ -30,6 +30,16 @@
         let colors = {};
         let pointer = { x: -9999, y: -9999, active: false, last: 0 };
         let visible = true, running = false, lastIdle = 0;
+        let bootStart = null, paused = false;
+
+        // 0..1 visibility of a layer during the boot sequence (layers switch on left to right)
+        function shown(layer) {
+            if (bootStart === null) return 1;
+            return Math.min(1, Math.max(0, (performance.now() - bootStart - layer * 150) / 450));
+        }
+        function booting() {
+            return bootStart !== null && performance.now() - bootStart < 1400;
+        }
 
         function readColors() {
             const accent = cssVar('--accent') || '#8fd0ff';
@@ -92,7 +102,7 @@
                     const d = Math.hypot(n.x - pointer.x, n.y - pointer.y);
                     if (d < 130) fire(n, (1 - d / 130) * 0.08);
                 }
-            } else if (!REDUCED && now - lastIdle > 2600 && now - pointer.last > 3000) {
+            } else if (!REDUCED && !paused && now - lastIdle > 2600 && now - pointer.last > 3000) {
                 // idle: a single faint input so the hero never reads as a still image
                 lastIdle = now;
                 const inputs = nodes.filter(n => n.layer === 0);
@@ -126,9 +136,15 @@
 
             ctx.lineWidth = 1;
             ctx.strokeStyle = colors.edge;
-            ctx.beginPath();
-            for (const e of edges) { ctx.moveTo(e.a.x, e.a.y); ctx.lineTo(e.b.x, e.b.y); }
-            ctx.stroke();
+            const layerCount = nodes.length ? nodes[nodes.length - 1].layer : 0;
+            for (let l = 0; l < layerCount; l++) {
+                ctx.globalAlpha = shown(l + 1);
+                if (!ctx.globalAlpha) continue;
+                ctx.beginPath();
+                for (const e of edges) if (e.a.layer === l) { ctx.moveTo(e.a.x, e.a.y); ctx.lineTo(e.b.x, e.b.y); }
+                ctx.stroke();
+            }
+            ctx.globalAlpha = 1;
 
             // edges carrying a pulse light up behind it
             ctx.strokeStyle = colors.b;
@@ -145,8 +161,12 @@
 
             for (const n of nodes) {
                 const r = 3 + n.act * 4;
+                const on = shown(n.layer);
+                if (!on) continue;
+                ctx.globalAlpha = on;
                 ctx.fillStyle = colors.node;
                 ctx.beginPath(); ctx.arc(n.x, n.y, 3, 0, Math.PI * 2); ctx.fill();
+                ctx.globalAlpha = 1;
                 if (n.act > 0.04) {
                     ctx.globalAlpha = Math.min(1, n.act * 1.4);
                     ctx.fillStyle = n.layer % 2 ? colors.b : colors.a;
@@ -157,11 +177,11 @@
         }
 
         function settled() {
-            return !pointer.active && !pulses.length && nodes.every(n => n.act < 0.01);
+            return !booting() && !pointer.active && !pulses.length && nodes.every(n => n.act < 0.01);
         }
 
         function loop() {
-            if (!visible || document.hidden || (REDUCED && settled())) { running = false; return; }
+            if (!visible || document.hidden || ((REDUCED || paused) && settled())) { running = false; return; }
             step();
             draw();
             requestAnimationFrame(loop);
@@ -200,7 +220,13 @@
         }).observe(hero);
         document.addEventListener('visibilitychange', wake);
 
-        if (!REDUCED) {
+        // motion.js scripts the intro when it runs; otherwise fire one pass on load
+        window.heroNet = {
+            boot() { bootStart = performance.now(); wake(); },
+            forwardPass,
+            setPaused(v) { paused = v; if (!v) wake(); }
+        };
+        if (!REDUCED && !document.documentElement.classList.contains('motion')) {
             wake();
             setTimeout(forwardPass, 900);
         }

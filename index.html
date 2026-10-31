@@ -8,6 +8,13 @@
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23061325'/%3E%3Ctext x='50' y='68' font-size='52' font-family='Georgia,serif' font-style='italic' fill='%238FD0FF' text-anchor='middle'%3ER%3C/text%3E%3C/svg%3E">
     <script>
         try { document.documentElement.setAttribute('data-theme', localStorage.getItem('rd-theme') || 'dark'); } catch (e) {}
+        // hide intro elements until motion.js takes over; give up after 3s so content never stays hidden
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            document.documentElement.classList.add('motion');
+            setTimeout(function () {
+                if (!document.documentElement.classList.contains('motion-ready')) document.documentElement.classList.remove('motion');
+            }, 3000);
+        }
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -45,7 +52,7 @@
             <canvas id="hero-canvas" aria-hidden="true"></canvas>
             <div class="container hero-inner">
                 <p class="hero-name mono reveal">Rishini Dharan T · AI &amp; Full Stack Developer · Chennai</p>
-                <h1 class="hero-title reveal" style="--d:.08s">I take AI from the notebook to a <em class="serif">live demo.</em></h1>
+                <h1 class="hero-title reveal" style="--d:.08s">I take AI from the notebook to a <em class="serif hero-accent">live demo.<svg class="swoosh" viewBox="0 0 300 24" preserveAspectRatio="none" aria-hidden="true"><path d="M4 16 C 60 6, 140 4, 200 10 S 280 18, 296 8"/></svg></em></h1>
                 <div class="hero-side reveal" style="--d:.2s">
                     <p class="lead">I won HackIndia 2025 nationals with an AI security operations center, serve forecasts from 40 LightGBM models in a deployed web app, and hold LeetCode Knight. Every project below links to something you can open.</p>
                     <div class="hero-cta">
@@ -55,14 +62,15 @@
                     <p class="availability">Open to AI and full-stack internships for Summer 2026.</p>
                 </div>
             </div>
+            <button class="icon-btn motion-toggle" id="motion-toggle" type="button" aria-pressed="false" aria-label="Pause the network animation"><i class="fa-solid fa-pause" aria-hidden="true"></i></button>
         </section>
 
         <section class="proof" aria-label="Highlights">
             <div class="container proof-row">
                 <div class="proof-item"><b>HackIndia 2025</b><span>National winner, Q-Guardian OS</span></div>
-                <div class="proof-item"><b>1,895</b><span>LeetCode rating, Knight badge</span></div>
-                <div class="proof-item"><b>729</b><span>LeetCode problems solved</span></div>
-                <div class="proof-item"><b>8.75</b><span>CGPA, B.Tech AI &amp; Data Science</span></div>
+                <div class="proof-item"><b data-count="1895">1,895</b><span>LeetCode rating, Knight badge</span></div>
+                <div class="proof-item"><b data-count="729">729</b><span>LeetCode problems solved</span></div>
+                <div class="proof-item"><b data-count="8.75" data-decimals="2">8.75</b><span>CGPA, B.Tech AI &amp; Data Science</span></div>
             </div>
         </section>
 
@@ -380,7 +388,10 @@
         </div>
     </footer>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
     <script src="app.js" defer></script>
     <script src="visuals.js" defer></script>
+    <script src="motion.js" defer></script>
 </body>
 </html>
