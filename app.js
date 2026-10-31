@@ -327,7 +327,7 @@
         });
 
         const els = document.querySelectorAll('.reveal');
-        if (REDUCED || !('IntersectionObserver' in window)) {
+        if (!('IntersectionObserver' in window)) {
             els.forEach((el) => el.classList.add('in'));
             return;
         }
