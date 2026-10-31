@@ -147,7 +147,9 @@
         const h2 = head.querySelector('h2');
         const words = splitWords(h2);
         const tl = gsap.timeline({ scrollTrigger: { trigger: head, start: 'top 82%' } });
-        tl.from(head.querySelector('.kicker'), { x: -24, opacity: 0, duration: 0.8, ease: 'expo.out' }, 0)
+        const kicker = head.querySelector('.kicker');
+        tl.from(kicker, { x: -24, opacity: 0, duration: 0.8, ease: 'expo.out' }, 0)
+          .add(scramble(kicker, 0.7), 0)
           .from(words, { yPercent: 115, rotate: 4, duration: 1.1, stagger: 0.05, ease: 'expo.out' }, 0.05);
     });
 

@@ -35,9 +35,11 @@
                 <li><a href="#skills" class="nav-link">Skills</a></li>
                 <li><a href="#about" class="nav-link">About</a></li>
                 <li><a href="#experience" class="nav-link">Experience</a></li>
+                <li><a href="#shell" class="nav-link">Shell</a></li>
                 <li><a href="#gallery" class="nav-link">Gallery</a></li>
             </ul>
             <div class="nav-actions">
+                <button class="kbd-btn" id="palette-open" type="button" aria-haspopup="dialog" aria-label="Open command palette"><kbd class="kbd-mod">Ctrl</kbd><kbd>K</kbd></button>
                 <button class="icon-btn" id="theme-toggle" type="button" aria-label="Switch to light theme"><i class="fa-solid fa-sun" id="theme-icon" aria-hidden="true"></i></button>
                 <a href="#contact" class="btn btn-primary btn-sm nav-cta">Contact me</a>
                 <button class="icon-btn hamburger" id="mobile-menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">
@@ -102,6 +104,31 @@
                         <div><dt>Frontend</dt><dd>React, TypeScript, Zustand, Tailwind</dd></div>
                         <div><dt>Ships as</dt><dd>Docker, plus a browser sandbox mode</dd></div>
                     </dl>
+                    <figure class="code-card">
+                        <figcaption class="code-head mono">
+                            <span>backend/main.py</span>
+                            <a href="https://github.com/Rishini-Dharan/HackIndia2026/blob/main/backend/main.py#L72-L90" target="_blank" rel="noopener" class="text-link">lines 72 to 90 on GitHub</a>
+                        </figcaption>
+                        <pre class="code-body" tabindex="0" aria-label="Q-Guardian WebSocket handler source code"><code id="qg-code">@app.websocket("/ws/chat")
+async def ws_chat(websocket: WebSocket):
+    session_id = await manager.connect(websocket)
+    print(f"[WS] Client connected: {session_id}")
+
+    # Send welcome message
+    await manager.send_personal(websocket, {
+        "type": "chat",
+        "role": "agent",
+        "content": "🛡️ Q-Guardian OS online. I'm your AI Security Operations assistant. Ask me to show live traffic, analyze threats, or mitigate attacks.",
+    })
+
+    try:
+        while True:
+            data = await websocket.receive_json()
+            await handle_ws_message(manager, websocket, session_id, data)
+    except WebSocketDisconnect:
+        manager.disconnect(session_id)
+        print(f"[WS] Client disconnected: {session_id}")</code></pre>
+                    </figure>
                 </article>
 
                 <ol class="project-list">
@@ -245,6 +272,47 @@
             </div>
         </section>
 
+        <section id="shell" class="section">
+            <div class="container">
+                <header class="section-head reveal">
+                    <p class="kicker mono">03 / Shell</p>
+                    <h2>Skip the scrolling. <em class="serif">Ask</em> the shell.</h2>
+                </header>
+                <div class="shell-grid">
+                    <div class="terminal reveal" id="terminal">
+                        <div class="term-bar mono"><span>rishini@portfolio: ~</span><span class="term-hint">type <b>help</b></span></div>
+                        <div class="term-log mono" id="term-log" role="log" aria-live="polite" aria-label="Shell output"></div>
+                        <form class="term-line mono" id="term-form" autocomplete="off">
+                            <label for="term-input" class="term-prompt">rishini@portfolio:~$</label>
+                            <input id="term-input" class="term-input" type="text" spellcheck="false" autocapitalize="off" aria-describedby="term-help-text">
+                        </form>
+                        <p id="term-help-text" class="sr-only">Type a command such as help, whoami, ls projects or open m5, then press Enter. Arrow keys recall earlier commands and Tab completes.</p>
+                    </div>
+                    <div class="term-aside reveal">
+                        <p class="lead">A real shell over this page's content. Try:</p>
+                        <ul class="try-list mono">
+                            <li><button type="button" class="try-cmd" data-cmd="whoami">whoami</button></li>
+                            <li><button type="button" class="try-cmd" data-cmd="ls projects">ls projects</button></li>
+                            <li><button type="button" class="try-cmd" data-cmd="open qguardian">open qguardian</button></li>
+                            <li><button type="button" class="try-cmd" data-cmd="sudo hire rishini">sudo hire rishini</button></li>
+                        </ul>
+                        <p class="muted-note kbd-note">Or press <kbd>Ctrl</kbd> <kbd>K</kbd> anywhere for the command palette.</p>
+                    </div>
+                </div>
+
+                <div class="contrib reveal" id="contrib">
+                    <div class="contrib-head">
+                        <h3 class="cp-title">Commits, not claims</h3>
+                        <p class="muted-note mono" id="contrib-meta"></p>
+                    </div>
+                    <div class="contrib-scroll" tabindex="0" aria-label="GitHub contribution calendar, scrolls horizontally">
+                        <div class="contrib-grid" id="contrib-grid" role="img"></div>
+                    </div>
+                    <p class="contrib-tip mono" id="contrib-tip" aria-hidden="true">Hover a day to see its count.</p>
+                </div>
+            </div>
+        </section>
+
         <section id="about" class="section">
             <div class="container about-grid">
                 <figure class="about-photo reveal">
@@ -252,7 +320,7 @@
                 </figure>
                 <div class="about-copy">
                     <header class="section-head stacked reveal">
-                        <p class="kicker mono">03 / About</p>
+                        <p class="kicker mono">04 / About</p>
                         <h2>Studying AI. <em class="serif">Shipping</em> it on the side.</h2>
                     </header>
                     <p class="reveal">I'm in my B.Tech in Artificial Intelligence and Data Science at St. Joseph's Institute of Technology, Chennai. Most of what I know I learned by building: hackathon systems that had to work in front of judges, and forecasting and agent projects that had to keep working after the demo.</p>
@@ -268,7 +336,7 @@
         <section id="experience" class="section section-band">
             <div class="container">
                 <header class="section-head reveal">
-                    <p class="kicker mono">04 / Experience</p>
+                    <p class="kicker mono">05 / Experience</p>
                     <h2>How I <em class="serif">got</em> here.</h2>
                 </header>
                 <div class="timeline" id="timeline">
@@ -321,7 +389,7 @@
         <section id="gallery" class="section">
             <div class="container">
                 <header class="section-head reveal">
-                    <p class="kicker mono">05 / Gallery</p>
+                    <p class="kicker mono">06 / Gallery</p>
                     <h2>From the <em class="serif">stage</em> and the certificates.</h2>
                 </header>
             </div>
@@ -345,7 +413,7 @@
             <div class="container contact-grid">
                 <div class="contact-copy">
                     <header class="section-head stacked reveal">
-                        <p class="kicker mono">06 / Contact</p>
+                        <p class="kicker mono">07 / Contact</p>
                         <h2>Have an internship or a <em class="serif">hard problem?</em></h2>
                     </header>
                     <p class="lead reveal">Tell me what you're building. I'm looking for AI or full-stack internships for Summer 2026, and I'm happy to walk through any project above, including the private LifeConnect code.</p>
@@ -388,10 +456,24 @@
         </div>
     </footer>
 
+    <div class="palette" id="palette" role="dialog" aria-modal="true" aria-label="Command palette" hidden>
+        <div class="palette-box">
+            <div class="palette-search">
+                <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                <input id="palette-input" type="text" placeholder="Jump to a section, open a project, run a command" aria-controls="palette-list" aria-autocomplete="list" role="combobox" aria-expanded="true" autocomplete="off" spellcheck="false">
+                <kbd>Esc</kbd>
+            </div>
+            <ul class="palette-list" id="palette-list" role="listbox" aria-label="Commands"></ul>
+            <p class="palette-empty" id="palette-empty" hidden>No command matches that. Try "project", "theme" or "contact".</p>
+        </div>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
     <script src="app.js" defer></script>
     <script src="visuals.js" defer></script>
+    <script src="contributions.js" defer></script>
+    <script src="programmer.js" defer></script>
     <script src="motion.js" defer></script>
 </body>
 </html>
