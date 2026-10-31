@@ -192,9 +192,9 @@
         const COMMANDS = {
             help() {
                 line([{ b: 'Commands' }]);
-                [['whoami', 'who you are talking to'], ['ls projects', 'list projects'], ['open <project>', 'open the live demo, or the code'],
+                [['whoami', 'who you are talking to'], ['ls', 'list projects'], ['cat <project>', 'details and links for one project'], ['open <project>', 'open the live demo, or the code'],
                  ['code <project>', 'open the source on GitHub'], ['skills', 'print the stack'], ['stats', 'competitive programming numbers'],
-                 ['cat about', 'the short bio'], ['goto <section>', SECTIONS.join(', ')], ['theme [dark|light]', 'switch theme'],
+                 ['cat about', 'the short bio'], ['cd <section>', SECTIONS.join(', ')], ['theme [dark|light]', 'switch theme'],
                  ['contact', 'jump to the message form'], ['history', 'commands you ran'], ['clear', 'clear the screen']]
                     .forEach(([c, d]) => line('  ' + c.padEnd(20) + d));
             },
@@ -204,7 +204,9 @@
                 line('Open to AI and full-stack internships for Summer 2026.');
             },
             ls(args) {
-                if (args[0] && args[0] !== 'projects') { line('ls: ' + args[0] + ': try "ls projects"', 'term-err'); return; }
+                const what = args[0] || 'projects';
+                if (what === 'sections' || what === '~' || what === '/') { line('  ' + SECTIONS.join('  ')); return; }
+                if (what !== 'projects') line('ls: ' + what + ': not a folder here. Showing projects instead.', 'term-dim');
                 PROJECTS.forEach((p) => line('  ' + p.slug.padEnd(13) + p.note));
                 line('Run "open <name>", for example "open m5".', 'term-dim');
             },
@@ -222,13 +224,30 @@
                 line('  AtCoder     772 rating, top 18.15%');
             },
             cat(args) {
-                if (args[0] !== 'about') { line('cat: ' + (args[0] || '') + ': no such file. Try "cat about".', 'term-err'); return; }
+                const f = (args[0] || 'about').replace(/\.(md|txt)$/, '');
+                const project = findProject(f);
+                if (project) { describe(project); return; }
+                if (f === 'skills' || f === 'stats') { COMMANDS[f](); return; }
+                if (f === 'resume' || f === 'cv') {
+                    line('There is no resume file on this site yet.', 'term-dim');
+                    line(['Ask for one: ', { href: '#contact', text: 'contact' }, ' or ', { href: 'https://www.linkedin.com/in/rishini-dharan-t/', text: 'LinkedIn' }]);
+                    return;
+                }
+                if (f !== 'about') line('cat: ' + f + ': no such file, showing about instead.', 'term-dim');
                 document.querySelectorAll('.about-copy > p').forEach((p) => line(p.textContent.trim()));
             },
             goto(args) {
-                const id = (args[0] || '').toLowerCase();
-                if (!goTo(id)) line('goto: unknown section. Sections: ' + SECTIONS.join(', '), 'term-err');
+                const raw = (args[0] || '').replace(/^[~./]+|\/+$/g, '');
+                if (!raw) { window.scrollTo({ top: 0, behavior: REDUCED ? 'auto' : 'smooth' }); line('Back to the top.'); return; }
+                const id = raw === 'projects' ? 'work' : raw;
+                if (goTo(id)) line('Scrolling to ' + id + '.');
+                else line('goto: no section called "' + raw + '". Sections: ' + SECTIONS.join(', '), 'term-err');
             },
+            pwd() { line('/home/rishini/portfolio'); },
+            echo(args) { line(args.join(' ')); },
+            date() { line(new Date().toString()); },
+            exit() { line('There is no leaving. Try "contact" instead.', 'term-dim'); },
+            man() { COMMANDS.help(); },
             theme(args) {
                 const want = args[0];
                 if (want && want !== 'dark' && want !== 'light') { line('theme: use "dark" or "light"', 'term-err'); return; }
@@ -251,9 +270,26 @@
             clear() { log.textContent = ''; }
         };
 
+        function findProject(q) {
+            q = (q || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+            if (q.length < 2) return null;
+            return PROJECTS.find((x) => x.slug === q) ||
+                PROJECTS.find((x) => x.slug.startsWith(q) || x.name.toLowerCase().replace(/[^a-z0-9]/g, '').startsWith(q));
+        }
+        function describe(p) {
+            line([{ b: p.name }]);
+            line('  ' + p.note);
+            if (p.demo) line(['  demo  ', { href: p.demo, text: p.demo }]);
+            if (p.code) line(['  code  ', { href: p.code, text: p.code }]);
+            if (!p.demo && !p.code) line('  private repo, walkthrough on request', 'term-dim');
+        }
         function openProject(slug, codeOnly) {
-            const p = PROJECTS.find((x) => x.slug === (slug || '').toLowerCase());
-            if (!p) { line((codeOnly ? 'code' : 'open') + ': which project? ' + PROJECTS.map((x) => x.slug).join(', '), 'term-err'); return; }
+            const p = findProject(slug);
+            if (!p) {
+                if (slug) line((codeOnly ? 'code' : 'open') + ': no project called "' + slug + '".', 'term-err');
+                line('Pick one: ' + PROJECTS.map((x) => x.slug).join(', ') + '. For example "' + (codeOnly ? 'code' : 'open') + ' m5".', 'term-dim');
+                return;
+            }
             const url = codeOnly ? p.code : (p.demo || p.code);
             if (!url) { line(p.name + ' is a private repo. ', 'term-dim'); line(['Ask for a walkthrough: ', { href: '#contact', text: 'contact' }]); return; }
             line(['Opening ', { href: url, text: url }]);
@@ -266,10 +302,43 @@
             if (!cmd) return;
             history.push(cmd);
             hIndex = history.length;
-            const [name, ...args] = cmd.split(/\s+/);
-            const fn = COMMANDS[name.toLowerCase()];
-            if (fn) fn(args);
-            else line(name + ': command not found. Type "help".', 'term-err');
+            const words = cmd.split(/\s+/);
+            let name = words[0].toLowerCase();
+            if (words.includes('--help') || words.includes('-h')) { COMMANDS.help(); return; }
+            // flags like -la are habit, not meaning, so drop them
+            let args = words.slice(1).filter((a) => !a.startsWith('-')).map((a) => a.toLowerCase());
+            if (ALIASES[name]) {
+                if (ALIAS_ARG[name] && !args.length) args = [ALIAS_ARG[name]];
+                name = ALIASES[name];
+            }
+            // a bare project name opens it: "m5" works like "open m5"
+            if (!COMMANDS[name] && findProject(name)) { args = [name]; name = 'open'; }
+            const fn = COMMANDS[name];
+            if (fn) { fn(args); return; }
+            const near = Object.keys(COMMANDS).concat(Object.keys(ALIASES))
+                .map((c) => ({ c, d: distance(name, c) }))
+                .sort((a, b) => a.d - b.d)[0];
+            if (near && near.d <= 2) line(name + ': not a command here. Did you mean "' + (ALIASES[near.c] || near.c) + '"?', 'term-dim');
+            else line(name + ': not a command here. Type "help" to see what this shell can do.', 'term-dim');
+        }
+
+        // what people type out of habit, mapped onto the commands that exist
+        const ALIASES = {
+            dir: 'ls', ll: 'ls', la: 'ls', projects: 'ls', work: 'ls', cd: 'goto', go: 'goto',
+            about: 'cat', bio: 'cat', resume: 'cat', cv: 'cat', '?': 'help', commands: 'help', hire: 'contact',
+            mail: 'contact', email: 'contact', hello: 'whoami', hi: 'whoami', who: 'whoami', cls: 'clear', quit: 'exit', logout: 'exit'
+        };
+        const ALIAS_ARG = { about: 'about', bio: 'about', resume: 'resume', cv: 'resume' };
+
+        function distance(a, b) {
+            const d = Array.from({ length: a.length + 1 }, (_, i) => [i]);
+            for (let j = 1; j <= b.length; j++) d[0][j] = j;
+            for (let i = 1; i <= a.length; i++) {
+                for (let j = 1; j <= b.length; j++) {
+                    d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+                }
+            }
+            return d[a.length][b.length];
         }
 
         const completions = () => Object.keys(COMMANDS)
