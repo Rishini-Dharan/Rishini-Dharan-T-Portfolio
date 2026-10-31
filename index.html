@@ -3,571 +3,477 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rishini Dharan T — AI & Full Stack Developer</title>
-    <meta name="description" content="Portfolio of Rishini Dharan T — AI & Full Stack Developer. HackIndia 2025 national winner (Q-Guardian OS), LeetCode Knight, building intelligent web experiences.">
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%238b5cf6'/%3E%3Cstop offset='1' stop-color='%2322d3ee'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='24' fill='%230a0c18'/%3E%3Ctext x='50' y='70' font-size='54' font-family='Arial,sans-serif' font-weight='800' fill='url(%23g)' text-anchor='middle'%3ER%3C/text%3E%3C/svg%3E">
+    <title>Rishini Dharan T · AI &amp; Full Stack Developer</title>
+    <meta name="description" content="Rishini Dharan T builds AI systems that ship: HackIndia 2025 national winner with Q-Guardian OS, LeetCode Knight, and six projects with live demos or public code.">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23061325'/%3E%3Ctext x='50' y='68' font-size='52' font-family='Georgia,serif' font-style='italic' fill='%238FD0FF' text-anchor='middle'%3ER%3C/text%3E%3C/svg%3E">
     <script>
-        document.documentElement.setAttribute('data-theme', localStorage.getItem('rd-theme') || 'dark');
+        try { document.documentElement.setAttribute('data-theme', localStorage.getItem('rd-theme') || 'dark'); } catch (e) {}
+        // hide intro elements until motion.js takes over; give up after 3s so content never stays hidden
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            document.documentElement.classList.add('motion');
+            setTimeout(function () {
+                if (!document.documentElement.classList.contains('motion-ready')) document.documentElement.classList.remove('motion');
+            }, 3000);
+        }
     </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-    <script>
-    (function(){
-        emailjs.init("2XHhlJ0ailyeT-FYS");
-    })();
-    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500&family=Instrument+Serif:ital@1&family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3.2.0/dist/email.min.js" defer></script>
 </head>
 <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="scroll-progress" aria-hidden="true"><span id="progress-bar"></span></div>
 
-    <canvas id="rain-canvas" aria-hidden="true"></canvas>
-    <canvas id="ambient-canvas" aria-hidden="true"></canvas>
-
-    <div class="preloader" id="preloader">
-        <div class="preloader-mark">R</div>
-        <div class="preloader-bar"><span></span></div>
-    </div>
-
-    <div class="cursor-dot" id="cursor-dot" aria-hidden="true"></div>
-    <div class="cursor-ring" id="cursor-ring" aria-hidden="true"></div>
-
-    <div class="scroll-progress"><span id="progress-bar"></span></div>
-
-    <nav class="navbar" id="navbar">
-        <div class="nav-inner">
-            <a href="#home" class="nav-logo">
-                <span class="logo-mark">R</span>
-                <span class="logo-name">ishini<span class="accent">.</span></span>
-            </a>
+    <header class="navbar" id="navbar">
+        <nav class="nav-inner" aria-label="Primary">
+            <a href="#top" class="nav-logo">Rishini <em class="serif">Dharan</em></a>
             <ul class="nav-menu" id="nav-menu">
-                <li><a href="#home" class="nav-link active">Home</a></li>
-                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#work" class="nav-link">Work</a></li>
                 <li><a href="#skills" class="nav-link">Skills</a></li>
-                <li><a href="#projects" class="nav-link">Projects</a></li>
-                <li><a href="#gallery" class="nav-link">Gallery</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
                 <li><a href="#experience" class="nav-link">Experience</a></li>
-                <li><a href="#contact" class="nav-link">Contact</a></li>
+                <li><a href="#shell" class="nav-link">Shell</a></li>
+                <li><a href="#gallery" class="nav-link">Gallery</a></li>
             </ul>
             <div class="nav-actions">
-                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><span id="theme-icon">🌙</span></button>
-                <button class="hamburger" id="mobile-menu-toggle" aria-label="Menu">
-                    <span></span><span></span><span></span>
+                <button class="kbd-btn" id="palette-open" type="button" aria-haspopup="dialog" aria-label="Open command palette"><kbd class="kbd-mod">Ctrl</kbd><kbd>K</kbd></button>
+                <button class="icon-btn" id="theme-toggle" type="button" aria-label="Switch to light theme"><i class="fa-solid fa-sun" id="theme-icon" aria-hidden="true"></i></button>
+                <a href="#contact" class="btn btn-primary btn-sm nav-cta">Contact me</a>
+                <button class="icon-btn hamburger" id="mobile-menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">
+                    <span></span><span></span>
                 </button>
             </div>
-        </div>
-    </nav>
+        </nav>
+    </header>
 
-    <main>
-        <section id="home" class="hero">
+    <main id="main">
+        <section id="top" class="hero">
             <canvas id="hero-canvas" aria-hidden="true"></canvas>
-
-            <div class="hero-inner">
-                <div class="hero-copy">
-                    <p class="eyebrow reveal"><span class="pulse-dot"></span> Available for internships &amp; collabs</p>
-                    <h1 class="hero-title">
-                        <span class="line-mask"><span class="line">Hi, I'm</span></span>
-                        <span class="line-mask"><span class="line grad-text">Rishini Dharan T</span></span>
-                    </h1>
-                    <div class="type-line reveal" style="--d:.5s">
-                        <i class="fa-solid fa-code accent" aria-hidden="true"></i>
-                        <span id="typing-text">AI &amp; Full Stack Developer</span><span class="caret"></span>
+            <div class="container hero-inner">
+                <p class="hero-name mono reveal">Rishini Dharan T · AI &amp; Full Stack Developer · Chennai</p>
+                <h1 class="hero-title reveal" style="--d:.08s">I take AI from the notebook to a <em class="serif hero-accent">live demo.<svg class="swoosh" viewBox="0 0 300 24" preserveAspectRatio="none" aria-hidden="true"><path d="M4 16 C 60 6, 140 4, 200 10 S 280 18, 296 8"/></svg></em></h1>
+                <div class="hero-side reveal" style="--d:.2s">
+                    <p class="lead">I won HackIndia 2025 nationals with an AI security operations center, serve forecasts from 40 LightGBM models in a deployed web app, and hold LeetCode Knight. Every project below links to something you can open.</p>
+                    <div class="hero-cta">
+                        <a href="#work" class="btn btn-primary">See the projects</a>
+                        <a href="https://github.com/Rishini-Dharan" target="_blank" rel="noopener" class="btn btn-ghost"><i class="fa-brands fa-github" aria-hidden="true"></i> GitHub profile</a>
                     </div>
-                    <p class="lead reveal" style="--d:.62s">
-                        Aspiring AI &amp; Full Stack Developer actively seeking internship opportunities
-                        to apply and expand my technical expertise in real-world environments.
-                    </p>
-                    <div class="hero-cta reveal" style="--d:.74s">
-                        <a href="#projects" class="btn btn-primary magnetic">View My Work <i class="fa-solid fa-arrow-right"></i></a>
-                        <a href="#contact" class="btn btn-ghost magnetic">Get In Touch</a>
-                    </div>
-                    <div class="hero-socials reveal" style="--d:.86s">
-                        <a href="https://github.com/Rishini-Dharan" target="_blank" rel="noopener" aria-label="GitHub" class="social-orb"><i class="fa-brands fa-github"></i></a>
-                        <a href="https://www.linkedin.com/in/rishini-dharan-t/" target="_blank" rel="noopener" aria-label="LinkedIn" class="social-orb"><i class="fa-brands fa-linkedin-in"></i></a>
-                        <a href="https://leetcode.com/u/rishini_dharan/" target="_blank" rel="noopener" aria-label="LeetCode" class="social-orb"><img src="icons8-leetcode-96.png" alt="" width="18" height="18" loading="lazy"></a>
-                        <a href="https://codeforces.com/profile/Rishini_Dharan_T" target="_blank" rel="noopener" aria-label="Codeforces" class="social-orb"><i class="fa-solid fa-code"></i></a>
-                        <a href="https://atcoder.jp/users/Rishini" target="_blank" rel="noopener" aria-label="AtCoder" class="social-orb"><i class="fa-solid fa-chart-line"></i></a>
-                    </div>
-                </div>
-
-                <div class="hero-visual reveal" style="--d:.4s">
-                    <div class="profile-wrap tilt" data-tilt-max="9">
-                        <div class="orbit orbit-a"><span class="dot dot-v"></span></div>
-                        <div class="orbit orbit-b"><span class="dot dot-c"></span></div>
-                        <div class="ring" aria-hidden="true"></div>
-                        <img src="WhatsApp Image 2025-07-09 at 19.40.06_9ff7b950.jpg" alt="Rishini Dharan T" class="profile-img blur-load" fetchpriority="high">
-                        <div class="float-chip chip-tr"><i class="fa-solid fa-trophy gold"></i> HackIndia National Winner</div>
-                        <div class="float-chip chip-bl"><img src="icons8-leetcode-96.png" alt="" width="16" height="16" loading="lazy"> Knight • Top 4.6%</div>
-                    </div>
+                    <p class="availability">Open to AI and full-stack internships for Summer 2026.</p>
                 </div>
             </div>
-
-            <a href="#about" class="scroll-hint mono" aria-label="Scroll down">
-                <span>scroll</span>
-                <span class="mouse-wheel"><span></span></span>
-            </a>
+            <button class="icon-btn motion-toggle" id="motion-toggle" type="button" aria-pressed="false" aria-label="Pause the network animation"><i class="fa-solid fa-pause" aria-hidden="true"></i></button>
         </section>
 
-        <div class="marquee" aria-hidden="true">
-            <div class="marquee-track">
-                <span>AI &amp; ML</span><i>◆</i><span>Full Stack</span><i>◆</i><span>Python</span><i>◆</i><span>Java</span><i>◆</i><span>C++</span><i>◆</i><span>PyTorch</span><i>◆</i><span>TensorFlow</span><i>◆</i><span>Docker</span><i>◆</i><span>GCP</span><i>◆</i><span>React.js</span><i>◆</i><span>Flask</span><i>◆</i><span>OpenCV</span><i>◆</i><span>Pandas</span><i>◆</i><span>Figma</span><i>◆</i>
-                <span>AI &amp; ML</span><i>◆</i><span>Full Stack</span><i>◆</i><span>Python</span><i>◆</i><span>Java</span><i>◆</i><span>C++</span><i>◆</i><span>PyTorch</span><i>◆</i><span>TensorFlow</span><i>◆</i><span>Docker</span><i>◆</i><span>GCP</span><i>◆</i><span>React.js</span><i>◆</i><span>Flask</span><i>◆</i><span>OpenCV</span><i>◆</i><span>Pandas</span><i>◆</i><span>Figma</span><i>◆</i>
+        <section class="proof" aria-label="Highlights">
+            <div class="container proof-row">
+                <div class="proof-item"><b>HackIndia 2025</b><span>National winner, Q-Guardian OS</span></div>
+                <div class="proof-item"><b data-count="1895">1,895</b><span>LeetCode rating, Knight badge</span></div>
+                <div class="proof-item"><b data-count="729">729</b><span>LeetCode problems solved</span></div>
+                <div class="proof-item"><b data-count="8.75" data-decimals="2">8.75</b><span>CGPA, B.Tech AI &amp; Data Science</span></div>
             </div>
-        </div>
+        </section>
 
-        <section id="about" class="section">
+        <section id="work" class="section">
             <div class="container">
                 <header class="section-head reveal">
-                    <p class="kicker mono">// 01 — about me</p>
-                    <h2>The human behind<br class="mob-br"> the machine learning</h2>
+                    <p class="kicker mono">01 / Work</p>
+                    <h2>Six projects you can <em class="serif">open</em> and run.</h2>
                 </header>
-                <div class="about-grid">
-                    <div class="about-copy">
-                        <p class="reveal">I am an aspiring <strong>AI &amp; Full Stack Developer</strong> with a strong academic foundation in Artificial Intelligence and Data Science. Currently pursuing my Bachelor of Technology at St. Joseph's Institute of Technology, I have gained hands-on experience in both AI-powered solutions and scalable frontend applications.</p>
-                        <p class="reveal" style="--d:.12s">My passion lies in creating innovative solutions that bridge the gap between cutting-edge AI technology and practical web applications. I am eager to contribute to impactful projects and continue growing in this dynamic field.</p>
-                        <div class="stats-row" data-stagger>
-                            <div class="stat-card glass-card spot tilt reveal" data-tilt-max="6">
-                                <div class="stat-num grad-text"><span class="counter" data-target="8.75" data-decimals="2">0</span></div>
-                                <div class="stat-label">CGPA</div>
-                            </div>
-                            <div class="stat-card glass-card spot tilt reveal" data-tilt-max="6">
-                                <div class="stat-num grad-text"><span class="counter" data-target="729">0</span></div>
-                                <div class="stat-label">LeetCode Solved</div>
-                            </div>
-                            <div class="stat-card glass-card spot tilt reveal" data-tilt-max="6">
-                                <div class="stat-num grad-text"><span class="counter" data-target="6">0</span></div>
-                                <div class="stat-label">Projects</div>
-                            </div>
-                            <div class="stat-card glass-card spot tilt reveal" data-tilt-max="6">
-                                <div class="stat-num grad-text"><span class="counter" data-target="2">0</span></div>
-                                <div class="stat-label">Hackathon Wins</div>
-                            </div>
+
+                <div class="filter-bar mono" id="filter-bar" aria-live="polite">
+                    <span id="filter-text">Pick a skill below to see which projects use it.</span>
+                    <button type="button" class="filter-clear" id="filter-clear" hidden>Show all</button>
+                </div>
+
+                <article class="project-card featured reveal" data-skills="python react typescript fastapi docker">
+                    <div class="feat-copy">
+                        <p class="proj-meta mono"><span class="tag-win">HackIndia 2025 · National winner</span></p>
+                        <h3>Q-Guardian OS</h3>
+                        <p>An AI security operations center. Telemetry streams over WebSockets into a FastAPI orchestration hub, where an LLM intent planner with Gemini embeddings decides the response, and the React canvas rebuilds itself around the threat. Analysts can block a node straight from the graph.</p>
+                        <div class="proj-links">
+                            <a href="https://rishini-dharan.github.io/HackIndia2026/" target="_blank" rel="noopener" class="btn btn-primary btn-sm">Open live demo</a>
+                            <a href="https://github.com/Rishini-Dharan/HackIndia2026" target="_blank" rel="noopener" class="text-link">Read the code</a>
                         </div>
                     </div>
-                    <aside class="edu-col">
-                        <article class="glass-card edu-card spot reveal">
-                            <div class="edu-icon"><i class="fa-solid fa-graduation-cap"></i></div>
-                            <div class="edu-degree mono">2023 — 2027</div>
-                            <h3>B.Tech in AI &amp; Data Science</h3>
-                            <p>St. Joseph's Institute of Technology</p>
-                            <span class="pill pill-violet">CGPA 8.75</span>
-                        </article>
-                        <article class="glass-card edu-card spot reveal" style="--d:.12s">
-                            <div class="edu-icon"><i class="fa-solid fa-school"></i></div>
-                            <div class="edu-degree mono">2022 — 2023</div>
-                            <h3>Senior Secondary (12th Grade)</h3>
-                            <p>Surabi Matric Higher Secondary School</p>
-                            <span class="pill pill-cyan">89%</span>
-                        </article>
-                    </aside>
-                </div>
+                    <dl class="feat-spec">
+                        <div><dt>Backend</dt><dd>FastAPI, WebSockets, Python 3.12</dd></div>
+                        <div><dt>Intelligence</dt><dd>LLM intent planner, Gemini embeddings</dd></div>
+                        <div><dt>Frontend</dt><dd>React, TypeScript, Zustand, Tailwind</dd></div>
+                        <div><dt>Ships as</dt><dd>Docker, plus a browser sandbox mode</dd></div>
+                    </dl>
+                    <figure class="code-card">
+                        <figcaption class="code-head mono">
+                            <span>backend/main.py</span>
+                            <a href="https://github.com/Rishini-Dharan/HackIndia2026/blob/main/backend/main.py#L72-L90" target="_blank" rel="noopener" class="text-link">lines 72 to 90 on GitHub</a>
+                        </figcaption>
+                        <pre class="code-body" tabindex="0" aria-label="Q-Guardian WebSocket handler source code"><code id="qg-code">@app.websocket("/ws/chat")
+async def ws_chat(websocket: WebSocket):
+    session_id = await manager.connect(websocket)
+    print(f"[WS] Client connected: {session_id}")
+
+    # Send welcome message
+    await manager.send_personal(websocket, {
+        "type": "chat",
+        "role": "agent",
+        "content": "🛡️ Q-Guardian OS online. I'm your AI Security Operations assistant. Ask me to show live traffic, analyze threats, or mitigate attacks.",
+    })
+
+    try:
+        while True:
+            data = await websocket.receive_json()
+            await handle_ws_message(manager, websocket, session_id, data)
+    except WebSocketDisconnect:
+        manager.disconnect(session_id)
+        print(f"[WS] Client disconnected: {session_id}")</code></pre>
+                    </figure>
+                </article>
+
+                <ol class="project-list">
+                    <li class="project-card row reveal" data-skills="python react fastapi lightgbm">
+                        <span class="proj-num mono">02</span>
+                        <div class="row-main">
+                            <h3>M5 Forecasting Engine</h3>
+                            <p>28-day unit-sales forecasts for 30,490 Walmart product series, served by 40 Tweedie LightGBM models with what-if price and SNAP scenarios. A parity test pins served predictions to the trained models within 1e-9. Validated at WRMSSE 145.6 across three folds.</p>
+                            <p class="stack mono">LightGBM · FastAPI · PostgreSQL · React · Vite</p>
+                        </div>
+                        <div class="row-links">
+                            <a href="https://m5-forecasting-gules.vercel.app" target="_blank" rel="noopener" class="text-link">Live demo</a>
+                            <a href="https://github.com/Rishini-Dharan/m5_forecasting" target="_blank" rel="noopener" class="text-link">Code</a>
+                        </div>
+                    </li>
+                    <li class="project-card row reveal" data-skills="python">
+                        <span class="proj-num mono">03</span>
+                        <div class="row-main">
+                            <h3>Mining Emission &amp; Filtration</h3>
+                            <p>Predicts CO&#8322; output and machine failure for mining equipment, then recommends the filter type to fit. Won the HackIndia 2025 preliminary round and is the most-starred repo on my profile, with 66 stars.</p>
+                            <p class="stack mono">Python · Machine learning · JavaScript</p>
+                        </div>
+                        <div class="row-links">
+                            <a href="https://rishini-dharan.github.io/HackIndia-Spark-1-2025-Nueral-Titans/" target="_blank" rel="noopener" class="text-link">Live site</a>
+                            <a href="https://github.com/Rishini-Dharan/HackIndia-Spark-1-2025-Nueral-Titans" target="_blank" rel="noopener" class="text-link">Code</a>
+                        </div>
+                    </li>
+                    <li class="project-card row reveal" data-skills="python">
+                        <span class="proj-num mono">04</span>
+                        <div class="row-main">
+                            <h3>Lattice Protocol</h3>
+                            <p>Income protection for India's gig workers that pays out automatically when rain, heat or a bandh stops deliveries. An XGBoost model prices weekly micro-premiums, and an Isolation Forest flags GPS spoofing by cross-checking cell, Wi-Fi and motion signals.</p>
+                            <p class="stack mono">Next.js · XGBoost · Isolation Forest · Leaflet</p>
+                        </div>
+                        <div class="row-links">
+                            <a href="https://github.com/Rishini-Dharan/DevTrails" target="_blank" rel="noopener" class="text-link">Code</a>
+                        </div>
+                    </li>
+                    <li class="project-card row reveal" data-skills="react node.js tensorflow">
+                        <span class="proj-num mono">05</span>
+                        <div class="row-main">
+                            <h3>LifeConnect</h3>
+                            <p>A photo report from the street becomes a routed case: TensorFlow.js COCO-SSD detects the person and signs of rough sleeping, then the backend assigns the nearest verified NGO with capacity for food, shelter or medical help.</p>
+                            <p class="stack mono">React · Node.js · TensorFlow.js · Firebase Auth</p>
+                        </div>
+                        <div class="row-links">
+                            <a href="#contact" class="text-link">Walkthrough on request</a>
+                            <span class="muted-note mono">Private repo</span>
+                        </div>
+                    </li>
+                    <li class="project-card row reveal" data-skills="python github">
+                        <span class="proj-num mono">06</span>
+                        <div class="row-main">
+                            <h3>Agent System</h3>
+                            <p>An orchestrator that splits tasks across specialised agents for research, browser automation, coding, GitHub and security scanning. It runs on local Ollama models, with state kept in SQLite so runs survive restarts.</p>
+                            <p class="stack mono">Python · Ollama · SQLite · WSL2</p>
+                        </div>
+                        <div class="row-links">
+                            <a href="https://github.com/Rishini-Dharan/agent-system" target="_blank" rel="noopener" class="text-link">Code</a>
+                        </div>
+                    </li>
+                </ol>
             </div>
         </section>
 
-        <section id="skills" class="section section-alt">
+        <section id="skills" class="section section-band">
             <div class="container">
                 <header class="section-head reveal">
-                    <p class="kicker mono">// 02 — skills</p>
-                    <h2>Tech I bend to my will</h2>
+                    <p class="kicker mono">02 / Skills</p>
+                    <h2>The stack behind <em class="serif">those</em> projects.</h2>
                 </header>
                 <div class="skills-grid">
-                    <div class="skill-card glass-card spot tilt reveal" data-tilt-max="7">
-                        <div class="skill-head"><i class="fa-solid fa-terminal"></i><h3>Languages</h3></div>
-                        <div class="chips"><button type="button" class="chip">Java</button><button type="button" class="chip">Python</button><button type="button" class="chip">C++</button><button type="button" class="chip">TypeScript</button></div>
+                    <div class="skill-group reveal">
+                        <h3>Languages</h3>
+                        <div class="chips"><button type="button" class="chip">Python</button><button type="button" class="chip">TypeScript</button><button type="button" class="chip">Java</button><button type="button" class="chip">C++</button></div>
                     </div>
-                    <div class="skill-card glass-card spot tilt reveal" data-tilt-max="7">
-                        <div class="skill-head"><i class="fa-solid fa-screwdriver-wrench"></i><h3>Developer Tools</h3></div>
-                        <div class="chips"><button type="button" class="chip">GitHub</button><button type="button" class="chip">VS Code</button><button type="button" class="chip">Jupyter Notebook</button></div>
+                    <div class="skill-group reveal">
+                        <h3>Web</h3>
+                        <div class="chips"><button type="button" class="chip">React</button><button type="button" class="chip">FastAPI</button><button type="button" class="chip">Node.js</button></div>
                     </div>
-                    <div class="skill-card glass-card spot tilt reveal" data-tilt-max="7">
-                        <div class="skill-head"><i class="fa-solid fa-palette"></i><h3>Design</h3></div>
-                        <div class="chips"><button type="button" class="chip">Figma</button></div>
+                    <div class="skill-group reveal">
+                        <h3>Machine learning</h3>
+                        <div class="chips"><button type="button" class="chip">LightGBM</button><button type="button" class="chip">PyTorch</button><button type="button" class="chip">TensorFlow</button><button type="button" class="chip">Keras</button><button type="button" class="chip">Scikit-learn</button><button type="button" class="chip">Pandas</button><button type="button" class="chip">NumPy</button></div>
                     </div>
-                    <div class="skill-card glass-card spot tilt reveal" data-tilt-max="7">
-                        <div class="skill-head"><i class="fa-solid fa-cloud"></i><h3>Cloud &amp; DevOps</h3></div>
-                        <div class="chips"><button type="button" class="chip">Google Cloud Platform</button><button type="button" class="chip">Docker</button></div>
-                    </div>
-                    <div class="skill-card glass-card spot tilt reveal" data-tilt-max="7">
-                        <div class="skill-head"><i class="fa-solid fa-brain"></i><h3>Data Science</h3></div>
-                        <div class="chips"><button type="button" class="chip">PyTorch</button><button type="button" class="chip">NumPy</button><button type="button" class="chip">Pandas</button><button type="button" class="chip">Scikit-learn</button><button type="button" class="chip">LightGBM</button></div>
-                    </div>
-                    <div class="skill-card glass-card spot tilt reveal" data-tilt-max="7">
-                        <div class="skill-head"><i class="fa-solid fa-layer-group"></i><h3>Frameworks</h3></div>
-                        <div class="chips"><button type="button" class="chip">React</button><button type="button" class="chip">FastAPI</button><button type="button" class="chip">Node.js</button><button type="button" class="chip">TensorFlow</button><button type="button" class="chip">Keras</button></div>
+                    <div class="skill-group reveal">
+                        <h3>Cloud &amp; tools</h3>
+                        <div class="chips"><button type="button" class="chip">Docker</button><button type="button" class="chip">Google Cloud Platform</button><button type="button" class="chip">GitHub</button><button type="button" class="chip">Jupyter Notebook</button><button type="button" class="chip">Figma</button></div>
                     </div>
                 </div>
 
-                <header class="subhead reveal">
-                    <p class="kicker mono">// competitive programming</p>
-                    <h3>Proof, not promises</h3>
-                </header>
+                <div class="cp-head reveal">
+                    <h3 class="cp-title">Competitive programming</h3>
+                    <p>Ratings are public. Each one links to the profile.</p>
+                </div>
                 <div class="coding-grid">
-                    <article class="coding-card glass-card spot tilt leetcode reveal" data-tilt-max="7">
+                    <article class="coding-card leetcode reveal">
                         <div class="cc-top">
-                            <img src="icons8-leetcode-96.png" alt="LeetCode" width="34" height="34" loading="lazy">
-                            <div>
-                                <h4>LeetCode</h4>
-                                <span class="badge badge-lc">Knight</span>
-                            </div>
+                            <img src="icons8-leetcode-96.png" alt="" width="28" height="28" loading="lazy">
+                            <h4>LeetCode</h4>
+                            <span class="badge">Knight</span>
                         </div>
-                        <div class="cc-stat">Rating <b>1,895</b></div>
-                        <div class="cc-sub">Knight • Global Rank 85,720</div>
+                        <p class="cc-stat"><b>1,895</b> rating · global rank 85,720</p>
                         <div class="lc-viz">
-                        <div class="lc-donut" id="lc-donut">
-                            <svg viewBox="0 0 120 120" role="img" aria-labelledby="lc-donut-label">
-                                <circle class="lc-track" cx="60" cy="60" r="48"/>
-                                <g id="lc-arcs" transform="rotate(-90 60 60)"></g>
-                            </svg>
-                            <div class="lc-center" id="lc-donut-label" aria-live="polite">
-                                <b id="lc-center-num">729</b>
-                                <span id="lc-center-cap" class="mono">solved</span>
+                            <div class="lc-donut" id="lc-donut">
+                                <svg viewBox="0 0 120 120" role="img" aria-labelledby="lc-donut-label">
+                                    <circle class="lc-track" cx="60" cy="60" r="48"/>
+                                    <g id="lc-arcs" transform="rotate(-90 60 60)"></g>
+                                </svg>
+                                <div class="lc-center" id="lc-donut-label" aria-live="polite">
+                                    <b id="lc-center-num">729</b>
+                                    <span id="lc-center-cap" class="mono">solved</span>
+                                </div>
+                            </div>
+                            <div class="cc-detail mono">
+                                <button type="button" class="lc-key c-easy" data-k="easy" data-n="230">230 Easy</button>
+                                <button type="button" class="lc-key c-med" data-k="medium" data-n="390">390 Medium</button>
+                                <button type="button" class="lc-key c-hard" data-k="hard" data-n="109">109 Hard</button>
                             </div>
                         </div>
-                        <div class="cc-detail mono">
-                            <button type="button" class="lc-key c-easy" data-k="easy" data-n="230">230 Easy</button>
-                            <button type="button" class="lc-key c-med" data-k="medium" data-n="390">390 Medium</button>
-                            <button type="button" class="lc-key c-hard" data-k="hard" data-n="109">109 Hard</button>
-                        </div>
-                        </div>
-                        <a href="https://leetcode.com/u/rishini_dharan/" target="_blank" rel="noopener" class="arrow-link">View Profile <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                        <a href="https://leetcode.com/u/rishini_dharan/" target="_blank" rel="noopener" class="text-link">LeetCode profile</a>
                     </article>
-
-                    <article class="coding-card glass-card spot tilt codeforces reveal" data-tilt-max="7">
+                    <article class="coding-card reveal">
                         <div class="cc-top">
-                            <span class="cc-glyph cf"><i class="fa-solid fa-bolt"></i></span>
-                            <div>
-                                <h4>Codeforces</h4>
-                                <span class="badge badge-cf">Pupil</span>
-                            </div>
+                            <h4>Codeforces</h4>
+                            <span class="badge">Pupil</span>
                         </div>
-                        <div class="cc-stat">Current <b>1,248</b></div>
-                        <div class="cc-sub">Max 1,417 (Specialist)</div>
-                        <p class="cc-desc">204 problems solved &amp; regular Div. 2 / Div. 3 contestant.</p>
-                        <a href="https://codeforces.com/profile/Rishini_Dharan_T" target="_blank" rel="noopener" class="arrow-link">View Profile <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                        <p class="cc-stat"><b>1,248</b> current · 1,417 peak (Specialist)</p>
+                        <p class="cc-desc">204 problems solved in Div. 2 and Div. 3 rounds.</p>
+                        <a href="https://codeforces.com/profile/Rishini_Dharan_T" target="_blank" rel="noopener" class="text-link">Codeforces profile</a>
                     </article>
-
-                    <article class="coding-card glass-card spot tilt atcoder reveal" data-tilt-max="7">
+                    <article class="coding-card reveal">
                         <div class="cc-top">
-                            <span class="cc-glyph ac"><i class="fa-solid fa-chart-line"></i></span>
-                            <div>
-                                <h4>AtCoder</h4>
-                                <span class="badge badge-ac">7 Kyu</span>
-                            </div>
+                            <h4>AtCoder</h4>
+                            <span class="badge">7 Kyu</span>
                         </div>
-                        <div class="cc-stat">Rating <b>772</b></div>
-                        <div class="cc-sub">Rank 23,174 — Top 18.15%</div>
-                        <a href="https://atcoder.jp/users/Rishini" target="_blank" rel="noopener" class="arrow-link">View Profile <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                        <p class="cc-stat"><b>772</b> rating · rank 23,174</p>
+                        <p class="cc-desc">Top 18.15% of rated users.</p>
+                        <a href="https://atcoder.jp/users/Rishini" target="_blank" rel="noopener" class="text-link">AtCoder profile</a>
                     </article>
                 </div>
             </div>
         </section>
 
-        <section id="projects" class="section">
+        <section id="shell" class="section">
             <div class="container">
                 <header class="section-head reveal">
-                    <p class="kicker mono">// 03 — projects</p>
-                    <h2>Ideas shipped to production</h2>
+                    <p class="kicker mono">03 / Shell</p>
+                    <h2>Skip the scrolling. <em class="serif">Ask</em> the shell.</h2>
                 </header>
-                <div class="filter-bar mono" id="filter-bar" aria-live="polite">
-                    <span id="filter-text">Tip: pick a skill above to see where I used it.</span>
-                    <button type="button" class="filter-clear" id="filter-clear" hidden>clear ×</button>
+                <div class="shell-grid">
+                    <div class="terminal reveal" id="terminal">
+                        <div class="term-bar mono"><span>rishini@portfolio: ~</span><span class="term-hint">type <b>help</b></span></div>
+                        <div class="term-log mono" id="term-log" role="log" aria-live="polite" aria-label="Shell output"></div>
+                        <form class="term-line mono" id="term-form" autocomplete="off">
+                            <label for="term-input" class="term-prompt">rishini@portfolio:~$</label>
+                            <input id="term-input" class="term-input" type="text" spellcheck="false" autocapitalize="off" aria-describedby="term-help-text">
+                        </form>
+                        <p id="term-help-text" class="sr-only">Type a command such as help, whoami, ls projects or open m5, then press Enter. Arrow keys recall earlier commands and Tab completes.</p>
+                    </div>
+                    <div class="term-aside reveal">
+                        <p class="lead">A real shell over this page's content. Try:</p>
+                        <ul class="try-list mono">
+                            <li><button type="button" class="try-cmd" data-cmd="whoami">whoami</button></li>
+                            <li><button type="button" class="try-cmd" data-cmd="ls projects">ls projects</button></li>
+                            <li><button type="button" class="try-cmd" data-cmd="open qguardian">open qguardian</button></li>
+                            <li><button type="button" class="try-cmd" data-cmd="sudo hire rishini">sudo hire rishini</button></li>
+                        </ul>
+                        <p class="muted-note kbd-note">Or press <kbd>Ctrl</kbd> <kbd>K</kbd> anywhere for the command palette.</p>
+                    </div>
                 </div>
-                <div class="projects-grid">
-                    <article class="project-card glass-card spot tilt reveal featured" data-tilt-max="8" data-skills="python react typescript fastapi docker">
-                        <span class="proj-num mono">01</span>
-                        <div class="proj-head">
-                            <h3>Q-Guardian OS</h3>
-                            <span class="pill pill-green">HackIndia 2025 · National Winner</span>
+
+                <div class="contrib reveal" id="contrib">
+                    <div class="contrib-head">
+                        <h3 class="cp-title">Commits, not claims</h3>
+                        <p class="muted-note mono" id="contrib-meta"></p>
+                    </div>
+                    <div class="contrib-scroll" tabindex="0" aria-label="GitHub contribution calendar, scrolls horizontally">
+                        <div class="contrib-grid" id="contrib-grid" role="img"></div>
+                    </div>
+                    <p class="contrib-tip mono" id="contrib-tip" aria-hidden="true">Hover a day to see its count.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="section">
+            <div class="container about-grid">
+                <figure class="about-photo reveal">
+                    <img src="WhatsApp Image 2025-07-09 at 19.40.06_9ff7b950.jpg" alt="Rishini Dharan T" width="1171" height="1440" loading="lazy" decoding="async">
+                </figure>
+                <div class="about-copy">
+                    <header class="section-head stacked reveal">
+                        <p class="kicker mono">04 / About</p>
+                        <h2>Studying AI. <em class="serif">Shipping</em> it on the side.</h2>
+                    </header>
+                    <p class="reveal">I'm in my B.Tech in Artificial Intelligence and Data Science at St. Joseph's Institute of Technology, Chennai. Most of what I know I learned by building: hackathon systems that had to work in front of judges, and forecasting and agent projects that had to keep working after the demo.</p>
+                    <p class="reveal">I like problems where a model is only half the answer and the other half is the API, the interface and the tests around it.</p>
+                    <dl class="edu-list reveal">
+                        <div><dt class="mono">2023 to 2027</dt><dd><b>B.Tech, AI &amp; Data Science</b> St. Joseph's Institute of Technology · CGPA 8.75</dd></div>
+                        <div><dt class="mono">2022 to 2023</dt><dd><b>Senior Secondary (12th grade)</b> Surabi Matric Higher Secondary School · 89%</dd></div>
+                    </dl>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience" class="section section-band">
+            <div class="container">
+                <header class="section-head reveal">
+                    <p class="kicker mono">05 / Experience</p>
+                    <h2>How I <em class="serif">got</em> here.</h2>
+                </header>
+                <div class="timeline" id="timeline">
+                    <div class="tl-rail" aria-hidden="true"><span class="tl-fill" id="tl-fill"></span></div>
+                    <article class="t-item reveal">
+                        <span class="t-date mono">Jun 2025</span>
+                        <div class="t-body">
+                            <h3>HackIndia 2025 · National winner</h3>
+                            <ul>
+                                <li>Won nationals with Q-Guardian OS, an AI security operations center with a UI that rebuilds around each threat.</li>
+                                <li>Qualified by winning the preliminary round with a mining emission and filtration predictor.</li>
+                            </ul>
                         </div>
-                        <p>An AI security operations center. Telemetry streams over WebSockets into a FastAPI orchestration hub, where an LLM intent planner with Gemini embeddings decides the response and the React canvas rebuilds itself around the threat. Analysts can block a node straight from the graph.</p>
-                        <div class="tags"><span>FastAPI</span><span>WebSockets</span><span>Gemini</span><span>React</span><span>TypeScript</span><span>Zustand</span><span>Docker</span></div>
-                        <div class="proj-links">
-                            <a href="https://rishini-dharan.github.io/HackIndia2026/" target="_blank" rel="noopener" class="arrow-link">Live demo <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                            <a href="https://github.com/Rishini-Dharan/HackIndia2026" target="_blank" rel="noopener" class="arrow-link">Code <i class="fa-brands fa-github"></i></a>
-                            <span class="muted-note mono">stateful agents · dynamic UI</span>
+                        <img class="t-img" src="hiw.jpg" alt="Receiving the HackIndia award" width="576" height="1024" loading="lazy" decoding="async">
+                    </article>
+                    <article class="t-item reveal">
+                        <span class="t-date mono">Jan 2025 to now</span>
+                        <div class="t-body">
+                            <h3>LeetCode Knight</h3>
+                            <ul>
+                                <li>729 problems solved: 230 Easy, 390 Medium, 109 Hard.</li>
+                                <li>Contest rating 1,895, top 4.6% globally.</li>
+                            </ul>
                         </div>
                     </article>
-                    <article class="project-card glass-card spot tilt reveal" data-tilt-max="8" data-skills="python react fastapi lightgbm">
-                        <span class="proj-num mono">02</span>
-                        <div class="proj-head">
-                            <h3>M5 Forecasting Engine</h3>
-                            <span class="pill pill-violet">Full Stack ML</span>
-                        </div>
-                        <p>28-day unit-sales forecasts for 30,490 Walmart product series, served by 40 Tweedie LightGBM models (one per store per week block) with what-if price and SNAP scenarios. A parity test pins served predictions to the trained models within 1e-9.</p>
-                        <div class="tags"><span>LightGBM</span><span>FastAPI</span><span>PostgreSQL</span><span>React</span><span>Vite</span></div>
-                        <div class="proj-links">
-                            <a href="https://m5-forecasting-gules.vercel.app" target="_blank" rel="noopener" class="arrow-link">Live demo <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                            <a href="https://github.com/Rishini-Dharan/m5_forecasting" target="_blank" rel="noopener" class="arrow-link">Code <i class="fa-brands fa-github"></i></a>
-                            <span class="muted-note mono">WRMSSE 145.6 · 3 folds</span>
+                    <article class="t-item reveal">
+                        <span class="t-date mono">Sep 2024</span>
+                        <div class="t-body">
+                            <h3>Codeforces Specialist</h3>
+                            <ul>
+                                <li>Peak rating 1,417 across Div. 2 and Div. 3 rounds.</li>
+                                <li>204 problems solved.</li>
+                            </ul>
                         </div>
                     </article>
-                    <article class="project-card glass-card spot tilt reveal" data-tilt-max="8" data-skills="python">
-                        <span class="proj-num mono">03</span>
-                        <div class="proj-head">
-                            <h3>Mining Emission &amp; Filtration</h3>
-                            <span class="pill pill-cyan">HackIndia Prelims Winner</span>
-                        </div>
-                        <p>Predicts CO&#8322; output and machine failure for mining equipment, then recommends the filter type to fit. Won our HackIndia 2025 preliminary round and is the most-starred repo on my profile.</p>
-                        <div class="tags"><span>Python</span><span>Machine Learning</span><span>HTML</span><span>JavaScript</span></div>
-                        <div class="proj-links">
-                            <a href="https://rishini-dharan.github.io/HackIndia-Spark-1-2025-Nueral-Titans/" target="_blank" rel="noopener" class="arrow-link">Live demo <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                            <a href="https://github.com/Rishini-Dharan/HackIndia-Spark-1-2025-Nueral-Titans" target="_blank" rel="noopener" class="arrow-link">Code <i class="fa-brands fa-github"></i></a>
-                            <span class="muted-note mono">66 GitHub stars</span>
-                        </div>
-                    </article>
-                    <article class="project-card glass-card spot tilt reveal" data-tilt-max="8" data-skills="python">
-                        <span class="proj-num mono">04</span>
-                        <div class="proj-head">
-                            <h3>Lattice Protocol</h3>
-                            <span class="pill pill-pink">Parametric Insurance</span>
-                        </div>
-                        <p>Income protection for India's gig workers that pays out automatically when rain, heat or a bandh stops deliveries. An XGBoost model prices weekly micro-premiums; an Isolation Forest flags GPS spoofing by cross-checking cell, Wi-Fi and motion signals.</p>
-                        <div class="tags"><span>Next.js</span><span>XGBoost</span><span>Isolation Forest</span><span>Leaflet</span></div>
-                        <div class="proj-links">
-                            <a href="https://github.com/Rishini-Dharan/DevTrails" target="_blank" rel="noopener" class="arrow-link">Code <i class="fa-brands fa-github"></i></a>
-                            <span class="muted-note mono">no claim forms</span>
-                        </div>
-                    </article>
-                    <article class="project-card glass-card spot tilt reveal" data-tilt-max="8" data-skills="react node.js tensorflow">
-                        <span class="proj-num mono">05</span>
-                        <div class="proj-head">
-                            <h3>LifeConnect</h3>
-                            <span class="pill pill-green">Social Impact</span>
-                        </div>
-                        <p>A photo report from the street becomes a routed case: TensorFlow.js COCO-SSD detects the person and signs of rough sleeping, then the backend assigns the nearest verified NGO with capacity for food, shelter or medical help.</p>
-                        <div class="tags"><span>React</span><span>Node.js</span><span>TensorFlow.js</span><span>Firebase Auth</span></div>
-                        <div class="proj-links">
-                            <a href="#contact" class="arrow-link">Walkthrough on request</a>
-                            <span class="muted-note mono">private repo</span>
-                        </div>
-                    </article>
-                    <article class="project-card glass-card spot tilt reveal" data-tilt-max="8" data-skills="python github">
-                        <span class="proj-num mono">06</span>
-                        <div class="proj-head">
-                            <h3>Agent System</h3>
-                            <span class="pill pill-violet">Local-first AI</span>
-                        </div>
-                        <p>An orchestrator that splits tasks across specialised agents (research, browser automation, coding, GitHub, security scanning) running on local Ollama models, with state persisted in SQLite so runs survive restarts.</p>
-                        <div class="tags"><span>Python</span><span>Ollama</span><span>SQLite</span><span>WSL2</span></div>
-                        <div class="proj-links">
-                            <a href="https://github.com/Rishini-Dharan/agent-system" target="_blank" rel="noopener" class="arrow-link">Code <i class="fa-brands fa-github"></i></a>
-                            <span class="muted-note mono">runs fully offline</span>
+                    <article class="t-item reveal">
+                        <span class="t-date mono">2023 to now</span>
+                        <div class="t-body">
+                            <h3>B.Tech, AI &amp; Data Science</h3>
+                            <ul>
+                                <li>St. Joseph's Institute of Technology, CGPA 8.75.</li>
+                                <li>Coursework in deep learning, NLP, computer vision and big data.</li>
+                            </ul>
                         </div>
                     </article>
                 </div>
             </div>
         </section>
 
-        <section id="gallery" class="section section-alt">
+        <section id="gallery" class="section">
             <div class="container">
                 <header class="section-head reveal">
-                    <p class="kicker mono">// 04 — gallery</p>
-                    <h2>Moments captured</h2>
+                    <p class="kicker mono">06 / Gallery</p>
+                    <h2>From the <em class="serif">stage</em> and the certificates.</h2>
                 </header>
             </div>
-            <p class="drag-hint mono reveal">◂ drag / swipe to explore ▸</p>
-            <div class="gallery-strip" id="gallery-strip">
-                <figure class="g-item reveal">
-                    <img src="WhatsApp Image 2025-07-09 at 19.40.06_9ff7b950.jpg" alt="Rishini Dharan T" loading="lazy" decoding="async" class="blur-load">
-                    <figcaption>HackIndia 2025 — National Stage</figcaption>
-                </figure>
-                <figure class="g-item reveal" style="--d:.06s">
-                    <img src="hiw.jpg" alt="Winner moment at HackIndia" loading="lazy" decoding="async" class="blur-load">
-                    <figcaption>Winner Moment 🏆</figcaption>
-                </figure>
-                <figure class="g-item reveal" style="--d:.12s">
-                    <img src="ad.jpg" alt="Award ceremony" loading="lazy" decoding="async" class="blur-load">
-                    <figcaption>Award Ceremony</figcaption>
-                </figure>
-                <figure class="g-item reveal" style="--d:.18s">
-                    <img src="hi.jpg" alt="Certificate of excellence" loading="lazy" decoding="async" class="blur-load">
-                    <figcaption>Certificate of Excellence</figcaption>
-                </figure>
-                <figure class="g-item reveal" style="--d:.24s">
-                    <img src="eCertificate-AI_page-0001.jpg" alt="AI certification" loading="lazy" decoding="async" class="blur-load">
-                    <figcaption>AI Certification</figcaption>
-                </figure>
-                <figure class="g-item reveal" style="--d:.30s">
-                    <img src="41e4507cea26c9aab3eadc2698024887_page-0001.jpg" alt="HackIndia certificate" loading="lazy" decoding="async" class="blur-load">
-                    <figcaption>HackIndia Certificate</figcaption>
-                </figure>
-                <figure class="g-item reveal" style="--d:.36s">
-                    <img src="1740888679200.jpeg" alt="Team snapshot" loading="lazy" decoding="async" class="blur-load">
-                    <figcaption>Team Snapshot</figcaption>
-                </figure>
+            <p class="drag-hint mono container">Drag or scroll sideways. Select a photo to enlarge it.</p>
+            <div class="gallery-strip" id="gallery-strip" tabindex="0" aria-label="Photo gallery, scrolls horizontally">
+                <figure class="g-item"><button type="button" class="g-open" aria-label="Enlarge: HackIndia 2025 national stage"><img src="WhatsApp Image 2025-07-09 at 19.40.06_9ff7b950.jpg" alt="Rishini Dharan T at HackIndia 2025" width="1171" height="1440" loading="lazy" decoding="async"></button><figcaption>HackIndia 2025, national stage</figcaption></figure>
+                <figure class="g-item"><button type="button" class="g-open" aria-label="Enlarge: receiving the award"><img src="hiw.jpg" alt="Receiving the HackIndia award" width="576" height="1024" loading="lazy" decoding="async"></button><figcaption>Receiving the award</figcaption></figure>
+                <figure class="g-item"><button type="button" class="g-open" aria-label="Enlarge: award ceremony"><img src="ad.jpg" alt="Award ceremony" width="1039" height="1039" loading="lazy" decoding="async"></button><figcaption>Award ceremony</figcaption></figure>
+                <figure class="g-item"><button type="button" class="g-open" aria-label="Enlarge: certificate of excellence"><img src="hi.jpg" alt="Certificate of excellence" width="540" height="1206" loading="lazy" decoding="async"></button><figcaption>Certificate of excellence</figcaption></figure>
+                <figure class="g-item"><button type="button" class="g-open" aria-label="Enlarge: AI certification"><img src="eCertificate-AI_page-0001.jpg" alt="AI certification" width="1650" height="1275" loading="lazy" decoding="async"></button><figcaption>AI certification</figcaption></figure>
+                <figure class="g-item"><button type="button" class="g-open" aria-label="Enlarge: HackIndia certificate"><img src="41e4507cea26c9aab3eadc2698024887_page-0001.jpg" alt="HackIndia certificate" width="4961" height="3508" loading="lazy" decoding="async"></button><figcaption>HackIndia certificate</figcaption></figure>
+                <figure class="g-item"><button type="button" class="g-open" aria-label="Enlarge: team snapshot"><img src="1740888679200.jpeg" alt="Team snapshot" width="2048" height="1536" loading="lazy" decoding="async"></button><figcaption>Team snapshot</figcaption></figure>
             </div>
-            <div class="lightbox" id="lightbox" aria-hidden="true">
-                <button class="lb-close" id="lb-close" aria-label="Close">&times;</button>
+            <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Enlarged photo" hidden>
+                <button class="lb-close icon-btn" id="lb-close" type="button" aria-label="Close photo"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
                 <img id="lightbox-img" alt="">
             </div>
         </section>
 
-        <section id="experience" class="section">
-            <div class="container">
-                <header class="section-head reveal">
-                    <p class="kicker mono">// 05 — experience</p>
-                    <h2>Timeline of growth</h2>
-                </header>
-                <div class="timeline" id="timeline">
-                    <div class="tl-rail"><span class="tl-fill" id="tl-fill"></span></div>
-
-                    <article class="t-item t-left reveal">
-                        <span class="t-node"></span>
-                        <div class="t-card glass-card spot">
-                            <span class="t-date mono">Jun 2025</span>
-                            <h3>HackIndia 2025</h3>
-                            <h4>National Champion</h4>
-                            <ul>
-                                <li>Won nationals with Q-Guardian OS, an AI security operations center with a UI that rebuilds around each threat</li>
-                                <li>Qualified by winning the preliminary round with a mining emission and filtration predictor</li>
-                            </ul>
-                            <div class="t-img"><img src="hiw.jpg" alt="HackIndia win" loading="lazy" decoding="async" class="blur-load"></div>
-                        </div>
-                    </article>
-
-                    <article class="t-item t-right reveal" style="--d:.08s">
-                        <span class="t-node"></span>
-                        <div class="t-card glass-card spot">
-                            <span class="t-date mono">Jan 2025 — Present</span>
-                            <h3>LeetCode Knight</h3>
-                            <h4>Top 4.6% globally</h4>
-                            <ul>
-                                <li>729 problems solved — 230 Easy / 390 Medium / 109 Hard</li>
-                                <li>Contest rating climbed to 1,895</li>
-                                <li>Daily streak across algorithms &amp; system design</li>
-                            </ul>
-                        </div>
-                    </article>
-
-                    <article class="t-item t-left reveal" style="--d:.16s">
-                        <span class="t-node"></span>
-                        <div class="t-card glass-card spot">
-                            <span class="t-date mono">Sep 2024</span>
-                            <h3>Codeforces Specialist</h3>
-                            <h4>Peak rating 1,417</h4>
-                            <ul>
-                                <li>204 problems solved across Div. 2 &amp; Div. 3 rounds</li>
-                                <li>Consistent top-quartile regional finishes</li>
-                            </ul>
-                        </div>
-                    </article>
-
-                    <article class="t-item t-right reveal" style="--d:.24s">
-                        <span class="t-node"></span>
-                        <div class="t-card glass-card spot">
-                            <span class="t-date mono">2023 — Present</span>
-                            <h3>B.Tech — AI &amp; Data Science</h3>
-                            <h4>St. Joseph's Institute of Technology</h4>
-                            <ul>
-                                <li>CGPA 8.75 through four semesters</li>
-                                <li>Coursework: Deep Learning, NLP, Computer Vision, Big Data</li>
-                            </ul>
-                            <div class="t-img"><img src="1740888679200.jpeg" alt="Campus moment" loading="lazy" decoding="async" class="blur-load"></div>
-                        </div>
-                    </article>
+        <section id="contact" class="section contact">
+            <div class="container contact-grid">
+                <div class="contact-copy">
+                    <header class="section-head stacked reveal">
+                        <p class="kicker mono">07 / Contact</p>
+                        <h2>Have an internship or a <em class="serif">hard problem?</em></h2>
+                    </header>
+                    <p class="lead reveal">Tell me what you're building. I'm looking for AI or full-stack internships for Summer 2026, and I'm happy to walk through any project above, including the private LifeConnect code.</p>
+                    <ul class="contact-links reveal">
+                        <li><a href="https://www.linkedin.com/in/rishini-dharan-t/" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin-in" aria-hidden="true"></i> LinkedIn</a></li>
+                        <li><a href="https://github.com/Rishini-Dharan" target="_blank" rel="noopener"><i class="fa-brands fa-github" aria-hidden="true"></i> GitHub</a></li>
+                        <li><a href="https://leetcode.com/u/rishini_dharan/" target="_blank" rel="noopener"><i class="fa-solid fa-code" aria-hidden="true"></i> LeetCode</a></li>
+                    </ul>
+                    <p class="muted-note reveal"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Chennai, India</p>
                 </div>
-            </div>
-        </section>
 
-        <section id="contact" class="section section-alt">
-            <div class="container">
-                <header class="section-head reveal">
-                    <p class="kicker mono">// 06 — contact</p>
-                    <h2>Let's build something</h2>
-                </header>
-                <div class="contact-grid">
-                    <div class="contact-info" data-stagger>
-                        <div class="c-row glass-card spot reveal">
-                            <div class="c-icon"><i class="fa-solid fa-briefcase"></i></div>
-                            <div><b>Open to Internships</b><em>AI / Full Stack roles · Summer 2026</em></div>
-                        </div>
-                        <div class="c-row glass-card spot reveal">
-                            <div class="c-icon"><i class="fa-solid fa-location-dot"></i></div>
-                            <div><b>Chennai, India</b><em>B.Tech @ St. Joseph's Institute of Technology</em></div>
-                        </div>
-                        <div class="c-row glass-card spot reveal">
-                            <div class="c-icon"><i class="fa-solid fa-bolt"></i></div>
-                            <div><b>Fast Responder</b><em>Usually replies within 24 hours</em></div>
-                        </div>
-                        <div class="socials-wrap reveal">
-                            <a href="https://github.com/Rishini-Dharan" target="_blank" rel="noopener" aria-label="GitHub" class="social-orb"><i class="fa-brands fa-github"></i></a>
-                            <a href="https://www.linkedin.com/in/rishini-dharan-t/" target="_blank" rel="noopener" aria-label="LinkedIn" class="social-orb"><i class="fa-brands fa-linkedin-in"></i></a>
-                            <a href="https://leetcode.com/u/rishini_dharan/" target="_blank" rel="noopener" aria-label="LeetCode" class="social-orb"><img src="icons8-leetcode-96.png" alt="" width="18" height="18" loading="lazy"></a>
-                            <a href="https://codeforces.com/profile/Rishini_Dharan_T" target="_blank" rel="noopener" aria-label="Codeforces" class="social-orb"><i class="fa-solid fa-code"></i></a>
-                            <a href="https://atcoder.jp/users/Rishini" target="_blank" rel="noopener" aria-label="AtCoder" class="social-orb"><i class="fa-solid fa-chart-line"></i></a>
-                        </div>
+                <form class="contact-form reveal" id="contact-form" novalidate>
+                    <div class="f-row">
+                        <label for="cf-name">Your name</label>
+                        <input type="text" id="cf-name" name="name" required autocomplete="name">
                     </div>
-
-                    <form class="contact-form glass-card spot reveal" id="contact-form" novalidate>
-                        <div class="f-row">
-                            <label for="cf-name">Your Name</label>
-                            <input type="text" id="cf-name" name="name" required autocomplete="name">
-                        </div>
-                        <div class="f-row">
-                            <label for="cf-email">Email</label>
-                            <input type="email" id="cf-email" name="email" required autocomplete="email">
-                        </div>
-                        <div class="f-row">
-                            <label for="cf-subject">Subject</label>
-                            <input type="text" id="cf-subject" name="subject" required placeholder="Internship, collab, project inquiry…">
-                        </div>
-                        <div class="f-row">
-                            <label for="cf-message">Message</label>
-                            <textarea id="cf-message" name="message" rows="5" required placeholder="Tell me about it…"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-block magnetic" id="send-btn">Send Message <i class="fa-solid fa-paper-plane"></i></button>
-                    </form>
-                </div>
-            </div>
-        </section>
-
-        <section id="globe-section" class="section">
-            <div class="container">
-                <header class="section-head reveal">
-                    <p class="kicker mono">// 07 — global top 100 map</p>
-                    <h2>Where the world's biggest companies live</h2>
-                </header>
-                <p class="muted-note reveal">The <b>top 100 companies in the world</b> (Fortune Global 500) pinned on an interactive globe — drag to rotate, scroll to zoom, hover a marker to see the company.</p>
-                <div id="globe-wrap" class="globe-wrap glass-card reveal" aria-label="Interactive globe of the top 100 global company headquarters">
-                    <div id="globe"></div>
-                    <div id="globe-tip" class="globe-tip" hidden></div>
-                    <div class="globe-loading mono"><i class="fa-solid fa-circle-notch fa-spin"></i>&nbsp;loading globe…</div>
-                </div>
-                <p class="muted-note reveal mono">data: fortune global 500 (2025) · coordinates: fortune interactive dataset · built with globe.gl (open-source)</p>
+                    <div class="f-row">
+                        <label for="cf-email">Email</label>
+                        <input type="email" id="cf-email" name="email" required autocomplete="email" placeholder="email@example.com">
+                    </div>
+                    <div class="f-row">
+                        <label for="cf-subject">Subject</label>
+                        <input type="text" id="cf-subject" name="subject" required placeholder="Internship, project, or question">
+                    </div>
+                    <div class="f-row">
+                        <label for="cf-message">Message</label>
+                        <textarea id="cf-message" name="message" rows="5" required placeholder="What are you working on?"></textarea>
+                    </div>
+                    <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+                    <button type="submit" class="btn btn-primary btn-block" id="send-btn">Send message</button>
+                </form>
             </div>
         </section>
     </main>
 
     <footer class="footer">
-        <div class="container">
-            <p class="mono">© 2025 Rishini Dharan T — built with curiosity &amp; code</p>
-            <div class="footer-socials socials-wrap">
-                <a href="https://github.com/Rishini-Dharan" target="_blank" rel="noopener" aria-label="GitHub" class="social-orb"><i class="fa-brands fa-github"></i></a>
-                <a href="https://www.linkedin.com/in/rishini-dharan-t/" target="_blank" rel="noopener" aria-label="LinkedIn" class="social-orb"><i class="fa-brands fa-linkedin-in"></i></a>
-                <a href="https://leetcode.com/u/rishini_dharan/" target="_blank" rel="noopener" aria-label="LeetCode" class="social-orb"><img src="icons8-leetcode-96.png" alt="" width="16" height="16" loading="lazy"></a>
-                <a href="https://codeforces.com/profile/Rishini_Dharan_T" target="_blank" rel="noopener" aria-label="Codeforces" class="social-orb"><i class="fa-solid fa-code"></i></a>
-            </div>
+        <div class="container footer-inner">
+            <p>© 2025 Rishini Dharan T</p>
+            <a href="#top" class="text-link">Back to top</a>
         </div>
     </footer>
 
-    <button class="to-top" id="to-top" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
-
-    <!-- ambient activity log · decorative, hidden from assistive tech -->
-    <aside class="sys-console" id="sys-console" aria-hidden="true">
-        <div class="sys-head">
-            <span class="sys-dots"><i></i><i></i><i></i></span>
-            <span class="sys-title mono">system.log</span>
-            <button class="sys-close" id="sys-toggle" tabindex="-1" aria-label="Hide activity log">×</button>
+    <div class="palette" id="palette" role="dialog" aria-modal="true" aria-label="Command palette" hidden>
+        <div class="palette-box">
+            <div class="palette-search">
+                <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                <input id="palette-input" type="text" placeholder="Jump to a section, open a project, run a command" aria-controls="palette-list" aria-autocomplete="list" role="combobox" aria-expanded="true" autocomplete="off" spellcheck="false">
+                <kbd>Esc</kbd>
+            </div>
+            <ul class="palette-list" id="palette-list" role="listbox" aria-label="Commands"></ul>
+            <p class="palette-empty" id="palette-empty" hidden>No command matches that. Try "project", "theme" or "contact".</p>
         </div>
-        <ul class="sys-body mono" id="sys-body"></ul>
-    </aside>
-    <button class="sys-restore mono" id="sys-restore" tabindex="-1" aria-hidden="true" hidden>_log</button>
+    </div>
 
-    <script src="global100.js"></script>
-    <script src="app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+    <script src="app.js" defer></script>
     <script src="visuals.js" defer></script>
-    <script src="ambient.js" defer></script>
+    <script src="contributions.js" defer></script>
+    <script src="programmer.js" defer></script>
+    <script src="motion.js" defer></script>
 </body>
 </html>

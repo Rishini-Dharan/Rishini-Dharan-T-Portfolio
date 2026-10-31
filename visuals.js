@@ -20,7 +20,7 @@
     /* ---------------- Hero neural network ---------------- */
     (function heroNetwork() {
         const canvas = document.getElementById('hero-canvas');
-        const hero = document.getElementById('home');
+        const hero = canvas && canvas.closest('.hero');
         if (!canvas || !hero) return;
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
@@ -30,14 +30,24 @@
         let colors = {};
         let pointer = { x: -9999, y: -9999, active: false, last: 0 };
         let visible = true, running = false, lastIdle = 0;
+        let bootStart = null, paused = false;
+
+        // 0..1 visibility of a layer during the boot sequence (layers switch on left to right)
+        function shown(layer) {
+            if (bootStart === null) return 1;
+            return Math.min(1, Math.max(0, (performance.now() - bootStart - layer * 150) / 450));
+        }
+        function booting() {
+            return bootStart !== null && performance.now() - bootStart < 1400;
+        }
 
         function readColors() {
-            const light = document.documentElement.getAttribute('data-theme') === 'light';
+            const accent = cssVar('--accent') || '#8fd0ff';
             colors = {
-                a: cssVar('--violet') || '#8b5cf6',
-                b: cssVar('--cyan') || '#22d3ee',
-                edge: light ? 'rgba(35, 48, 110, 0.10)' : 'rgba(148, 163, 255, 0.08)',
-                node: light ? 'rgba(35, 48, 110, 0.28)' : 'rgba(163, 170, 196, 0.32)'
+                a: accent,
+                b: accent,
+                edge: cssVar('--net-edge') || 'rgba(159, 187, 219, 0.09)',
+                node: cssVar('--net-node') || 'rgba(159, 187, 219, 0.35)'
             };
         }
 
@@ -51,7 +61,8 @@
             const small = W < 720;
             const layers = small ? [3, 5, 5, 3] : [4, 7, 9, 7, 4, 2];
             const x0 = W * 0.06, x1 = W * 0.94;
-            const top = H * 0.16, bottom = H * 0.9;
+            // desktop hero copy sits in the lower third, so the network owns the band above it
+            const top = H * 0.14, bottom = H * (small ? 0.9 : 0.5);
             nodes = []; edges = []; pulses = [];
 
             layers.forEach((count, li) => {
@@ -91,7 +102,7 @@
                     const d = Math.hypot(n.x - pointer.x, n.y - pointer.y);
                     if (d < 130) fire(n, (1 - d / 130) * 0.08);
                 }
-            } else if (!REDUCED && now - lastIdle > 2600 && now - pointer.last > 3000) {
+            } else if (!REDUCED && !paused && now - lastIdle > 2600 && now - pointer.last > 3000) {
                 // idle: a single faint input so the hero never reads as a still image
                 lastIdle = now;
                 const inputs = nodes.filter(n => n.layer === 0);
@@ -125,9 +136,15 @@
 
             ctx.lineWidth = 1;
             ctx.strokeStyle = colors.edge;
-            ctx.beginPath();
-            for (const e of edges) { ctx.moveTo(e.a.x, e.a.y); ctx.lineTo(e.b.x, e.b.y); }
-            ctx.stroke();
+            const layerCount = nodes.length ? nodes[nodes.length - 1].layer : 0;
+            for (let l = 0; l < layerCount; l++) {
+                ctx.globalAlpha = shown(l + 1);
+                if (!ctx.globalAlpha) continue;
+                ctx.beginPath();
+                for (const e of edges) if (e.a.layer === l) { ctx.moveTo(e.a.x, e.a.y); ctx.lineTo(e.b.x, e.b.y); }
+                ctx.stroke();
+            }
+            ctx.globalAlpha = 1;
 
             // edges carrying a pulse light up behind it
             ctx.strokeStyle = colors.b;
@@ -144,8 +161,12 @@
 
             for (const n of nodes) {
                 const r = 3 + n.act * 4;
+                const on = shown(n.layer);
+                if (!on) continue;
+                ctx.globalAlpha = on;
                 ctx.fillStyle = colors.node;
                 ctx.beginPath(); ctx.arc(n.x, n.y, 3, 0, Math.PI * 2); ctx.fill();
+                ctx.globalAlpha = 1;
                 if (n.act > 0.04) {
                     ctx.globalAlpha = Math.min(1, n.act * 1.4);
                     ctx.fillStyle = n.layer % 2 ? colors.b : colors.a;
@@ -156,11 +177,11 @@
         }
 
         function settled() {
-            return !pointer.active && !pulses.length && nodes.every(n => n.act < 0.01);
+            return !booting() && !pointer.active && !pulses.length && nodes.every(n => n.act < 0.01);
         }
 
         function loop() {
-            if (!visible || document.hidden || (REDUCED && settled())) { running = false; return; }
+            if (!visible || document.hidden || ((REDUCED || paused) && settled())) { running = false; return; }
             step();
             draw();
             requestAnimationFrame(loop);
@@ -199,7 +220,13 @@
         }).observe(hero);
         document.addEventListener('visibilitychange', wake);
 
-        if (!REDUCED) {
+        // motion.js scripts the intro when it runs; otherwise fire one pass on load
+        window.heroNet = {
+            boot() { bootStart = performance.now(); wake(); },
+            forwardPass,
+            setPaused(v) { paused = v; if (!v) wake(); }
+        };
+        if (!REDUCED && !document.documentElement.classList.contains('motion')) {
             wake();
             setTimeout(forwardPass, 900);
         }
@@ -300,7 +327,7 @@
                 ? `${label}: used in ${hits} of ${cards.length} projects below`
                 : `${label}: not in a listed project yet. Ask me about it.`;
             clear.hidden = false;
-            if (hits) document.getElementById('projects').scrollIntoView({ behavior: REDUCED ? 'auto' : 'smooth' });
+            if (hits) document.getElementById('work').scrollIntoView({ behavior: REDUCED ? 'auto' : 'smooth' });
         }
 
         chips.forEach(c => c.addEventListener('click', () => apply(current === c ? null : c)));
