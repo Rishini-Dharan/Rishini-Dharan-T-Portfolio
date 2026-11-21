@@ -610,6 +610,7 @@ section[id] { scroll-margin-top: var(--nav-h); }
     cursor: grab;
 }
 .gallery-strip.dragging { cursor: grabbing; scroll-snap-type: none; }
+.gallery-strip.autoscrolling { scroll-snap-type: none; scroll-behavior: auto; }
 .g-item { flex: none; width: clamp(220px, 26vw, 300px); scroll-snap-align: start; }
 .g-open {
     display: block;

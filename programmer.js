@@ -201,7 +201,7 @@
             whoami() {
                 line('Rishini Dharan T, AI & full-stack developer in Chennai.');
                 line('B.Tech AI & Data Science, CGPA 8.75. HackIndia 2025 national winner. LeetCode Knight.');
-                line('Open to AI and full-stack internships for Summer 2026.');
+                line('Graduating May 2027. Open to SDE-1 and AI Engineer roles.');
             },
             ls(args) {
                 const what = args[0] || 'projects';
@@ -229,8 +229,7 @@
                 if (project) { describe(project); return; }
                 if (f === 'skills' || f === 'stats') { COMMANDS[f](); return; }
                 if (f === 'resume' || f === 'cv') {
-                    line('There is no resume file on this site yet.', 'term-dim');
-                    line(['Ask for one: ', { href: '#contact', text: 'contact' }, ' or ', { href: 'https://www.linkedin.com/in/rishini-dharan-t/', text: 'LinkedIn' }]);
+                    line(['Resume: ', { href: 'Rishini_Dharan_T_Resume.pdf', text: 'Rishini_Dharan_T_Resume.pdf' }]);
                     return;
                 }
                 if (f !== 'about') line('cat: ' + f + ': no such file, showing about instead.', 'term-dim');

@@ -124,6 +124,37 @@
             strip.classList.remove('dragging');
         });
 
+        // Auto-advance when the strip scrolls natively (the desktop pinned reel is scroll-driven instead).
+        // Pauses while hovered, touched, focused, dragged or enlarged; resumes from wherever the user left it.
+        let holds = 0, touchTimer = 0, pos = strip.scrollLeft;
+        const hold = () => { holds++; };
+        const release = () => { holds = Math.max(0, holds - 1); pos = strip.scrollLeft; };
+        strip.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') hold(); });
+        strip.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse') release(); });
+        strip.addEventListener('focusin', hold);
+        strip.addEventListener('focusout', release);
+        strip.addEventListener('touchstart', () => {
+            clearTimeout(touchTimer);
+            if (!strip.dataset.touchHold) { strip.dataset.touchHold = '1'; hold(); }
+        }, { passive: true });
+        strip.addEventListener('touchend', () => {
+            clearTimeout(touchTimer);
+            touchTimer = setTimeout(() => { delete strip.dataset.touchHold; release(); }, 2500);
+        });
+        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+        const tick = () => {
+            const max = strip.scrollWidth - strip.clientWidth;
+            const active = !holds && !dragging && lightbox.hidden && !reduced.matches
+                && !strip.classList.contains('is-pinned') && max > 0;
+            strip.classList.toggle('autoscrolling', active);
+            if (active) {
+                pos = pos >= max ? 0 : pos + 0.5;
+                strip.scrollLeft = pos;
+            }
+            requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+
         let opener = null;
         function openLb(img, trigger) {
             opener = trigger;
