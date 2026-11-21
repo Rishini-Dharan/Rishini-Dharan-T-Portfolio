@@ -412,6 +412,34 @@ section[id] { scroll-margin-top: var(--nav-h); }
     padding-top: 0.5em;
 }
 
+/* ---------- How it's built ---------- */
+.featured > .how { grid-column: 1 / -1; }
+.how { margin-top: 18px; border-top: 1px solid var(--border); padding-top: 14px; }
+.how summary {
+    display: inline-flex; align-items: center; gap: 8px;
+    min-height: 44px; font-size: 0.85rem; color: var(--accent); list-style: none;
+}
+.how summary::-webkit-details-marker { display: none; }
+.how summary::before { content: '+'; display: inline-grid; place-items: center; width: 20px; height: 20px; border: 1px solid currentColor; border-radius: 50%; line-height: 1; }
+.how[open] summary::before { content: '\2212'; }
+.how summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 4px; }
+.how-body { padding-top: 10px; }
+.how-flow, .how-cols ul { list-style: none; padding: 0; margin: 0; }
+.how-flow { display: flex; flex-wrap: wrap; gap: 10px; counter-reset: step; }
+.how-flow li {
+    flex: 1 1 150px; position: relative; counter-increment: step;
+    padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface-2);
+}
+.how-flow li b { display: block; font-family: var(--font-mono); font-size: 0.78rem; font-weight: 500; color: var(--accent); margin-bottom: 4px; }
+.how-flow li b::before { content: counter(step, decimal-leading-zero) ' '; color: var(--faint); }
+.how-flow li span { display: block; font-size: 0.88rem; color: var(--dim); line-height: 1.45; }
+.how-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px 32px; margin-top: 18px; }
+.how-cols h4 { font-size: 0.78rem; font-weight: 500; color: var(--faint); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.06em; }
+.how-cols ul { display: grid; gap: 8px; }
+.how-cols li { position: relative; padding-left: 16px; font-size: 0.92rem; color: var(--dim); line-height: 1.5; }
+.how-cols li::before { content: ''; position: absolute; left: 0; top: 0.65em; width: 6px; height: 1px; background: var(--accent); }
+.how-cols code { font-family: var(--font-mono); font-size: 0.85em; }
+
 /* ---------- Skills ---------- */
 .skills-grid {
     display: grid;

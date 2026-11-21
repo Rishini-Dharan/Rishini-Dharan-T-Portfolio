@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rishini Dharan T · AI &amp; Full Stack Developer</title>
-    <meta name="description" content="Rishini Dharan T builds AI systems that ship: HackIndia 2025 national winner with Q-Guardian OS, first-author IEEE paper, LeetCode Knight, and six projects with live demos or public code.">
+    <meta name="description" content="Rishini Dharan T builds AI systems that ship: HackIndia 2025 national winner with Q-Guardian OS, first-author IEEE paper, LeetCode Knight, and eight projects with architecture write-ups.">
     <link rel="canonical" href="https://rishini-dharan.github.io/Rishini-Dharan-T-Portfolio/">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://rishini-dharan.github.io/Rishini-Dharan-T-Portfolio/">
@@ -89,7 +89,7 @@
             <div class="container">
                 <header class="section-head reveal">
                     <p class="kicker mono">01 / Work</p>
-                    <h2>Six projects you can <em class="serif">open</em> and run.</h2>
+                    <h2>Eight projects, and <em class="serif">how</em> they&rsquo;re built.</h2>
                 </header>
 
                 <div class="filter-bar mono" id="filter-bar" aria-live="polite">
@@ -139,11 +139,103 @@ async def ws_chat(websocket: WebSocket):
         manager.disconnect(session_id)
         print(f"[WS] Client disconnected: {session_id}")</code></pre>
                     </figure>
+                    <details class="how">
+                        <summary class="mono">How it's built</summary>
+                        <div class="how-body">
+                            <ol class="how-flow" aria-label="Data flow">
+                                <li><b>Ingest</b><span>Java 17 parser reads raw syslog and packet telemetry</span></li>
+                                <li><b>Detect</b><span>ML classifier flags behaviour such as SMB spikes on port 445</span></li>
+                                <li><b>Route</b><span>FastAPI WebSocket hub streams alerts and operator actions both ways</span></li>
+                                <li><b>Plan</b><span>LLM intent planner pulls past cases from Qdrant (Gemini embeddings)</span></li>
+                                <li><b>Render</b><span>React canvas mounts the widgets the planner asks for</span></li>
+                            </ol>
+                            <div class="how-cols">
+                                <div><h4 class="mono">Design choices</h4><ul>
+                                <li>Parsing uses <code>indexOf</code> and <code>charAt</code> with no allocations, avoiding regex and <code>split()</code> on the hot path.</li>
+                                <li>The planner emits JSON layout commands, and a component registry renders them, so the model never writes UI code.</li>
+                                <li>Vector memory targets Qdrant Cloud and falls back to an in-memory store if the connection fails.</li>
+                                <li>A browser sandbox replays the backend's telemetry, so the demo works without a server.</li>
+                                </ul></div>
+                                <div><h4 class="mono">Results</h4><ul>
+                                <li>1st of 29,742 participants at HackIndia 2025 nationals.</li>
+                                <li>Covers a full incident loop: alert, triage, containment, false-positive replan, and a generated incident report.</li>
+                                </ul></div>
+                            </div>
+                        </div>
+                    </details>
                 </article>
 
                 <ol class="project-list">
-                    <li class="project-card row reveal" data-skills="python react fastapi lightgbm">
+                    <li class="project-card row reveal" data-skills="python pytorch scikit-learn">
                         <span class="proj-num mono">02</span>
+                        <div class="row-main">
+                            <h3>Q-Guardian · research version</h3>
+                            <p>The research system behind my IEEE paper: behaviour-aware intrusion detection that combines Isolation Forest denoising, a Random Forest and a variational quantum circuit, then explains each detection with MITRE ATT&amp;CK.</p>
+                            <p class="stack mono">Python · Flask · PyTorch · Scikit-learn · PennyLane</p>
+                    <details class="how">
+                        <summary class="mono">How it's built</summary>
+                        <div class="how-body">
+                            <ol class="how-flow" aria-label="Data flow">
+                                <li><b>Ingest</b><span>Service 1 collects request and behaviour streams</span></li>
+                                <li><b>Denoise</b><span>Isolation Forest strips outliers from the training signal</span></li>
+                                <li><b>Classify</b><span>Random Forest and a variational quantum circuit (PennyLane) score each event</span></li>
+                                <li><b>Explain</b><span>Detections are mapped to MITRE ATT&amp;CK techniques</span></li>
+                                <li><b>Alert</b><span>Service 3 raises alerts on a dashboard behind bcrypt auth</span></li>
+                            </ol>
+                            <div class="how-cols">
+                                <div><h4 class="mono">Design choices</h4><ul>
+                                <li>Ingestion, stream processing and alerting are 3 independent services, so each one scales and fails on its own.</li>
+                                <li>A hybrid classical and quantum model targets zero-day and subtle behaviour changes that signature-based IDSs miss.</li>
+                                <li>MITRE ATT&amp;CK mapping turns a raw anomaly score into a named technique an analyst can act on.</li>
+                                </ul></div>
+                                <div><h4 class="mono">Results</h4><ul>
+                                <li>86% accuracy flagging anomalous traffic on live request streams.</li>
+                                <li>Published at IEEE AIDML 2026 (first author).</li>
+                                </ul></div>
+                            </div>
+                        </div>
+                    </details>
+                        </div>
+                        <div class="row-links">
+                            <a href="https://ieeexplore.ieee.org/document/11749134" target="_blank" rel="noopener" class="text-link">IEEE paper</a>
+                            <a href="#contact" class="text-link">Walkthrough on request</a>
+                        </div>
+                    </li>
+                    <li class="project-card row reveal" data-skills="python pytorch react">
+                        <span class="proj-num mono">03</span>
+                        <div class="row-main">
+                            <h3>Deepfake Detection System</h3>
+                            <p>Detects facial manipulation in video with a ResNeXt CNN, reaching 87% accuracy on 150+ test videos, and returns results through a React interface.</p>
+                            <p class="stack mono">Python · PyTorch (ResNeXt) · OpenCV · React</p>
+                    <details class="how">
+                        <summary class="mono">How it's built</summary>
+                        <div class="how-body">
+                            <ol class="how-flow" aria-label="Data flow">
+                                <li><b>Upload</b><span>A video comes in through the React interface</span></li>
+                                <li><b>Preprocess</b><span>Frames are sampled and prepared with OpenCV</span></li>
+                                <li><b>Infer</b><span>A ResNeXt CNN in PyTorch scores frames in batches</span></li>
+                                <li><b>Report</b><span>The verdict returns to the React interface</span></li>
+                            </ol>
+                            <div class="how-cols">
+                                <div><h4 class="mono">Design choices</h4><ul>
+                                <li>Preprocessing and inference were optimised together, and frames go through the model in batches instead of one at a time.</li>
+                                <li>The model runs behind a React interface, so anyone can test a video without touching Python.</li>
+                                </ul></div>
+                                <div><h4 class="mono">Results</h4><ul>
+                                <li>87% accuracy on 150+ test videos.</li>
+                                <li>Per-video processing time cut from 13s to 6s.</li>
+                                </ul></div>
+                            </div>
+                        </div>
+                    </details>
+                        </div>
+                        <div class="row-links">
+                            <a href="#contact" class="text-link">Walkthrough on request</a>
+                            <span class="muted-note mono">Private repo</span>
+                        </div>
+                    </li>
+                    <li class="project-card row reveal" data-skills="python react fastapi lightgbm">
+                        <span class="proj-num mono">04</span>
                         <div class="row-main">
                             <h3>M5 Forecasting Engine</h3>
                             <p>28-day unit-sales forecasts for 30,490 Walmart product series, served by 40 Tweedie LightGBM models with what-if price and SNAP scenarios. A parity test pins served predictions to the trained models within 1e-9. Validated at WRMSSE 145.6 across three folds.</p>
@@ -155,7 +247,7 @@ async def ws_chat(websocket: WebSocket):
                         </div>
                     </li>
                     <li class="project-card row reveal" data-skills="python">
-                        <span class="proj-num mono">03</span>
+                        <span class="proj-num mono">05</span>
                         <div class="row-main">
                             <h3>Mining Emission &amp; Filtration</h3>
                             <p>Predicts CO&#8322; output and machine failure for mining equipment, then recommends the filter type to fit. Won the HackIndia 2025 preliminary round and is the most-starred repo on my profile, with 66 stars.</p>
@@ -167,7 +259,7 @@ async def ws_chat(websocket: WebSocket):
                         </div>
                     </li>
                     <li class="project-card row reveal" data-skills="python">
-                        <span class="proj-num mono">04</span>
+                        <span class="proj-num mono">06</span>
                         <div class="row-main">
                             <h3>Lattice Protocol</h3>
                             <p>Income protection for India's gig workers that pays out automatically when rain, heat or a bandh stops deliveries. An XGBoost model prices weekly micro-premiums, and an Isolation Forest flags GPS spoofing by cross-checking cell, Wi-Fi and motion signals.</p>
@@ -178,7 +270,7 @@ async def ws_chat(websocket: WebSocket):
                         </div>
                     </li>
                     <li class="project-card row reveal" data-skills="react node.js tensorflow">
-                        <span class="proj-num mono">05</span>
+                        <span class="proj-num mono">07</span>
                         <div class="row-main">
                             <h3>LifeConnect</h3>
                             <p>A photo report from the street becomes a routed case: TensorFlow.js COCO-SSD detects the person and signs of rough sleeping, then the backend assigns the nearest verified NGO with capacity for food, shelter or medical help.</p>
@@ -190,7 +282,7 @@ async def ws_chat(websocket: WebSocket):
                         </div>
                     </li>
                     <li class="project-card row reveal" data-skills="python github">
-                        <span class="proj-num mono">06</span>
+                        <span class="proj-num mono">08</span>
                         <div class="row-main">
                             <h3>Agent System</h3>
                             <p>An orchestrator that splits tasks across specialised agents for research, browser automation, coding, GitHub and security scanning. It runs on local Ollama models, with state kept in SQLite so runs survive restarts.</p>

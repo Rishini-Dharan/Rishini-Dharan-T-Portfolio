@@ -16,6 +16,9 @@
     const PROJECTS = [
         { slug: 'qguardian', name: 'Q-Guardian OS', note: 'AI security operations center, HackIndia 2025 national winner',
           demo: 'https://rishini-dharan.github.io/HackIndia2026/', code: 'https://github.com/Rishini-Dharan/HackIndia2026' },
+        { slug: 'qresearch', name: 'Q-Guardian (research)', note: 'hybrid classical-quantum IDS, IEEE AIDML 2026 paper',
+          demo: 'https://ieeexplore.ieee.org/document/11749134' },
+        { slug: 'deepfake', name: 'Deepfake Detection', note: 'ResNeXt CNN, 87% on 150+ videos (private repo)' },
         { slug: 'm5', name: 'M5 Forecasting Engine', note: '40 LightGBM models serving 28-day forecasts',
           demo: 'https://m5-forecasting-gules.vercel.app', code: 'https://github.com/Rishini-Dharan/m5_forecasting' },
         { slug: 'mining', name: 'Mining Emission & Filtration', note: 'HackIndia 2025 preliminary round winner',
