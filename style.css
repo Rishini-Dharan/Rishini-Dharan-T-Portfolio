@@ -647,7 +647,7 @@ section[id] { scroll-margin-top: var(--nav-h); }
     overflow-x: auto;
     padding: 4px var(--edge) 20px;
     scroll-padding-inline: var(--edge);
-    scroll-snap-type: x proximity;
+    scroll-snap-type: none; /* snapping would yank the strip when auto-scroll pauses */
     scrollbar-width: thin;
     scrollbar-color: var(--border-strong) transparent;
     cursor: grab;

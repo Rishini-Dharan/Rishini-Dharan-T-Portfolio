@@ -6,8 +6,13 @@ const ALLOWED_ORIGINS = [
     'https://rishini-dharan.github.io',
     'http://localhost:8765'
 ];
-// Non-reasoning free models only: reasoning models can spend the whole token budget thinking.
-const MODELS = ['google/gemma-4-31b-it:free', 'google/gemma-4-26b-a4b-it:free'];
+// Tried in order. Reasoning models (last) spend tokens thinking before answering,
+// so they get a much larger budget or they return no text at all.
+const MODELS = [
+    { id: 'google/gemma-4-31b-it:free', maxTokens: 800 },
+    { id: 'google/gemma-4-26b-a4b-it:free', maxTokens: 800 },
+    { id: 'nvidia/nemotron-3.5-lightning:free', maxTokens: 4000 }
+];
 const MAX_QUESTION = 400;
 
 const PROFILE = `
@@ -88,40 +93,48 @@ export default {
         if (!question) return json({ error: 'Ask a question.' }, 400, origin);
         if (question.length > MAX_QUESTION) return json({ error: `Keep it under ${MAX_QUESTION} characters.` }, 400, origin);
 
-        const upstream = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${env.OPENROUTER_API_KEY}`,
-                'Content-Type': 'application/json',
-                'HTTP-Referer': 'https://rishini-dharan.github.io/Rishini-Dharan-T-Portfolio/',
-                'X-Title': 'Portfolio resume chat'
-            },
-            body: JSON.stringify({
-                models: MODELS,
-                max_tokens: 800,
-                reasoning: { effort: 'low', exclude: true },
-                temperature: 0.2,
-                messages: [
-                    { role: 'system', content: SYSTEM },
-                    { role: 'user', content: question }
-                ]
-            })
-        });
-
-        if (!upstream.ok) {
-            const status = upstream.status === 429 ? 429 : 502;
-            return json({ error: status === 429 ? 'The free model is busy. Try again shortly.' : 'The model is unavailable right now.' }, status, origin);
+        // Try each free model in turn: OpenRouter's own `models` fallback does not
+        // kick in when the shared free pool returns 429.
+        let sawBusy = false;
+        for (const { id, maxTokens } of MODELS) {
+            const upstream = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${env.OPENROUTER_API_KEY}`,
+                    'Content-Type': 'application/json',
+                    'HTTP-Referer': 'https://rishini-dharan.github.io/Rishini-Dharan-T-Portfolio/',
+                    'X-Title': 'Portfolio resume chat'
+                },
+                body: JSON.stringify({
+                    model: id,
+                    max_tokens: maxTokens,
+                    reasoning: { effort: 'low', exclude: true },
+                    temperature: 0.2,
+                    messages: [
+                        { role: 'system', content: SYSTEM },
+                        { role: 'user', content: question }
+                    ]
+                })
+            });
+            if (!upstream.ok) {
+                if (upstream.status === 429) sawBusy = true;
+                console.log('upstream', id, upstream.status, (await upstream.text()).slice(0, 300));
+                continue;
+            }
+            const data = await upstream.json();
+            const finish = data.choices?.[0]?.finish_reason;
+            let answer = data.choices?.[0]?.message?.content?.trim();
+            console.log('answer', id, finish, answer ? answer.length : 0);
+            if (!answer) continue;
+            if (finish === 'length') {
+                // cut off mid-sentence: keep everything up to the last full sentence
+                const end = Math.max(answer.lastIndexOf('. '), answer.lastIndexOf('.\n'), answer.endsWith('.') ? answer.length - 1 : -1);
+                if (end > 40) answer = answer.slice(0, end + 1);
+            }
+            return json({ answer }, 200, origin);
         }
-        const data = await upstream.json();
-        const finish = data.choices?.[0]?.finish_reason;
-        let answer = data.choices?.[0]?.message?.content?.trim();
-        console.log('answer', data.model, finish, answer ? answer.length : 0);
-        if (!answer) return json({ error: 'No answer came back. Try rephrasing.' }, 502, origin);
-        if (finish === 'length') {
-            // cut off mid-sentence: keep everything up to the last full sentence
-            const end = Math.max(answer.lastIndexOf('. '), answer.lastIndexOf('.\n'), answer.endsWith('.') ? answer.length - 1 : -1);
-            if (end > 40) answer = answer.slice(0, end + 1);
-        }
-        return json({ answer }, 200, origin);
+        return sawBusy
+            ? json({ error: 'The free models are busy right now. Try again in a minute.' }, 429, origin)
+            : json({ error: 'The model is unavailable right now.' }, 502, origin);
     }
 };

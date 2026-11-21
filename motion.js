@@ -216,45 +216,7 @@
         });
     }
 
-    /* ---------------- Gallery: vertical scroll drives a horizontal reel ---------------- */
-    const strip = document.getElementById('gallery-strip');
-    const mm = gsap.matchMedia();
-    mm.add('(min-width: 961px) and (pointer: fine)', () => {
-        strip.classList.add('is-pinned');
-        strip.scrollLeft = 0;
-        const distance = () => Math.max(0, strip.scrollWidth - window.innerWidth);
-        const reel = gsap.to(strip, {
-            x: () => -distance(),
-            ease: 'none',
-            scrollTrigger: {
-                trigger: '#gallery',
-                start: 'top top',
-                end: () => '+=' + distance(),
-                pin: true,
-                scrub: 0.8,
-                invalidateOnRefresh: true
-            }
-        });
-        gsap.utils.toArray(strip.querySelectorAll('.g-item img')).forEach((img) => {
-            gsap.fromTo(img, { scale: 1.2 }, {
-                scale: 1, ease: 'none',
-                scrollTrigger: { trigger: img, containerAnimation: reel, start: 'left right', end: 'center center', scrub: true }
-            });
-        });
-        // keyboard users tabbing through photos: scroll the page to where that photo is in view
-        const onFocus = (e) => {
-            const item = e.target.closest('.g-item');
-            if (!item) return;
-            const st = reel.scrollTrigger;
-            const progress = Math.min(1, Math.max(0, (item.offsetLeft - window.innerWidth * 0.3) / distance()));
-            window.scrollTo({ top: st.start + (st.end - st.start) * progress, behavior: 'auto' });
-        };
-        strip.addEventListener('focusin', onFocus);
-        return () => {
-            strip.removeEventListener('focusin', onFocus);
-            strip.classList.remove('is-pinned');
-        };
-    });
+    /* Gallery: no scroll pinning; the strip auto-scrolls itself (app.js). */
 
     /* ---------------- Contact ---------------- */
     const form = document.querySelector('.contact-form');
