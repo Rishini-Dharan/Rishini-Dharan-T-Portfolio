@@ -185,6 +185,49 @@
         });
     })();
 
+    /* ---------------- Ask my résumé (Cloudflare Worker -> OpenRouter) ---------------- */
+    (function askResume() {
+        const section = document.getElementById('ask');
+        const endpoint = section && section.dataset.endpoint;
+        if (!endpoint) return;
+        section.hidden = false;
+        const form = document.getElementById('ask-form');
+        const input = document.getElementById('ask-input');
+        const send = document.getElementById('ask-send');
+        const out = document.getElementById('ask-answer');
+
+        async function ask(question) {
+            out.classList.remove('is-error');
+            out.textContent = 'Thinking…';
+            send.disabled = true;
+            try {
+                const r = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ question })
+                });
+                const data = await r.json().catch(() => ({}));
+                if (!r.ok || !data.answer) throw new Error(data.error || 'Something went wrong. Try again.');
+                out.textContent = data.answer;
+            } catch (err) {
+                out.classList.add('is-error');
+                out.textContent = err.message === 'Failed to fetch' ? 'Could not reach the assistant. Try again later.' : err.message;
+            } finally {
+                send.disabled = false;
+            }
+        }
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const q = input.value.trim();
+            if (q) ask(q);
+        });
+        section.querySelectorAll('.ask-suggest .chip').forEach((chip) => chip.addEventListener('click', () => {
+            input.value = chip.textContent;
+            ask(chip.textContent);
+        }));
+    })();
+
     /* ---------------- Contact form (EmailJS) ---------------- */
     (function contactForm() {
         const form = document.getElementById('contact-form');

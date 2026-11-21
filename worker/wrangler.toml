@@ -1,0 +1,14 @@
+name = "portfolio-resume-chat"
+main = "worker.js"
+compatibility_date = "2026-11-01"
+
+# 8 questions per IP per minute
+[[ratelimits]]
+name = "LIMITER"
+namespace_id = "1001"
+
+  [ratelimits.simple]
+  limit = 8
+  period = 60
+
+# Secret (never committed): npx wrangler secret put OPENROUTER_API_KEY

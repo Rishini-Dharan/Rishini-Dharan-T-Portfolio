@@ -29,7 +29,7 @@
         { slug: 'agent', name: 'Agent System', note: 'local-first multi-agent orchestrator',
           code: 'https://github.com/Rishini-Dharan/agent-system' }
     ];
-    const SECTIONS = ['work', 'skills', 'shell', 'about', 'experience', 'gallery', 'contact'];
+    const SECTIONS = ['work', 'skills', 'shell', 'about', 'experience', 'gallery', 'ask', 'contact'];
 
     function goTo(id, focusSel) {
         const el = document.getElementById(id);

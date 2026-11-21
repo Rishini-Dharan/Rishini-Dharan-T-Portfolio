@@ -28,7 +28,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500&family=Instrument+Serif:ital@1&family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=20261121">
+    <link rel="stylesheet" href="style.css?v=20261121b">
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3.2.0/dist/email.min.js" defer></script>
 </head>
 <body>
@@ -543,11 +543,33 @@ async def ws_chat(websocket: WebSocket):
             </div>
         </section>
 
+        <section id="ask" class="section" data-endpoint="" hidden>
+            <div class="container ask-wrap">
+                <header class="section-head stacked reveal">
+                    <p class="kicker mono">07 / Ask</p>
+                    <h2>Ask my <em class="serif">résumé</em> a question.</h2>
+                </header>
+                <p class="lead">An LLM answers from my résumé, projects and paper only. If it doesn't know, it says so.</p>
+                <div class="ask-suggest">
+                    <button type="button" class="chip">What did you build at IdeaBoxAI?</button>
+                    <button type="button" class="chip">How does Q-Guardian detect threats?</button>
+                    <button type="button" class="chip">When can you start?</button>
+                </div>
+                <form class="ask-form" id="ask-form">
+                    <label for="ask-input" class="sr-only">Your question</label>
+                    <input id="ask-input" type="text" maxlength="400" autocomplete="off" placeholder="Ask about experience, projects or skills" required>
+                    <button type="submit" class="btn btn-primary" id="ask-send">Ask</button>
+                </form>
+                <div class="ask-answer" id="ask-answer" aria-live="polite"></div>
+                <p class="muted-note mono">Runs on a free OpenRouter model, so it can be slow or busy at times.</p>
+            </div>
+        </section>
+
         <section id="contact" class="section contact">
             <div class="container contact-grid">
                 <div class="contact-copy">
                     <header class="section-head stacked reveal">
-                        <p class="kicker mono">07 / Contact</p>
+                        <p class="kicker mono">08 / Contact</p>
                         <h2>Have a role or a <em class="serif">hard problem?</em></h2>
                     </header>
                     <p class="lead reveal">Tell me what you're building. I'm looking for SDE-1 and AI Engineer roles starting mid-2027, and I'm happy to walk through any project above, including the private LifeConnect code.</p>
@@ -604,11 +626,11 @@ async def ws_chat(websocket: WebSocket):
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-    <script src="live-stats.js?v=20261121" defer></script>
-    <script src="app.js?v=20261121" defer></script>
-    <script src="visuals.js?v=20261121" defer></script>
-    <script src="contributions.js?v=20261121" defer></script>
-    <script src="programmer.js?v=20261121" defer></script>
-    <script src="motion.js?v=20261121" defer></script>
+    <script src="live-stats.js?v=20261121b" defer></script>
+    <script src="app.js?v=20261121b" defer></script>
+    <script src="visuals.js?v=20261121b" defer></script>
+    <script src="contributions.js?v=20261121b" defer></script>
+    <script src="programmer.js?v=20261121b" defer></script>
+    <script src="motion.js?v=20261121b" defer></script>
 </body>
 </html>
