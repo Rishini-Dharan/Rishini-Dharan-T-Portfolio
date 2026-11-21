@@ -6,7 +6,8 @@ const ALLOWED_ORIGINS = [
     'https://rishini-dharan.github.io',
     'http://localhost:8765'
 ];
-const MODELS = ['google/gemma-4-31b-it:free', 'nvidia/nemotron-3.5-lightning:free', 'openrouter/free'];
+// Non-reasoning free models only: reasoning models can spend the whole token budget thinking.
+const MODELS = ['google/gemma-4-31b-it:free', 'google/gemma-4-26b-a4b-it:free'];
 const MAX_QUESTION = 400;
 
 const PROFILE = `
@@ -97,7 +98,8 @@ export default {
             },
             body: JSON.stringify({
                 models: MODELS,
-                max_tokens: 300,
+                max_tokens: 800,
+                reasoning: { effort: 'low', exclude: true },
                 temperature: 0.2,
                 messages: [
                     { role: 'system', content: SYSTEM },
@@ -111,8 +113,15 @@ export default {
             return json({ error: status === 429 ? 'The free model is busy. Try again shortly.' : 'The model is unavailable right now.' }, status, origin);
         }
         const data = await upstream.json();
-        const answer = data.choices?.[0]?.message?.content?.trim();
+        const finish = data.choices?.[0]?.finish_reason;
+        let answer = data.choices?.[0]?.message?.content?.trim();
+        console.log('answer', data.model, finish, answer ? answer.length : 0);
         if (!answer) return json({ error: 'No answer came back. Try rephrasing.' }, 502, origin);
+        if (finish === 'length') {
+            // cut off mid-sentence: keep everything up to the last full sentence
+            const end = Math.max(answer.lastIndexOf('. '), answer.lastIndexOf('.\n'), answer.endsWith('.') ? answer.length - 1 : -1);
+            if (end > 40) answer = answer.slice(0, end + 1);
+        }
         return json({ answer }, 200, origin);
     }
 };
