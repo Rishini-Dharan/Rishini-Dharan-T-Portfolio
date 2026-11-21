@@ -200,7 +200,7 @@
             },
             whoami() {
                 line('Rishini Dharan T, AI & full-stack developer in Chennai.');
-                line('B.Tech AI & Data Science, CGPA 8.75. HackIndia 2025 national winner. LeetCode Knight.');
+                line('B.Tech AI & Data Science, CGPA 8.66. HackIndia 2025 national winner. First-author IEEE AIDML 2026 paper. LeetCode Knight.');
                 line('Graduating May 2027. Open to SDE-1 and AI Engineer roles.');
             },
             ls(args) {
