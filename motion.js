@@ -137,7 +137,8 @@
         gsap.to(n, {
             v: target, duration: 1.8, ease: 'power3.out',
             scrollTrigger: { trigger: el, start: 'top 92%' },
-            onUpdate() { el.textContent = n.v.toFixed(decimals).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+            onUpdate() { el.textContent = n.v.toFixed(decimals).replace(/\B(?=(\d{3})+(?!\d))/g, ','); },
+            onComplete() { el.textContent = parseFloat(el.dataset.count).toFixed(decimals).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
         });
     });
 

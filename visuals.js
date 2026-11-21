@@ -241,10 +241,13 @@
         if (!group || !keys.length) return;
 
         const R = 48, C = 2 * Math.PI * R, GAP = 3;
-        const total = keys.reduce((s, k) => s + Number(k.dataset.n), 0);
-        const arcs = {};
-        let offset = 0;
+        let total = 0, arcs = {};
 
+        function build() {
+        group.replaceChildren();
+        total = keys.reduce((s, k) => s + Number(k.dataset.n), 0);
+        arcs = {};
+        let offset = 0;
         keys.forEach(k => {
             const n = Number(k.dataset.n);
             const len = (n / total) * C;
@@ -259,6 +262,10 @@
             arcs[k.dataset.k] = arc;
             offset += len;
         });
+        num.textContent = total;
+        }
+        build();
+        document.addEventListener('stats:updated', build);
 
         function show(key) {
             const k = keys.find(x => x.dataset.k === key);

@@ -1,0 +1,24 @@
+{
+  "leetcode": {
+    "rating": 1895,
+    "globalRank": 42365,
+    "topPercent": 4.87,
+    "badge": "Knight",
+    "solved": 740,
+    "easy": 232,
+    "medium": 396,
+    "hard": 112
+  },
+  "codeforces": {
+    "rating": 1251,
+    "maxRating": 1417,
+    "rank": "pupil",
+    "maxRank": "specialist",
+    "solved": 192
+  },
+  "atcoder": {
+    "rating": 772,
+    "rank": 23203
+  },
+  "updated": "2026-11-21"
+}

@@ -222,9 +222,15 @@
                 });
             },
             stats() {
-                line('  LeetCode    1,895 rating, Knight, 729 solved (230 E / 390 M / 109 H)');
-                line('  Codeforces  1,248 current, 1,417 peak, 204 solved');
-                line('  AtCoder     772 rating, top 18.15%');
+                const st = window.SITE_STATS || {};
+                const f = (n) => Number(n).toLocaleString('en-US');
+                const lc = st.leetcode || { rating: 1895, badge: 'Knight', solved: 740, easy: 232, medium: 396, hard: 112 };
+                const cf = st.codeforces || { rating: 1251, maxRating: 1417, solved: 192 };
+                const ac = st.atcoder || { rating: 772, rank: 23203 };
+                line(`  LeetCode    ${f(lc.rating)} rating, ${lc.badge}, ${f(lc.solved)} solved (${lc.easy} E / ${lc.medium} M / ${lc.hard} H)`);
+                line(`  Codeforces  ${f(cf.rating)} current, ${f(cf.maxRating)} peak, ${f(cf.solved)} solved`);
+                line(`  AtCoder     ${f(ac.rating)} rating, rank ${f(ac.rank)}`);
+                if (st.updated) line('  updated ' + st.updated, 'term-dim');
             },
             cat(args) {
                 const f = (args[0] || 'about').replace(/\.(md|txt)$/, '');

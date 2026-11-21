@@ -79,8 +79,8 @@
         <section class="proof" aria-label="Highlights">
             <div class="container proof-row">
                 <div class="proof-item"><b>HackIndia 2025</b><span>National winner, Q-Guardian OS</span></div>
-                <div class="proof-item"><b data-count="1895">1,895</b><span>LeetCode rating, Knight badge</span></div>
-                <div class="proof-item"><b data-count="729">729</b><span>LeetCode problems solved</span></div>
+                <div class="proof-item"><b data-count="1895" data-stat="leetcode.rating">1,895</b><span>LeetCode rating, Knight badge</span></div>
+                <div class="proof-item"><b data-count="740" data-stat="leetcode.solved">740</b><span>LeetCode problems solved</span></div>
                 <div class="proof-item"><b data-count="8.66" data-decimals="2">8.66</b><span>CGPA, B.Tech AI &amp; Data Science</span></div>
             </div>
         </section>
@@ -330,9 +330,9 @@ async def ws_chat(websocket: WebSocket):
                         <div class="cc-top">
                             <img src="icons8-leetcode-96.png" alt="" width="28" height="28" loading="lazy">
                             <h4>LeetCode</h4>
-                            <span class="badge">Knight</span>
+                            <span class="badge" data-stat="leetcode.badge">Knight</span>
                         </div>
-                        <p class="cc-stat"><b>1,895</b> rating · global rank 85,720</p>
+                        <p class="cc-stat"><b data-stat="leetcode.rating">1,895</b> rating · global rank <span data-stat="leetcode.globalRank">42,365</span></p>
                         <div class="lc-viz">
                             <div class="lc-donut" id="lc-donut">
                                 <svg viewBox="0 0 120 120" role="img" aria-labelledby="lc-donut-label">
@@ -340,14 +340,14 @@ async def ws_chat(websocket: WebSocket):
                                     <g id="lc-arcs" transform="rotate(-90 60 60)"></g>
                                 </svg>
                                 <div class="lc-center" id="lc-donut-label" aria-live="polite">
-                                    <b id="lc-center-num">729</b>
+                                    <b id="lc-center-num">740</b>
                                     <span id="lc-center-cap" class="mono">solved</span>
                                 </div>
                             </div>
                             <div class="cc-detail mono">
-                                <button type="button" class="lc-key c-easy" data-k="easy" data-n="230">230 Easy</button>
-                                <button type="button" class="lc-key c-med" data-k="medium" data-n="390">390 Medium</button>
-                                <button type="button" class="lc-key c-hard" data-k="hard" data-n="109">109 Hard</button>
+                                <button type="button" class="lc-key c-easy" data-k="easy" data-n="232">232 Easy</button>
+                                <button type="button" class="lc-key c-med" data-k="medium" data-n="396">396 Medium</button>
+                                <button type="button" class="lc-key c-hard" data-k="hard" data-n="112">112 Hard</button>
                             </div>
                         </div>
                         <a href="https://leetcode.com/u/rishini_dharan/" target="_blank" rel="noopener" class="text-link">LeetCode profile</a>
@@ -355,19 +355,18 @@ async def ws_chat(websocket: WebSocket):
                     <article class="coding-card reveal">
                         <div class="cc-top">
                             <h4>Codeforces</h4>
-                            <span class="badge">Pupil</span>
+                            <span class="badge" data-stat="codeforces.rank">Pupil</span>
                         </div>
-                        <p class="cc-stat"><b>1,248</b> current · 1,417 peak (Specialist)</p>
-                        <p class="cc-desc">204 problems solved in Div. 2 and Div. 3 rounds.</p>
+                        <p class="cc-stat"><b data-stat="codeforces.rating">1,251</b> current · <span data-stat="codeforces.maxRating">1,417</span> peak (<span data-stat="codeforces.maxRank">Specialist</span>)</p>
+                        <p class="cc-desc"><span data-stat="codeforces.solved">192</span> problems solved in Div. 2 and Div. 3 rounds.</p>
                         <a href="https://codeforces.com/profile/Rishini_Dharan_T" target="_blank" rel="noopener" class="text-link">Codeforces profile</a>
                     </article>
                     <article class="coding-card reveal">
                         <div class="cc-top">
                             <h4>AtCoder</h4>
-                            <span class="badge">7 Kyu</span>
+                            <span class="badge" data-stat="atcoder.kyu">7 Kyu</span>
                         </div>
-                        <p class="cc-stat"><b>772</b> rating · rank 23,174</p>
-                        <p class="cc-desc">Top 18.15% of rated users.</p>
+                        <p class="cc-stat"><b data-stat="atcoder.rating">772</b> rating · rank <span data-stat="atcoder.rank">23,203</span></p>
                         <a href="https://atcoder.jp/users/Rishini" target="_blank" rel="noopener" class="text-link">AtCoder profile</a>
                     </article>
                 </div>
@@ -492,8 +491,8 @@ async def ws_chat(websocket: WebSocket):
                         <div class="t-body">
                             <h3>LeetCode Knight</h3>
                             <ul>
-                                <li>729 problems solved: 230 Easy, 390 Medium, 109 Hard.</li>
-                                <li>Contest rating 1,895, top 4.6% globally.</li>
+                                <li><span data-stat="leetcode.solved">740</span> problems solved: <span data-stat="leetcode.easy">232</span> Easy, <span data-stat="leetcode.medium">396</span> Medium, <span data-stat="leetcode.hard">112</span> Hard.</li>
+                                <li>Contest rating <span data-stat="leetcode.rating">1,895</span>, top <span data-stat="leetcode.topPercent">4.87%</span> globally.</li>
                             </ul>
                         </div>
                     </article>
@@ -502,8 +501,8 @@ async def ws_chat(websocket: WebSocket):
                         <div class="t-body">
                             <h3>Codeforces Specialist</h3>
                             <ul>
-                                <li>Peak rating 1,417 across Div. 2 and Div. 3 rounds.</li>
-                                <li>204 problems solved.</li>
+                                <li>Peak rating <span data-stat="codeforces.maxRating">1,417</span> across Div. 2 and Div. 3 rounds.</li>
+                                <li><span data-stat="codeforces.solved">192</span> problems solved.</li>
                             </ul>
                         </div>
                     </article>
@@ -605,6 +604,7 @@ async def ws_chat(websocket: WebSocket):
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+    <script src="live-stats.js?v=20261121" defer></script>
     <script src="app.js?v=20261121" defer></script>
     <script src="visuals.js?v=20261121" defer></script>
     <script src="contributions.js?v=20261121" defer></script>
