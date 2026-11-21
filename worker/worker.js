@@ -56,8 +56,8 @@ PUBLICATION
 - First author, "Q-Guardian: Behaviour-Aware Cybersecurity Monitoring Using Hybrid Learning", 2026 IEEE International Conference on Applied Intelligence Devices, Machine Learning, and Data Science (AIDML), published 7 Aug 2026, DOI 10.1109/AIDML70736.2026.11749134.
 
 PROJECTS
-- Q-Guardian OS (HackIndia 2025 national winner, 1st of 29,742): AI security operations center. Java 17 zero-allocation telemetry parser, ML threat detection, FastAPI WebSocket hub, LLM intent planner with Qdrant vector memory (Gemini embeddings), React canvas that mounts widgets from the planner's JSON layout commands. Live demo and public code.
-- Q-Guardian research version: 3 independent services (ingestion, stream processing, alerting); Isolation Forest denoising, Random Forest plus a variational quantum circuit (PennyLane); detections mapped to MITRE ATT&CK; 86% accuracy on live request streams. Python, Flask, PyTorch, Scikit-learn.
+- Q-Guardian OS (HackIndia Spark-9 2026 entry, Track 04): AI security operations center. Java 17 zero-allocation telemetry parser, ML threat detection, FastAPI WebSocket hub, LLM intent planner with Qdrant vector memory (Gemini embeddings), React canvas that mounts widgets from the planner's JSON layout commands. Live demo and public code.
+- Q-Guardian (research version; WON the HackIndia 2025 national finale, AI Track, with team Neural Titans; later the IEEE paper): 3 independent services (ingestion, stream processing, alerting); Isolation Forest denoising, Random Forest plus a variational quantum circuit (PennyLane); detections mapped to MITRE ATT&CK; 86% accuracy on live request streams. Python, Flask, PyTorch, Scikit-learn.
 - Deepfake Detection System: ResNeXt CNN in PyTorch with OpenCV preprocessing and batched inference, 87% accuracy on 150+ test videos, per-video time cut from 13s to 6s, React interface. Private repo.
 - M5 Forecasting Engine: 28-day forecasts for 30,490 Walmart series from 40 Tweedie LightGBM models, FastAPI, PostgreSQL, React; WRMSSE 145.6.
 - Mining Emission & Filtration: won the HackIndia 2025 preliminary round; 66 GitHub stars.

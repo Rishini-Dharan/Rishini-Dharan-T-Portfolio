@@ -14,9 +14,9 @@
 
     /* ---------------- Shared content model ---------------- */
     const PROJECTS = [
-        { slug: 'qguardian', name: 'Q-Guardian OS', note: 'AI security operations center, HackIndia 2025 national winner',
+        { slug: 'qguardian', name: 'Q-Guardian OS', note: 'AI security operations center, HackIndia Spark-9 2026',
           demo: 'https://rishini-dharan.github.io/HackIndia2026/', code: 'https://github.com/Rishini-Dharan/HackIndia2026' },
-        { slug: 'qresearch', name: 'Q-Guardian (research)', note: 'hybrid classical-quantum IDS, IEEE AIDML 2026 paper',
+        { slug: 'qresearch', name: 'Q-Guardian (research)', note: 'HackIndia 2025 AI Track national winner, IEEE AIDML 2026 paper',
           demo: 'https://ieeexplore.ieee.org/document/11749134' },
         { slug: 'deepfake', name: 'Deepfake Detection', note: 'ResNeXt CNN, 87% on 150+ videos (private repo)' },
         { slug: 'm5', name: 'M5 Forecasting Engine', note: '40 LightGBM models serving 28-day forecasts',
@@ -203,7 +203,7 @@
             },
             whoami() {
                 line('Rishini Dharan T, AI & full-stack developer in Chennai.');
-                line('B.Tech AI & Data Science, CGPA 8.66. HackIndia 2025 national winner. First-author IEEE AIDML 2026 paper. LeetCode Knight.');
+                line('B.Tech AI & Data Science, CGPA 8.66. HackIndia 2025 national winner (AI Track). First-author IEEE AIDML 2026 paper. LeetCode Knight.');
                 line('Graduating May 2027. Open to SDE-1 and AI Engineer roles.');
             },
             ls(args) {
