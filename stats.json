@@ -4,8 +4,8 @@
     "globalRank": 42365,
     "topPercent": 4.87,
     "badge": "Knight",
-    "solved": 740,
-    "easy": 232,
+    "solved": 741,
+    "easy": 233,
     "medium": 396,
     "hard": 112
   },
@@ -17,8 +17,8 @@
     "solved": 192
   },
   "atcoder": {
-    "rating": 772,
-    "rank": 23203
+    "rating": 696,
+    "rank": 25738
   },
-  "updated": "2026-11-21"
+  "updated": "2026-11-22"
 }
