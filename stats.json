@@ -4,10 +4,10 @@
     "globalRank": 42365,
     "topPercent": 4.87,
     "badge": "Knight",
-    "solved": 741,
+    "solved": 742,
     "easy": 233,
     "medium": 396,
-    "hard": 112
+    "hard": 113
   },
   "codeforces": {
     "rating": 1251,
@@ -20,5 +20,5 @@
     "rating": 696,
     "rank": 25594
   },
-  "updated": "2026-11-23"
+  "updated": "2026-11-25"
 }
