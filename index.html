@@ -19,11 +19,22 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500&family=Instrument+Serif:ital@1&family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3.2.0/dist/email.min.js" defer></script>
 </head>
 <body>
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+        <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+        <symbol id="i-moon" viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+        <symbol id="i-pause" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></symbol>
+        <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12-7.5a1 1 0 0 0 0-1.72l-12-7.5A1 1 0 0 0 7 4.5z"/></symbol>
+        <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+        <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+        <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+        <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6M8 6l-6 6 6 6"/></symbol>
+        <symbol id="i-github" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></symbol>
+        <symbol id="i-linkedin" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1-.02 5 2.5 2.5 0 0 1 .02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05C20.6 8.65 21 11.2 21 14.5V21h-4v-5.7c0-1.36-.03-3.1-1.9-3.1-1.9 0-2.2 1.48-2.2 3V21H9z"/></symbol>
+    </svg>
     <a class="skip-link" href="#main">Skip to content</a>
     <div class="scroll-progress" aria-hidden="true"><span id="progress-bar"></span></div>
 
@@ -40,7 +51,7 @@
             </ul>
             <div class="nav-actions">
                 <button class="kbd-btn" id="palette-open" type="button" aria-haspopup="dialog" aria-label="Open command palette"><kbd class="kbd-mod">Ctrl</kbd><kbd>K</kbd></button>
-                <button class="icon-btn" id="theme-toggle" type="button" aria-label="Switch to light theme"><i class="fa-solid fa-sun" id="theme-icon" aria-hidden="true"></i></button>
+                <button class="icon-btn" id="theme-toggle" type="button" aria-label="Switch to light theme"><svg class="icon" id="theme-icon" aria-hidden="true" focusable="false"><use href="#i-sun"/></svg></button>
                 <a href="#contact" class="btn btn-primary btn-sm nav-cta">Contact me</a>
                 <button class="icon-btn hamburger" id="mobile-menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">
                     <span></span><span></span>
@@ -59,19 +70,19 @@
                     <p class="lead">I won HackIndia 2025 nationals with an AI security operations center, serve forecasts from 40 LightGBM models in a deployed web app, and hold LeetCode Knight. Every project below links to something you can open.</p>
                     <div class="hero-cta">
                         <a href="#work" class="btn btn-primary">See the projects</a>
-                        <a href="https://github.com/Rishini-Dharan" target="_blank" rel="noopener" class="btn btn-ghost"><i class="fa-brands fa-github" aria-hidden="true"></i> GitHub profile</a>
+                        <a href="https://github.com/Rishini-Dharan" target="_blank" rel="noopener" class="btn btn-ghost"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-github"/></svg> GitHub profile</a>
                     </div>
                     <p class="availability">Open to AI and full-stack internships for Summer 2026.</p>
                 </div>
             </div>
-            <button class="icon-btn motion-toggle" id="motion-toggle" type="button" aria-pressed="false" aria-label="Pause the network animation"><i class="fa-solid fa-pause" aria-hidden="true"></i></button>
+            <button class="icon-btn motion-toggle" id="motion-toggle" type="button" aria-pressed="false" aria-label="Pause the network animation"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-pause"/></svg></button>
         </section>
 
         <section class="proof" aria-label="Highlights">
             <div class="container proof-row">
                 <div class="proof-item"><b>HackIndia 2025</b><span>National winner, Q-Guardian OS</span></div>
-                <div class="proof-item"><b data-count="1895">1,895</b><span>LeetCode rating, Knight badge</span></div>
-                <div class="proof-item"><b data-count="729">729</b><span>LeetCode problems solved</span></div>
+                <div class="proof-item"><b data-count="1895" data-stat="leetcode.rating">1,895</b><span>LeetCode rating, Knight badge</span></div>
+                <div class="proof-item"><b data-count="729" data-stat="leetcode.solved">729</b><span>LeetCode problems solved</span></div>
                 <div class="proof-item"><b data-count="8.75" data-decimals="2">8.75</b><span>CGPA, B.Tech AI &amp; Data Science</span></div>
             </div>
         </section>
@@ -79,12 +90,11 @@
         <section id="work" class="section">
             <div class="container">
                 <header class="section-head reveal">
-                    <p class="kicker mono">01 / Work</p>
                     <h2>Six projects you can <em class="serif">open</em> and run.</h2>
                 </header>
 
                 <div class="filter-bar mono" id="filter-bar" aria-live="polite">
-                    <span id="filter-text">Pick a skill below to see which projects use it.</span>
+                    <span id="filter-text">Filter these by skill: pick one in <a href="#skills" class="text-link">the stack</a>.</span>
                     <button type="button" class="filter-clear" id="filter-clear" hidden>Show all</button>
                 </div>
 
@@ -197,7 +207,6 @@ async def ws_chat(websocket: WebSocket):
         <section id="skills" class="section section-band">
             <div class="container">
                 <header class="section-head reveal">
-                    <p class="kicker mono">02 / Skills</p>
                     <h2>The stack behind <em class="serif">those</em> projects.</h2>
                 </header>
                 <div class="skills-grid">
@@ -228,9 +237,9 @@ async def ws_chat(websocket: WebSocket):
                         <div class="cc-top">
                             <img src="icons8-leetcode-96.png" alt="" width="28" height="28" loading="lazy">
                             <h4>LeetCode</h4>
-                            <span class="badge">Knight</span>
+                            <span class="badge" data-stat="leetcode.badge">Knight</span>
                         </div>
-                        <p class="cc-stat"><b>1,895</b> rating · global rank 85,720</p>
+                        <p class="cc-stat"><b data-stat="leetcode.rating">1,895</b> rating · global rank <span data-stat="leetcode.globalRank">85,720</span></p>
                         <div class="lc-viz">
                             <div class="lc-donut" id="lc-donut">
                                 <svg viewBox="0 0 120 120" role="img" aria-labelledby="lc-donut-label">
@@ -238,7 +247,7 @@ async def ws_chat(websocket: WebSocket):
                                     <g id="lc-arcs" transform="rotate(-90 60 60)"></g>
                                 </svg>
                                 <div class="lc-center" id="lc-donut-label" aria-live="polite">
-                                    <b id="lc-center-num">729</b>
+                                    <b id="lc-center-num" data-stat="leetcode.solved">729</b>
                                     <span id="lc-center-cap" class="mono">solved</span>
                                 </div>
                             </div>
@@ -252,20 +261,42 @@ async def ws_chat(websocket: WebSocket):
                     </article>
                     <article class="coding-card reveal">
                         <div class="cc-top">
+                            <img src="codeforces-logo.png" alt="" width="28" height="28" loading="lazy">
                             <h4>Codeforces</h4>
-                            <span class="badge">Pupil</span>
+                            <span class="badge" style="--rank:var(--cf-pupil-ink)" data-stat="codeforces.rankName">Pupil</span>
                         </div>
-                        <p class="cc-stat"><b>1,248</b> current · 1,417 peak (Specialist)</p>
-                        <p class="cc-desc">204 problems solved in Div. 2 and Div. 3 rounds.</p>
+                        <p class="cc-stat"><b data-stat="codeforces.rating">1,248</b> current · <span data-stat="codeforces.maxRating">1,417</span> peak (<span data-stat="codeforces.maxRankName">Specialist</span>)</p>
+                        <p class="cc-desc"><span data-stat="codeforces.solved">204</span> problems solved in Div. 2 and Div. 3 rounds.</p>
+                        <div class="ladder" data-ladder="codeforces" style="--min:1000;--max:1900" role="img" aria-label="Codeforces rank ladder: current 1,248 in Pupil, peak 1,417 in Specialist">
+                            <div class="ladder-bar" aria-hidden="true">
+                                <span class="tier" style="--from:1000;--to:1200;--c:var(--cf-newbie)"></span>
+                                <span class="tier" style="--from:1200;--to:1400;--c:var(--cf-pupil)"></span>
+                                <span class="tier" style="--from:1400;--to:1600;--c:var(--cf-specialist)"></span>
+                                <span class="tier" style="--from:1600;--to:1900;--c:var(--cf-expert)"></span>
+                                <span class="mark" style="--v:1248"><b>1,248 · Pupil</b></span>
+                                <span class="mark mark-peak" style="--v:1417"><b>peak 1,417 · Specialist</b></span>
+                            </div>
+                        </div>
                         <a href="https://codeforces.com/profile/Rishini_Dharan_T" target="_blank" rel="noopener" class="text-link">Codeforces profile</a>
                     </article>
                     <article class="coding-card reveal">
                         <div class="cc-top">
+                            <img src="atcoder-logo.png" alt="" width="28" height="28" loading="lazy">
                             <h4>AtCoder</h4>
-                            <span class="badge">7 Kyu</span>
+                            <span class="badge" style="--rank:var(--ac-brown-ink)" data-stat="atcoder.kyu">7 Kyu</span>
                         </div>
-                        <p class="cc-stat"><b>772</b> rating · rank 23,174</p>
-                        <p class="cc-desc">Top 18.15% of rated users.</p>
+                        <p class="cc-stat"><b data-stat="atcoder.rating">772</b> current · <span data-stat="atcoder.maxRating">772</span> peak · rank <span data-stat="atcoder.rank">23,174</span></p>
+                        <p class="cc-desc">Top <span data-stat="atcoder.topPercent">18.15</span>% of rated users.</p>
+                        <div class="ladder" data-ladder="atcoder" style="--min:0;--max:1600" role="img" aria-label="AtCoder rank ladder: 772, in the brown band, 28 points below green">
+                            <div class="ladder-bar" aria-hidden="true">
+                                <span class="tier" style="--from:0;--to:400;--c:var(--ac-gray)"></span>
+                                <span class="tier" style="--from:400;--to:800;--c:var(--ac-brown)"></span>
+                                <span class="tier" style="--from:800;--to:1200;--c:var(--ac-green)"></span>
+                                <span class="tier" style="--from:1200;--to:1600;--c:var(--ac-cyan)"></span>
+                                <span class="mark" style="--v:772"><b>772 · Brown</b></span>
+                                <span class="mark mark-peak" style="--v:772"><b>peak 772 · Brown</b></span>
+                            </div>
+                        </div>
                         <a href="https://atcoder.jp/users/Rishini" target="_blank" rel="noopener" class="text-link">AtCoder profile</a>
                     </article>
                 </div>
@@ -275,7 +306,6 @@ async def ws_chat(websocket: WebSocket):
         <section id="shell" class="section">
             <div class="container">
                 <header class="section-head reveal">
-                    <p class="kicker mono">03 / Shell</p>
                     <h2>Skip the scrolling. <em class="serif">Ask</em> the shell.</h2>
                 </header>
                 <div class="shell-grid">
@@ -316,11 +346,10 @@ async def ws_chat(websocket: WebSocket):
         <section id="about" class="section">
             <div class="container about-grid">
                 <figure class="about-photo reveal">
-                    <img src="WhatsApp Image 2025-07-09 at 19.40.06_9ff7b950.jpg" alt="Rishini Dharan T" width="1171" height="1440" loading="lazy" decoding="async">
+                    <img src="portrait.jpg" alt="Rishini Dharan T" width="960" height="1203" loading="lazy" decoding="async">
                 </figure>
                 <div class="about-copy">
                     <header class="section-head stacked reveal">
-                        <p class="kicker mono">04 / About</p>
                         <h2>Studying AI. <em class="serif">Shipping</em> it on the side.</h2>
                     </header>
                     <p class="reveal">I'm in my B.Tech in Artificial Intelligence and Data Science at St. Joseph's Institute of Technology, Chennai. Most of what I know I learned by building: hackathon systems that had to work in front of judges, and forecasting and agent projects that had to keep working after the demo.</p>
@@ -336,7 +365,6 @@ async def ws_chat(websocket: WebSocket):
         <section id="experience" class="section section-band">
             <div class="container">
                 <header class="section-head reveal">
-                    <p class="kicker mono">05 / Experience</p>
                     <h2>How I <em class="serif">got</em> here.</h2>
                 </header>
                 <div class="timeline" id="timeline">
@@ -350,25 +378,25 @@ async def ws_chat(websocket: WebSocket):
                                 <li>Qualified by winning the preliminary round with a mining emission and filtration predictor.</li>
                             </ul>
                         </div>
-                        <img class="t-img" src="hiw.jpg" alt="Receiving the HackIndia award" width="576" height="1024" loading="lazy" decoding="async">
+                        <img class="t-img" src="hackindia-award.jpg" alt="Receiving the HackIndia award" width="576" height="1024" loading="lazy" decoding="async">
                     </article>
                     <article class="t-item reveal">
                         <span class="t-date mono">Jan 2025 to now</span>
                         <div class="t-body">
-                            <h3>LeetCode Knight</h3>
+                            <h3>LeetCode <span data-stat="leetcode.badge">Knight</span></h3>
                             <ul>
-                                <li>729 problems solved: 230 Easy, 390 Medium, 109 Hard.</li>
-                                <li>Contest rating 1,895, top 4.6% globally.</li>
+                                <li><span data-stat="leetcode.solved">729</span> problems solved: <span data-stat="leetcode.easy">230</span> Easy, <span data-stat="leetcode.medium">390</span> Medium, <span data-stat="leetcode.hard">109</span> Hard.</li>
+                                <li>Contest rating <span data-stat="leetcode.rating">1,895</span>, top <span data-stat="leetcode.topPercent">4.6</span>% globally.</li>
                             </ul>
                         </div>
                     </article>
                     <article class="t-item reveal">
                         <span class="t-date mono">Sep 2024</span>
                         <div class="t-body">
-                            <h3>Codeforces Specialist</h3>
+                            <h3>Codeforces <span data-stat="codeforces.maxRankName">Specialist</span></h3>
                             <ul>
-                                <li>Peak rating 1,417 across Div. 2 and Div. 3 rounds.</li>
-                                <li>204 problems solved.</li>
+                                <li>Peak rating <span data-stat="codeforces.maxRating">1,417</span> across Div. 2 and Div. 3 rounds.</li>
+                                <li><span data-stat="codeforces.solved">204</span> problems solved.</li>
                             </ul>
                         </div>
                     </article>
@@ -389,22 +417,21 @@ async def ws_chat(websocket: WebSocket):
         <section id="gallery" class="section">
             <div class="container">
                 <header class="section-head reveal">
-                    <p class="kicker mono">06 / Gallery</p>
                     <h2>From the <em class="serif">stage</em> and the certificates.</h2>
                 </header>
             </div>
-            <p class="drag-hint mono container">Drag or scroll sideways. Select a photo to enlarge it.</p>
+            <p class="drag-hint mono container">Scrolls on its own; hover to pause, drag to browse. Select a photo to enlarge it.</p>
             <div class="gallery-strip" id="gallery-strip" tabindex="0" aria-label="Photo gallery, scrolls horizontally">
-                <figure class="g-item"><button type="button" class="g-open" aria-label="Enlarge: HackIndia 2025 national stage"><img src="WhatsApp Image 2025-07-09 at 19.40.06_9ff7b950.jpg" alt="Rishini Dharan T at HackIndia 2025" width="1171" height="1440" loading="lazy" decoding="async"></button><figcaption>HackIndia 2025, national stage</figcaption></figure>
-                <figure class="g-item"><button type="button" class="g-open" aria-label="Enlarge: receiving the award"><img src="hiw.jpg" alt="Receiving the HackIndia award" width="576" height="1024" loading="lazy" decoding="async"></button><figcaption>Receiving the award</figcaption></figure>
-                <figure class="g-item"><button type="button" class="g-open" aria-label="Enlarge: award ceremony"><img src="ad.jpg" alt="Award ceremony" width="1039" height="1039" loading="lazy" decoding="async"></button><figcaption>Award ceremony</figcaption></figure>
-                <figure class="g-item"><button type="button" class="g-open" aria-label="Enlarge: certificate of excellence"><img src="hi.jpg" alt="Certificate of excellence" width="540" height="1206" loading="lazy" decoding="async"></button><figcaption>Certificate of excellence</figcaption></figure>
-                <figure class="g-item"><button type="button" class="g-open" aria-label="Enlarge: AI certification"><img src="eCertificate-AI_page-0001.jpg" alt="AI certification" width="1650" height="1275" loading="lazy" decoding="async"></button><figcaption>AI certification</figcaption></figure>
-                <figure class="g-item"><button type="button" class="g-open" aria-label="Enlarge: HackIndia certificate"><img src="41e4507cea26c9aab3eadc2698024887_page-0001.jpg" alt="HackIndia certificate" width="4961" height="3508" loading="lazy" decoding="async"></button><figcaption>HackIndia certificate</figcaption></figure>
-                <figure class="g-item"><button type="button" class="g-open" aria-label="Enlarge: team snapshot"><img src="1740888679200.jpeg" alt="Team snapshot" width="2048" height="1536" loading="lazy" decoding="async"></button><figcaption>Team snapshot</figcaption></figure>
+                <figure class="g-item"><button type="button" class="g-open" aria-label="Enlarge: HackIndia 2025 national stage"><img src="hackindia-2025-stage.jpg" alt="Rishini Dharan T at HackIndia 2025" width="1171" height="1440" loading="lazy" decoding="async"></button><figcaption>HackIndia 2025, national stage</figcaption></figure>
+                <figure class="g-item"><button type="button" class="g-open" aria-label="Enlarge: receiving the award"><img src="hackindia-award.jpg" alt="Receiving the HackIndia award" width="576" height="1024" loading="lazy" decoding="async"></button><figcaption>Receiving the award</figcaption></figure>
+                <figure class="g-item"><button type="button" class="g-open" aria-label="Enlarge: award ceremony"><img src="award-ceremony.jpg" alt="Award ceremony" width="1039" height="1039" loading="lazy" decoding="async"></button><figcaption>Award ceremony</figcaption></figure>
+                <figure class="g-item"><button type="button" class="g-open" aria-label="Enlarge: certificate of excellence"><img src="certificate-of-excellence.jpg" alt="Certificate of excellence" width="540" height="1206" loading="lazy" decoding="async"></button><figcaption>Certificate of excellence</figcaption></figure>
+                <figure class="g-item"><button type="button" class="g-open" aria-label="Enlarge: AI certification"><img src="ai-certification.jpg" alt="AI certification" width="1650" height="1275" loading="lazy" decoding="async"></button><figcaption>AI certification</figcaption></figure>
+                <figure class="g-item"><button type="button" class="g-open" aria-label="Enlarge: HackIndia certificate"><img src="hackindia-certificate.jpg" alt="HackIndia certificate" width="2000" height="1414" loading="lazy" decoding="async"></button><figcaption>HackIndia certificate</figcaption></figure>
+                <figure class="g-item"><button type="button" class="g-open" aria-label="Enlarge: team snapshot"><img src="team-snapshot.jpeg" alt="Team snapshot" width="1600" height="1200" loading="lazy" decoding="async"></button><figcaption>Team snapshot</figcaption></figure>
             </div>
             <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Enlarged photo" hidden>
-                <button class="lb-close icon-btn" id="lb-close" type="button" aria-label="Close photo"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+                <button class="lb-close icon-btn" id="lb-close" type="button" aria-label="Close photo"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-x"/></svg></button>
                 <img id="lightbox-img" alt="">
             </div>
         </section>
@@ -413,16 +440,15 @@ async def ws_chat(websocket: WebSocket):
             <div class="container contact-grid">
                 <div class="contact-copy">
                     <header class="section-head stacked reveal">
-                        <p class="kicker mono">07 / Contact</p>
                         <h2>Have an internship or a <em class="serif">hard problem?</em></h2>
                     </header>
                     <p class="lead reveal">Tell me what you're building. I'm looking for AI or full-stack internships for Summer 2026, and I'm happy to walk through any project above, including the private LifeConnect code.</p>
                     <ul class="contact-links reveal">
-                        <li><a href="https://www.linkedin.com/in/rishini-dharan-t/" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin-in" aria-hidden="true"></i> LinkedIn</a></li>
-                        <li><a href="https://github.com/Rishini-Dharan" target="_blank" rel="noopener"><i class="fa-brands fa-github" aria-hidden="true"></i> GitHub</a></li>
-                        <li><a href="https://leetcode.com/u/rishini_dharan/" target="_blank" rel="noopener"><i class="fa-solid fa-code" aria-hidden="true"></i> LeetCode</a></li>
+                        <li><a href="https://www.linkedin.com/in/rishini-dharan-t/" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-linkedin"/></svg> LinkedIn</a></li>
+                        <li><a href="https://github.com/Rishini-Dharan" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-github"/></svg> GitHub</a></li>
+                        <li><a href="https://leetcode.com/u/rishini_dharan/" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-code"/></svg> LeetCode</a></li>
                     </ul>
-                    <p class="muted-note reveal"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Chennai, India</p>
+                    <p class="muted-note reveal"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-pin"/></svg> Chennai, India</p>
                 </div>
 
                 <form class="contact-form reveal" id="contact-form" novalidate>
@@ -459,8 +485,8 @@ async def ws_chat(websocket: WebSocket):
     <div class="palette" id="palette" role="dialog" aria-modal="true" aria-label="Command palette" hidden>
         <div class="palette-box">
             <div class="palette-search">
-                <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-                <input id="palette-input" type="text" placeholder="Jump to a section, open a project, run a command" aria-controls="palette-list" aria-autocomplete="list" role="combobox" aria-expanded="true" autocomplete="off" spellcheck="false">
+                <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-search"/></svg>
+                <input id="palette-input" type="text" aria-label="Search sections, projects and commands" placeholder="Jump to a section, open a project, run a command" aria-controls="palette-list" aria-autocomplete="list" role="combobox" aria-expanded="true" autocomplete="off" spellcheck="false">
                 <kbd>Esc</kbd>
             </div>
             <ul class="palette-list" id="palette-list" role="listbox" aria-label="Commands"></ul>
@@ -470,6 +496,8 @@ async def ws_chat(websocket: WebSocket):
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+    <script src="stats-data.js" defer></script>
+    <script src="stats-apply.js" defer></script>
     <script src="app.js" defer></script>
     <script src="visuals.js" defer></script>
     <script src="contributions.js" defer></script>

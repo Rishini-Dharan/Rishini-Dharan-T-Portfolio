@@ -22,7 +22,7 @@
             const paused = toggle.getAttribute('aria-pressed') !== 'true';
             toggle.setAttribute('aria-pressed', String(paused));
             toggle.setAttribute('aria-label', paused ? 'Resume the network animation' : 'Pause the network animation');
-            toggle.querySelector('i').className = paused ? 'fa-solid fa-play' : 'fa-solid fa-pause';
+            toggle.querySelector('use').setAttribute('href', paused ? '#i-play' : '#i-pause');
             if (window.heroNet) window.heroNet.setPaused(paused);
         });
     }
@@ -147,10 +147,7 @@
         const h2 = head.querySelector('h2');
         const words = splitWords(h2);
         const tl = gsap.timeline({ scrollTrigger: { trigger: head, start: 'top 82%' } });
-        const kicker = head.querySelector('.kicker');
-        tl.from(kicker, { x: -24, opacity: 0, duration: 0.8, ease: 'expo.out' }, 0)
-          .add(scramble(kicker, 0.7), 0)
-          .from(words, { yPercent: 115, rotate: 4, duration: 1.1, stagger: 0.05, ease: 'expo.out' }, 0.05);
+        tl.from(words, { yPercent: 115, rotate: 4, duration: 1.1, stagger: 0.05, ease: 'expo.out' }, 0.05);
     });
 
     /* ---------------- Featured project: opens like an aperture ---------------- */
@@ -196,9 +193,14 @@
     const cards = document.querySelectorAll('.coding-card');
     cards.forEach(unreveal);
     gsap.from(cards, {
-        y: 80, opacity: 0, rotateX: -12, transformPerspective: 900, transformOrigin: '50% 100%',
-        duration: 1.2, stagger: 0.12, ease: 'expo.out',
+        y: 48, opacity: 0, duration: 1, stagger: 0.1, ease: 'expo.out',
         scrollTrigger: { trigger: '.coding-grid', start: 'top 85%' }
+    });
+    // each rating climbs from the bottom of its ladder to where it actually sits
+    document.querySelectorAll('.ladder').forEach((ladder) => {
+        ladder.classList.add('is-armed');
+        ScrollTrigger.create({ trigger: ladder, start: 'top 88%', once: true,
+            onEnter: () => requestAnimationFrame(() => ladder.classList.add('in')) });
     });
 
     /* ---------------- About: photo wipes in, then drifts ---------------- */
@@ -214,46 +216,6 @@
             scrollTrigger: { trigger: photo, start: 'top bottom', end: 'bottom top', scrub: true }
         });
     }
-
-    /* ---------------- Gallery: vertical scroll drives a horizontal reel ---------------- */
-    const strip = document.getElementById('gallery-strip');
-    const mm = gsap.matchMedia();
-    mm.add('(min-width: 961px) and (pointer: fine)', () => {
-        strip.classList.add('is-pinned');
-        strip.scrollLeft = 0;
-        const distance = () => Math.max(0, strip.scrollWidth - window.innerWidth);
-        const reel = gsap.to(strip, {
-            x: () => -distance(),
-            ease: 'none',
-            scrollTrigger: {
-                trigger: '#gallery',
-                start: 'top top',
-                end: () => '+=' + distance(),
-                pin: true,
-                scrub: 0.8,
-                invalidateOnRefresh: true
-            }
-        });
-        gsap.utils.toArray(strip.querySelectorAll('.g-item img')).forEach((img) => {
-            gsap.fromTo(img, { scale: 1.2 }, {
-                scale: 1, ease: 'none',
-                scrollTrigger: { trigger: img, containerAnimation: reel, start: 'left right', end: 'center center', scrub: true }
-            });
-        });
-        // keyboard users tabbing through photos: scroll the page to where that photo is in view
-        const onFocus = (e) => {
-            const item = e.target.closest('.g-item');
-            if (!item) return;
-            const st = reel.scrollTrigger;
-            const progress = Math.min(1, Math.max(0, (item.offsetLeft - window.innerWidth * 0.3) / distance()));
-            window.scrollTo({ top: st.start + (st.end - st.start) * progress, behavior: 'auto' });
-        };
-        strip.addEventListener('focusin', onFocus);
-        return () => {
-            strip.removeEventListener('focusin', onFocus);
-            strip.classList.remove('is-pinned');
-        };
-    });
 
     /* ---------------- Contact ---------------- */
     const form = document.querySelector('.contact-form');

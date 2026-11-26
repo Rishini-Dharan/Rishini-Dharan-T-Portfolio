@@ -21,6 +21,19 @@
     --accent-soft: rgba(143, 208, 255, 0.12);
     --net-edge: rgba(159, 187, 219, 0.09);
     --net-node: rgba(159, 187, 219, 0.35);
+    /* the shell is a terminal in both themes, so these never flip */
+    --term-bg: #030b17;
+    --term-text: #cfe3fa;
+    --term-bright: #eaf4ff;
+    --term-dim: #7e9cc0;
+    --term-accent: #8fd0ff;
+    --term-err: #ff9b9b;
+    --term-border: rgba(200, 225, 255, 0.1);
+    /* competitive-programming rank colours: each platform's own, lifted for a dark ground */
+    --cf-newbie: #9aa4b2; --cf-pupil: #3fb950; --cf-specialist: #2dd4bf; --cf-expert: #6b8cff;
+    --ac-gray: #9aa4b2; --ac-brown: #c08040; --ac-green: #3fb950; --ac-cyan: #22d3ee;
+    --cf-newbie-ink: #b4bcc8; --cf-pupil-ink: #5fd06e; --cf-specialist-ink: #2dd4bf; --cf-expert-ink: #8aa4ff; --cf-candidate-master-ink: #e07ae0;
+    --ac-gray-ink: #b4bcc8; --ac-brown-ink: #d9a066; --ac-green-ink: #5fd06e; --ac-cyan-ink: #22d3ee; --ac-blue-ink: #8aa4ff;
 
     --font-display: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;
     --font-serif: 'Instrument Serif', Georgia, serif;
@@ -47,6 +60,10 @@
     --accent-soft: rgba(15, 94, 156, 0.1);
     --net-edge: rgba(10, 26, 47, 0.08);
     --net-node: rgba(10, 26, 47, 0.28);
+    --cf-newbie: #808080; --cf-pupil: #008000; --cf-specialist: #03a89e; --cf-expert: #0000ff;
+    --ac-gray: #808080; --ac-brown: #804000; --ac-green: #008000; --ac-cyan: #00c0c0;
+    --cf-newbie-ink: #5f6b7a; --cf-pupil-ink: #006b00; --cf-specialist-ink: #027a73; --cf-expert-ink: #0000cc; --cf-candidate-master-ink: #a000a0;
+    --ac-gray-ink: #5f6b7a; --ac-brown-ink: #804000; --ac-green-ink: #006b00; --ac-cyan-ink: #00787a; --ac-blue-ink: #0000cc;
 }
 
 /* ---------- Base ---------- */
@@ -155,6 +172,10 @@ section[id] { scroll-margin-top: var(--nav-h); }
     transition: text-decoration-color 0.2s ease;
 }
 .text-link:hover { text-decoration-color: currentColor; }
+/* standalone links get a 44px tap area without changing their visual size */
+a.text-link:not(p a), .skip-link { display: inline-flex; align-items: center; min-height: 44px; }
+.nav-logo { display: inline-block; padding-block: 6px; }
+.icon { width: 1em; height: 1em; flex: none; vertical-align: -0.125em; }
 
 .icon-btn {
     width: 44px;
@@ -297,16 +318,8 @@ section[id] { scroll-margin-top: var(--nav-h); }
 .section { padding: clamp(80px, 11vw, 144px) 0; }
 .section-band { background: var(--surface); border-block: 1px solid var(--border); }
 
-.section-head {
-    display: grid;
-    grid-template-columns: 220px minmax(0, 1fr);
-    gap: 24px;
-    align-items: start;
-    margin-bottom: clamp(40px, 6vw, 72px);
-}
+.section-head { margin-bottom: clamp(40px, 6vw, 72px); }
 .section-head.stacked { display: block; margin-bottom: 32px; }
-.section-head.stacked .kicker { margin-bottom: 18px; }
-.kicker { font-size: 0.85rem; color: var(--accent); padding-top: 0.9em; }
 .section-head h2 {
     font-family: var(--font-display);
     font-weight: 400;
@@ -402,7 +415,8 @@ section[id] { scroll-margin-top: var(--nav-h); }
     transition: color 0.2s ease;
 }
 .row.is-match h3 { color: var(--accent); }
-.row-main p { color: var(--dim); max-width: 68ch; }
+.row-main p { color: var(--dim); max-width: 54ch; text-wrap: pretty; }
+.cc-desc, .about-copy p, .lead { text-wrap: pretty; }
 .row-main .stack { margin-top: 12px; font-size: 0.82rem; color: var(--faint); }
 .row-links {
     display: flex;
@@ -484,6 +498,48 @@ section[id] { scroll-margin-top: var(--nav-h); }
     margin-right: 4px;
 }
 .cc-desc { color: var(--dim); font-size: 0.95rem; flex-grow: 1; }
+.badge[style*="--rank"] { color: var(--rank); border-color: color-mix(in srgb, var(--rank) 45%, transparent); }
+
+/* Rank ladder: where a rating sits among the platform's colour bands */
+.ladder { --span: calc(var(--max) - var(--min)); margin: 8px 0 24px; }
+.ladder:has(.mark-peak) { margin-bottom: 44px; }
+/* --p is the climb from the ladder's floor (0) to the real rating (1); registered so it can transition */
+@property --p { syntax: '<number>'; inherits: true; initial-value: 1; }
+.ladder .mark { transition: --p 1.4s cubic-bezier(0.16, 1, 0.3, 1); }
+.ladder .mark-peak { transition-delay: 0.15s; }
+.ladder.is-armed:not(.in) .mark { --p: 0; transition: none; }
+.ladder-bar { position: relative; height: 8px; margin-top: 34px; }
+.tier {
+    position: absolute; top: 0; bottom: 0;
+    left: calc((var(--from) - var(--min)) / var(--span) * 100%);
+    width: calc((var(--to) - var(--from)) / var(--span) * 100%);
+    background: var(--c);
+}
+.tier:first-child { border-radius: 4px 0 0 4px; }
+.tier:nth-child(4) { border-radius: 0 4px 4px 0; }
+.mark {
+    position: absolute; top: -30px; bottom: -4px;
+    left: calc((var(--v) - var(--min)) / var(--span) * var(--p, 1) * 100%);
+    width: 2px; margin-left: -1px;
+}
+.mark::before { content: ''; position: absolute; inset: 0; background: var(--text); }
+.mark b {
+    position: absolute; bottom: 100%; left: 50%; translate: -50% 0;
+    font-size: 0.78rem; font-weight: 500; white-space: nowrap; color: var(--text);
+}
+.mark-peak { top: 12px; bottom: -26px; }
+.mark-peak::before { background: var(--faint); }
+.mark-peak b { top: 100%; bottom: auto; color: var(--dim); font-weight: 400; }
+.mark b { max-width: none; }
+
+/* Theme switch: the new theme opens as a circle from the toggle */
+::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+::view-transition-new(root) { animation: theme-reveal 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+@keyframes theme-reveal {
+    from { clip-path: circle(0 at var(--vt-x, 50%) var(--vt-y, 0)); }
+    to { clip-path: circle(150vmax at var(--vt-x, 50%) var(--vt-y, 0)); }
+}
+.vt-freeze, .vt-freeze * { transition: none !important; }
 .coding-card .text-link { margin-top: auto; }
 
 .lc-viz { display: flex; align-items: center; gap: 22px; margin: 4px 0 8px; }
@@ -507,7 +563,7 @@ section[id] { scroll-margin-top: var(--nav-h); }
 .lc-center span { font-size: 0.72rem; color: var(--faint); text-transform: capitalize; }
 .cc-detail { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
 .lc-key {
-    min-height: 32px;
+    min-height: 44px;
     padding: 0;
     border: 0;
     background: none;
@@ -726,8 +782,8 @@ section[id] { scroll-margin-top: var(--nav-h); }
     .proof-item:nth-child(3) { border-left: 0; padding-left: 0; }
     .proof-item:nth-child(n+3) { border-top: 1px solid var(--border); }
 
-    .section-head { grid-template-columns: 1fr; gap: 12px; }
-    .kicker { padding-top: 0; }
+    /* keep the hero copy legible where the network sits behind it */
+    #hero-canvas { opacity: 0.45; }
     .featured { grid-template-columns: 1fr; }
     .row { grid-template-columns: 40px minmax(0, 1fr); }
     .row-links { grid-column: 2; flex-direction: row; flex-wrap: wrap; gap: 8px 20px; padding-top: 0; }
@@ -793,7 +849,7 @@ section[id] { scroll-margin-top: var(--nav-h); }
 
 /* word masks for rising headlines; right padding keeps italic overhang unclipped */
 .w { display: inline-block; overflow: hidden; vertical-align: top; padding: 0 0.06em 0.1em 0; margin: 0 -0.06em -0.1em 0; }
-.wi { display: inline-block; will-change: transform; }
+.wi { display: inline-block; }
 
 .row.has-line { position: relative; border-bottom-color: transparent; }
 .row-line {
@@ -808,14 +864,9 @@ section[id] { scroll-margin-top: var(--nav-h); }
 
 .about-photo { overflow: hidden; border-radius: var(--radius); }
 
-.gallery-strip.is-pinned {
-    overflow: visible;
-    scroll-snap-type: none;
-    cursor: default;
-    will-change: transform;
-}
-/* 3:4 photos, so a width of 39vh keeps photo plus caption inside a pinned viewport */
-.gallery-strip.is-pinned .g-item { width: min(340px, 24vw, 39vh); }
+/* auto-loop (app.js): snapping would fight the per-frame scrollLeft updates */
+.gallery-strip.is-looping { scroll-snap-type: none; scrollbar-width: none; }
+.gallery-strip.is-looping::-webkit-scrollbar { display: none; }
 
 /* ---------- Programmer layer (programmer.js) ---------- */
 .sr-only {
@@ -906,8 +957,8 @@ kbd {
 .terminal {
     border: 1px solid var(--border-strong);
     border-radius: 12px;
-    background: #030b17;
-    color: #cfe3fa;
+    background: var(--term-bg);
+    color: var(--term-text);
     overflow: hidden;
     cursor: text;
 }
@@ -916,10 +967,10 @@ kbd {
     justify-content: space-between;
     padding: 10px 16px;
     font-size: 0.78rem;
-    color: #7e9cc0;
-    border-bottom: 1px solid rgba(200, 225, 255, 0.1);
+    color: var(--term-dim);
+    border-bottom: 1px solid var(--term-border);
 }
-.term-hint b { color: #8fd0ff; font-weight: 500; }
+.term-hint b { color: var(--term-accent); font-weight: 500; }
 .term-log {
     height: 300px;
     overflow-y: auto;
@@ -930,11 +981,11 @@ kbd {
     word-break: break-word;
 }
 .term-log p { min-height: 1.6em; }
-.term-log a { color: #8fd0ff; }
-.term-log b { color: #eaf4ff; font-weight: 500; }
-.term-echo { color: #eaf4ff; }
-.term-dim { color: #7e9cc0; }
-.term-err { color: #ff9b9b; }
+.term-log a { color: var(--term-accent); }
+.term-log b { color: var(--term-bright); font-weight: 500; }
+.term-echo { color: var(--term-bright); }
+.term-dim { color: var(--term-dim); }
+.term-err { color: var(--term-err); }
 .term-line {
     display: flex;
     align-items: center;
@@ -942,16 +993,16 @@ kbd {
     padding: 6px 16px 14px;
     font-size: 0.86rem;
 }
-.term-prompt { color: #8fd0ff; white-space: nowrap; cursor: text; }
+.term-prompt { color: var(--term-accent); white-space: nowrap; cursor: text; }
 .term-input {
     flex: 1;
     min-width: 0;
-    min-height: 32px;
+    min-height: 44px;
     border: 0;
     background: transparent;
-    color: #eaf4ff;
+    color: var(--term-bright);
     font: inherit;
-    caret-color: #8fd0ff;
+    caret-color: var(--term-accent);
 }
 .term-input:focus-visible { outline: none; }
 .terminal:focus-within { border-color: var(--accent); }
@@ -1090,3 +1141,6 @@ kbd {
 
 /* keyboard shortcut hints mean nothing on touch screens */
 @media (pointer: coarse) { .kbd-note { display: none; } }
+
+/* the AtCoder crest is black line art; give it its own light ground on dark cards */
+:root:not([data-theme="light"]) .cc-top img[src^="atcoder"] { background: #fff; border-radius: 6px; padding: 2px; }

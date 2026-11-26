@@ -1,0 +1,35 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "border-accent-on-rounded",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-11-26T13:07:43.659Z",
+        "reason": "assistant judgment: only hits are kbd keycaps (L42, L298, L459) whose thicker bottom border draws a physical key"
+      },
+      {
+        "rule": "broken-image",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-11-26T13:07:43.757Z",
+        "reason": "assistant judgment: only hit is #lightbox-img, whose src app.js sets when a photo opens"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-11-26T13:14:36.680Z",
+        "reason": "assistant judgment: highlights row text aligns flush to the page content edge by design (equal edges); dividers sit between items"
+      }
+    ]
+  }
+}

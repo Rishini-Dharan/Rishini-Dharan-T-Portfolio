@@ -10,14 +10,25 @@
     const themeIcon = document.getElementById('theme-icon');
     function syncThemeControl() {
         const dark = root.getAttribute('data-theme') !== 'light';
-        themeIcon.className = dark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+        themeIcon.querySelector('use').setAttribute('href', dark ? '#i-sun' : '#i-moon');
         themeToggle.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
     }
-    themeToggle.addEventListener('click', () => {
-        const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+    function applyTheme(next) {
         root.setAttribute('data-theme', next);
         try { localStorage.setItem('rd-theme', next); } catch (e) {}
         syncThemeControl();
+    }
+    themeToggle.addEventListener('click', () => {
+        const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!document.startViewTransition || calm) { applyTheme(next); return; }
+        // the new theme grows out of the button that was pressed
+        const r = themeToggle.getBoundingClientRect();
+        root.style.setProperty('--vt-x', (r.left + r.width / 2) + 'px');
+        root.style.setProperty('--vt-y', (r.top + r.height / 2) + 'px');
+        root.classList.add('vt-freeze'); // colour transitions would smear the snapshot
+        document.startViewTransition(() => applyTheme(next)).finished
+            .finally(() => root.classList.remove('vt-freeze'));
     });
     syncThemeControl();
 
@@ -152,6 +163,58 @@
             if (e.key === 'Escape') closeLb();
             if (e.key === 'Tab') { e.preventDefault(); lbClose.focus(); }
         });
+
+        /* Auto-scroll on a loop. The photos are cloned once so that when
+           scrollLeft passes the first set's width it can jump back by exactly
+           that width, which looks seamless. */
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        const originals = [...strip.children];
+        originals.forEach((el) => {
+            const c = el.cloneNode(true);
+            c.setAttribute('aria-hidden', 'true');
+            c.inert = true;
+            strip.appendChild(c);
+        });
+        strip.classList.add('is-looping');
+        const loopWidth = () => strip.children[originals.length].offsetLeft - originals[0].offsetLeft;
+
+        const SPEED = 40; // px per second
+        let hovered = false, focused = false, visible = false, last = 0, pos = strip.scrollLeft;
+        // Touch and trackpad scrolling is native, so the loop yields while a finger is
+        // down and for a moment after, then carries on from wherever the user left it.
+        let touching = false, holdUntil = 0;
+        const hold = (ms) => { holdUntil = performance.now() + ms; };
+        strip.addEventListener('pointerdown', (e) => { if (e.pointerType !== 'mouse') touching = true; });
+        ['pointerup', 'pointercancel'].forEach((t) => strip.addEventListener(t, (e) => {
+            if (e.pointerType !== 'mouse') { touching = false; hold(2500); }
+        }));
+        strip.addEventListener('touchstart', () => { touching = true; }, { passive: true });
+        strip.addEventListener('touchend', () => { touching = false; hold(2500); }, { passive: true });
+        strip.addEventListener('wheel', () => hold(1500), { passive: true });
+        strip.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') hovered = true; });
+        strip.addEventListener('pointerleave', () => { hovered = false; });
+        strip.addEventListener('focusin', () => { focused = true; });
+        strip.addEventListener('focusout', () => { focused = false; });
+        new IntersectionObserver(([en]) => { visible = en.isIntersecting; }).observe(strip);
+
+        function tick(t) {
+            const dt = last ? Math.min(t - last, 100) / 1000 : 0;
+            last = t;
+            const w = loopWidth();
+            const paused = hovered || focused || dragging || touching || t < holdUntil || !visible || !lightbox.hidden || document.hidden;
+            if (paused) {
+                pos = strip.scrollLeft; // pick up wherever the user dragged or swiped to
+            } else {
+                pos += SPEED * dt;
+            }
+            if (w > 0) {
+                if (pos >= w) pos -= w;
+                else if (pos < 0) pos += w;
+            }
+            if (Math.abs(strip.scrollLeft - pos) >= 0.5) strip.scrollLeft = pos;
+            requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
     })();
 
     /* ---------------- Contact form (EmailJS) ---------------- */

@@ -66,7 +66,7 @@
             { group: 'Action', label: 'Write me a message', run: () => goTo('contact', '#cf-name') },
             { group: 'Profile', label: 'GitHub', hint: 'Rishini-Dharan', run: () => openUrl('https://github.com/Rishini-Dharan') },
             { group: 'Profile', label: 'LinkedIn', run: () => openUrl('https://www.linkedin.com/in/rishini-dharan-t/') },
-            { group: 'Profile', label: 'LeetCode', hint: 'Knight · 1,895', run: () => openUrl('https://leetcode.com/u/rishini_dharan/') }
+            { group: 'Profile', label: 'LeetCode', hint: window.STATS ? `${window.STATS.leetcode.badge} · ${window.STATS.leetcode.rating.toLocaleString('en-US')}` : 'Knight · 1,895', run: () => openUrl('https://leetcode.com/u/rishini_dharan/') }
         );
 
         // each typed word must appear as a subsequence somewhere (word order is free); tighter matches score higher
@@ -219,9 +219,11 @@
                 });
             },
             stats() {
-                line('  LeetCode    1,895 rating, Knight, 729 solved (230 E / 390 M / 109 H)');
-                line('  Codeforces  1,248 current, 1,417 peak, 204 solved');
-                line('  AtCoder     772 rating, top 18.15%');
+                const S = window.STATS || {}, n = (v) => Number(v).toLocaleString('en-US');
+                const lc = S.leetcode, cf = S.codeforces, ac = S.atcoder;
+                if (lc) line(`  LeetCode    ${n(lc.rating)} rating, ${lc.badge || 'no badge'}, ${n(lc.solved)} solved (${lc.easy} E / ${lc.medium} M / ${lc.hard} H)`);
+                if (cf) line(`  Codeforces  ${n(cf.rating)} current, ${n(cf.maxRating)} peak, ${n(cf.solved)} solved`);
+                if (ac) line(`  AtCoder     ${n(ac.rating)} current, ${n(ac.maxRating || ac.rating)} peak, top ${ac.topPercent}%`);
             },
             cat(args) {
                 const f = (args[0] || 'about').replace(/\.(md|txt)$/, '');

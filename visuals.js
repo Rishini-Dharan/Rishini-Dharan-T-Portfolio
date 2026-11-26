@@ -296,7 +296,7 @@
 
         const ALIAS = { 'google cloud platform': 'gcp' };
         const keyOf = chip => ALIAS[chip.textContent.trim().toLowerCase()] || chip.textContent.trim().toLowerCase();
-        const defaultText = text.textContent;
+        const defaultHTML = text.innerHTML;
         let current = null;
 
         chips.forEach(c => c.setAttribute('aria-pressed', 'false'));
@@ -310,7 +310,7 @@
             });
             if (!chip) {
                 cards.forEach(card => card.classList.remove('is-match', 'is-dim'));
-                text.textContent = defaultText;
+                text.innerHTML = defaultHTML;
                 clear.hidden = true;
                 return;
             }
