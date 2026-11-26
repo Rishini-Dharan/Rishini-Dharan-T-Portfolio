@@ -73,7 +73,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500&family=Instrument+Serif:ital@1&family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500&family=Instrument+Serif:ital@1&family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
-    <link rel="stylesheet" href="style.css?v=20261126c">
+    <link rel="stylesheet" href="style.css?v=20261126d">
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3.2.0/dist/email.min.js" defer></script>
 </head>
 <body>
@@ -101,12 +101,12 @@
                 <li><a href="#skills" class="nav-link">Skills</a></li>
                 <li><a href="#about" class="nav-link">About</a></li>
                 <li><a href="#experience" class="nav-link">Experience</a></li>
-                <li><a href="#shell" class="nav-link">Shell</a></li>
-                <li><a href="#gallery" class="nav-link">Gallery</a></li>
+                <li class="nav-menu-only"><a href="Rishini_Dharan_T_Resume.pdf" target="_blank" rel="noopener" class="nav-link">Résumé</a></li>
             </ul>
             <div class="nav-actions">
                 <button class="kbd-btn" id="palette-open" type="button" aria-haspopup="dialog" aria-label="Open command palette"><kbd class="kbd-mod">Ctrl</kbd><kbd>K</kbd></button>
                 <button class="icon-btn" id="theme-toggle" type="button" aria-label="Switch to light theme"><svg class="icon" id="theme-icon" aria-hidden="true" focusable="false"><use href="#i-sun"/></svg></button>
+                <a href="Rishini_Dharan_T_Resume.pdf" target="_blank" rel="noopener" class="btn btn-ghost btn-sm nav-cta"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-download"/></svg> Résumé</a>
                 <a href="#contact" class="btn btn-primary btn-sm nav-cta">Contact me</a>
                 <button class="icon-btn hamburger" id="mobile-menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">
                     <span></span><span></span>
@@ -156,7 +156,7 @@
 
                 <article class="project-card featured reveal" data-skills="python react typescript fastapi docker">
                     <div class="feat-copy">
-                        <p class="proj-meta mono"><span class="tag-win">HackIndia Spark-9 2026</span></p>
+                        <p class="proj-meta mono"><span class="tag-win">HackIndia Spark-9 2026 entry</span></p>
                         <h3>Q-Guardian OS</h3>
                         <p>An AI security operations center. Telemetry streams over WebSockets into a FastAPI orchestration hub, where an LLM intent planner with Gemini embeddings decides the response, and the React canvas rebuilds itself around the threat. Analysts can block a node straight from the graph.</p>
                         <div class="proj-links">
@@ -226,7 +226,7 @@ async def ws_chat(websocket: WebSocket):
                     <li class="project-card row reveal" data-skills="python pytorch scikit-learn">
                         <span class="proj-num mono">02</span>
                         <div class="row-main">
-                            <h3>Q-Guardian · research version</h3>
+                            <h3>Q-Guardian · 2025 research model</h3>
                             <p class="proj-meta mono"><span class="tag-win">HackIndia 2025 · National winner, AI Track</span></p>
                             <p>The system that won the HackIndia 2025 AI Track and became my IEEE paper: behaviour-aware intrusion detection that combines Isolation Forest denoising, a Random Forest and a variational quantum circuit, then explains each detection with MITRE ATT&amp;CK.</p>
                             <p class="stack mono">Python · Flask · PyTorch · Scikit-learn · PennyLane</p>
@@ -270,6 +270,7 @@ async def ws_chat(websocket: WebSocket):
                         <div class="how-body">
                             <ol class="how-flow" aria-label="Data flow">
                                 <li><b>Upload</b><span>A video comes in through the React interface</span></li>
+                    <li class="skip-row"><a href="#contact" class="text-link">Skip to contact</a></li>
                                 <li><b>Preprocess</b><span>Frames are sampled and prepared with OpenCV</span></li>
                                 <li><b>Infer</b><span>A ResNeXt CNN in PyTorch scores frames in batches</span></li>
                                 <li><b>Report</b><span>The verdict returns to the React interface</span></li>
@@ -649,7 +650,8 @@ async def ws_chat(websocket: WebSocket):
                     <header class="section-head stacked reveal">
                         <h2>Have a role or a <em class="serif">hard problem?</em></h2>
                     </header>
-                    <p class="lead reveal">Tell me what you're building. I'm looking for SDE-1 and AI Engineer roles starting mid-2027, and I'm happy to walk through any project above, including the private LifeConnect code.</p>
+                    <p class="lead reveal">Tell me what you're building. I'm looking for SDE-1 and AI Engineer roles to start after I graduate in May 2027, and I'm happy to walk through any project above, including the private LifeConnect code.</p>
+                    <a href="Rishini_Dharan_T_Resume.pdf" target="_blank" rel="noopener" class="btn btn-ghost contact-resume reveal"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-download"/></svg> Download my résumé (PDF)</a>
                     <ul class="contact-links reveal">
                         <li><a href="https://www.linkedin.com/in/rishini-dharan-t/" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-linkedin"/></svg> LinkedIn</a></li>
                         <li><a href="https://github.com/Rishini-Dharan" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-github"/></svg> GitHub</a></li>
@@ -705,12 +707,12 @@ async def ws_chat(websocket: WebSocket):
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-    <script src="live-stats.js?v=20261126c" defer></script>
-    <script src="app.js?v=20261126c" defer></script>
-    <script src="visuals.js?v=20261126c" defer></script>
-    <script src="contributions.js?v=20261126c" defer></script>
-    <script src="programmer.js?v=20261126c" defer></script>
-    <script src="motion.js?v=20261126c" defer></script>
+    <script src="live-stats.js?v=20261126d" defer></script>
+    <script src="app.js?v=20261126d" defer></script>
+    <script src="visuals.js?v=20261126d" defer></script>
+    <script src="contributions.js?v=20261126d" defer></script>
+    <script src="programmer.js?v=20261126d" defer></script>
+    <script src="motion.js?v=20261126d" defer></script>
     <!-- Cloudflare Web Analytics (cookieless) --><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "98cac5ca64a549b7b588509b227cf2b7"}'></script>
 </body>
 </html>

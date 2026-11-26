@@ -44,8 +44,10 @@ typography:
     fontSize: "0.82rem"
     fontWeight: 400
 rounded:
+  xs: "6px"
   sm: "8px"
-  md: "16px"
+  md: "12px"
+  lg: "16px"
   pill: "999px"
 spacing:
   gutter: "clamp(16px, 4vw, 40px)"
@@ -69,7 +71,7 @@ components:
     height: "44px"
   card:
     backgroundColor: "{colors.console-navy}"
-    rounded: "{rounded.md}"
+    rounded: "{rounded.lg}"
     padding: "28px"
   input:
     backgroundColor: "{colors.console-surface}"
@@ -109,6 +111,13 @@ One signal colour on a tonal navy (dark) or paper (light) field. The domain colo
 - **Paper** (`#f3f7fc`), **Paper Surface** (`#ffffff`), **Paper Surface Raised** (`#e7eef8`): the light ground's matching steps.
 - **Text Frost / Mist / Haze** (dark) and **Text Ink / Slate / Pewter** (light): primary, secondary and tertiary text. Every pair passes WCAG AA on its ground.
 - **Terminal Black** (`#030b17`): the shell stays a terminal in both themes, through its own fixed `--term-*` tokens.
+
+### Data and terminal colours
+These are fixed meanings, not palette choices. Dark theme first, light theme second:
+- **LeetCode difficulty:** Easy `#1cbaba` / `#00796b`, Medium `#ffb800` / `#8a5300`, Hard `#ff6b6b` (arc `#f63737`) / `#c62828`.
+- **Codeforces ranks:** Newbie, Pupil, Specialist, Expert and Candidate Master, as `--cf-*` (band) and `--cf-*-ink` (text) tokens.
+- **AtCoder bands:** Gray, Brown, Green, Cyan and Blue, as `--ac-*` and `--ac-*-ink`.
+- **Terminal:** `--term-bg #030b17`, `--term-text #cfe3fa`, `--term-bright #eaf4ff`, `--term-dim #7e9cc0`, `--term-accent #8fd0ff`, `--term-err #ff9b9b`, `--term-border rgba(200,225,255,0.1)`. The same in both themes.
 
 ### Named Rules
 **The One Signal Rule.** Ice blue marks action and state only. If something is blue, it can be clicked or it is the current selection.
@@ -152,7 +161,7 @@ Depth comes from tonal surface steps and 1px borders first. Interactive surfaces
 
 ## Shapes
 
-Two radii and a pill: 8px for chips, inputs and badges, 16px for cards and photos, and 999px for buttons. Icon buttons are circles. Corners stay consistent between a photo's thumbnail and its enlarged view, and the enlarge animation carries the radius through the transition.
+A small radius scale and a pill: 6px (`--radius-xs`) for tags, badges and logo tiles; 8px (`--radius-sm`) for chips and inputs; 12px (`--radius-md`) for the code excerpt and the terminal; 16px (`--radius`) for cards and photos; and 999px for buttons. Icon buttons are circles. Corners stay consistent between a photo's thumbnail and its enlarged view, and the enlarge animation carries the radius through the transition.
 
 ## Components
 
@@ -169,10 +178,10 @@ Skill chips are 44px tall with an 8px radius. Hovering tints them accent-soft. T
 Cards have a 16px radius, a 1px border and 28px of padding, and sit on the ground or surface tone. On hover, interactive cards gain the ambient lift and a stronger border.
 
 ### Inputs / Fields
-Inputs have visible labels above them, an 8px radius and a strong border. Focus turns the border Signal-coloured and adds a 3px accent-soft ring. An error appears under its own field.
+Inputs have visible labels above them, an 8px radius and a strong border. Focus turns the border Signal-coloured and adds a 3px accent-soft ring. Errors never turn the field red. They are announced through `aria-invalid` and a status line under the form, and focus moves to the first field that needs attention.
 
 ### Navigation
-A fixed 68px bar holding the logo wordmark (with "Dharan" in the italic serif), text links, the Ctrl K palette key, the theme toggle and a primary "Contact me" pill. Below 960px it becomes a full-screen menu.
+A fixed 68px bar holding the logo wordmark (with "Dharan" in the italic serif), four text links (Work, Skills, About, Experience), the Ctrl K palette key, the theme toggle, a ghost "Résumé" pill and a primary "Contact me" pill. Shell and Gallery are reached through the palette, not the nav. Below 960px it becomes a full-screen menu.
 
 ### Rank Ladder (signature)
 A horizontal bar of a platform's rank bands in their real colours, with markers for the current and peak ratings and labels like "1,251 · Pupil". The markers climb into place when the card enters view. The numbers come from `stats.json`, refreshed daily.

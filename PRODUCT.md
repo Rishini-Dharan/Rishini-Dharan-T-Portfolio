@@ -13,7 +13,7 @@ Primary: recruiters and hiring managers screening for AI / full-stack developer 
 Personal portfolio of Rishini Dharan T. Success = a recruiter verifies the claims (live demos, public code, competitive-programming ratings) and makes contact through the form or links.
 
 ## Positioning
-Every claim is checkable: HackIndia 2025 national winner (Q-Guardian OS), a deployed forecasting app (40 LightGBM models), LeetCode Knight, and six projects each linking to a live demo or public repo.
+Every claim is checkable: HackIndia 2025 AI Track national winner with Q-Guardian (later a first-author IEEE paper), a deployed forecasting app (40 LightGBM models), LeetCode Knight, and eight projects, most with a live demo or public code and the rest with an architecture write-up.
 
 ## Operating Context
 Recruiters arrive from a resume, LinkedIn or GitHub link. Developer-minded visitors can use a programmer layer: command palette, an interactive shell, a commit graph.
@@ -21,15 +21,16 @@ Recruiters arrive from a resume, LinkedIn or GitHub link. Developer-minded visit
 ## Capabilities and Constraints
 - Static HTML/CSS/JS (no build step), deployed on GitHub Pages; GSAP + ScrollTrigger for motion; EmailJS contact form.
 - Must keep: the programmer layer (command palette, shell, commit graph); light theme by default with a dark toggle; the gallery's auto-scrolling loop.
-- No resume download link exists in the page currently (open decision).
 
 ## Brand Commitments
 Existing "Helm" visual language is kept and refined, not replaced.
 
 ## Evidence on Hand
-- Projects: Q-Guardian OS, M5 Forecasting Engine, Mining Emission & Filtration, Lattice Protocol, LifeConnect, Agent System.
-- Ratings: LeetCode 1,895 (Knight, 729 solved), Codeforces 1,248 current / 1,417 peak, AtCoder 772.
-- Photos: portrait.jpg and gallery images (from the deployed site).
+- Eight projects, led by Q-Guardian OS (HackIndia Spark-9 2026 entry) and Q-Guardian (2025 research model: HackIndia 2025 AI Track national winner, first-author IEEE AIDML 2026 paper).
+- Ratings are live, not hand-typed: stats.json is refreshed daily by .github/workflows/update-stats.yml (LeetCode, Codeforces, AtCoder current and peak, plus the GitHub contribution calendar). Hard-coded HTML numbers are only the fallback.
+- Résumé: Rishini_Dharan_T_Resume.pdf, linked from the hero, the header and the contact section.
+- Availability: graduating May 2027; open to SDE-1 and AI Engineer roles from then.
+- Photos: portrait.jpg and gallery images.
 - No testimonials or employer quotes exist; do not fabricate any.
 
 ## Product Principles
