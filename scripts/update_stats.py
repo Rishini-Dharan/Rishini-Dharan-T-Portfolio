@@ -129,7 +129,15 @@ def main():
     # GitHub contribution calendar, written as the script the page already loads
     try:
         cal = github()
-        if plausible("github", cal, None):
+        prev_total = None
+        if CONTRIB.exists():
+            m = re.search(r'"total":(\d+)', CONTRIB.read_text(encoding="utf-8"))
+            prev_total = int(m.group(1)) if m else None
+        if prev_total and cal["total"] < prev_total * 0.7:
+            # A token without access to private repos returns only public activity.
+            print(f"github: total fell {prev_total} -> {cal['total']}; token likely can't see private "
+                  "contributions, keeping previous calendar", file=sys.stderr)
+        elif plausible("github", cal, None):
             today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
             text = CONTRIB.read_text(encoding="utf-8") if CONTRIB.exists() else ""
             if json.dumps(cal["counts"]) not in text.replace(" ", "") or f'"total":{cal["total"]}' not in text.replace(" ", ""):
