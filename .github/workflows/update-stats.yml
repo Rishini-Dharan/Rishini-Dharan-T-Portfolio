@@ -21,9 +21,6 @@ jobs:
         with:
           python-version: "3.12"
       - run: python scripts/update_stats.py
-        env:
-          # STATS_TOKEN: personal token so private contributions are counted
-          GITHUB_TOKEN: ${{ secrets.STATS_TOKEN || secrets.GITHUB_TOKEN }}
       - name: Commit if changed
         run: |
           if git diff --quiet -- stats.json contributions.js; then

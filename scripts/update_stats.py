@@ -4,7 +4,6 @@ Run daily by .github/workflows/update-stats.yml. Each source is fetched
 independently: if one site is down, its previous numbers are kept.
 """
 import json
-import os
 import re
 import sys
 import urllib.request
@@ -68,18 +67,20 @@ def atcoder():
 
 
 def github():
-    token = os.environ.get("GITHUB_TOKEN")
-    if not token:
-        raise RuntimeError("GITHUB_TOKEN not set")
-    query = """query($u: String!) { user(login: $u) { contributionsCollection { contributionCalendar {
-      totalContributions weeks { contributionDays { date contributionCount } } } } } }"""
-    body = json.dumps({"query": query, "variables": {"u": GITHUB_USER}}).encode()
-    d = json.loads(get("https://api.github.com/graphql", body,
-                       {"Authorization": f"bearer {token}", "Content-Type": "application/json"}))
-    cal = d["data"]["user"]["contributionsCollection"]["contributionCalendar"]
-    days = [x for w in cal["weeks"] for x in w["contributionDays"]]
-    return {"total": cal["totalContributions"], "start": days[0]["date"],
-            "counts": [x["contributionCount"] for x in days]}
+    """Read the public profile calendar, which needs no token.
+
+    It counts private-repo activity only when "Include private contributions
+    on my profile" is on in GitHub settings; repo names stay hidden either way.
+    """
+    page = get(f"https://github.com/users/{GITHUB_USER}/contributions")
+    cells = dict(re.findall(r'data-date="([\d-]+)" id="(contribution-day-component-[\d-]+)"', page))
+    tips = dict(re.findall(r'for="(contribution-day-component-[\d-]+)"[^>]*>([^<]+)', page))
+    counts = {}
+    for date, cid in cells.items():
+        m = re.match(r"([\d,]+) contribution", tips[cid])
+        counts[date] = int(m.group(1).replace(",", "")) if m else 0
+    dates = sorted(counts)
+    return {"total": sum(counts.values()), "start": dates[0], "counts": [counts[d] for d in dates]}
 
 
 def plausible(name, fresh, prev):
@@ -135,8 +136,8 @@ def main():
             prev_total = int(m.group(1)) if m else None
         if prev_total and cal["total"] < prev_total * 0.7:
             # A token without access to private repos returns only public activity.
-            print(f"github: total fell {prev_total} -> {cal['total']}; token likely can't see private "
-                  "contributions, keeping previous calendar", file=sys.stderr)
+            print(f"github: total fell {prev_total} -> {cal['total']}; private contributions may be "
+                  "hidden on the profile, keeping previous calendar", file=sys.stderr)
         elif plausible("github", cal, None):
             today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
             text = CONTRIB.read_text(encoding="utf-8") if CONTRIB.exists() else ""
