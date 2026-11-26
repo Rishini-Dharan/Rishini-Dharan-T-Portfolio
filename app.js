@@ -135,20 +135,69 @@
             strip.classList.remove('dragging');
         });
 
-        let opener = null;
-        function openLb(img, trigger) {
-            opener = trigger;
+        let opener = null, thumb = null, closing = false;
+        const calm = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const EASE = 'cubic-bezier(0.16, 1, 0.3, 1)';
+        const SCRIM = getComputedStyle(lightbox).backgroundColor;
+
+        // Transform + clip that make the enlarged image sit exactly over the thumbnail,
+        // including the thumbnail's 3:4 crop, so the photo appears to grow out of it.
+        function fromThumb() {
+            const s = thumb.getBoundingClientRect(), f = lbImg.getBoundingClientRect();
+            if (!s.width || !f.width) return null;
+            const k = Math.max(s.width / f.width, s.height / f.height);
+            const dx = s.left + s.width / 2 - (f.left + f.width / 2);
+            const dy = s.top + s.height / 2 - (f.top + f.height / 2);
+            const ix = Math.max(0, (f.width - s.width / k) / 2), iy = Math.max(0, (f.height - s.height / k) / 2);
+            const r = parseFloat(getComputedStyle(thumb.parentElement).borderRadius) || 16;
+            return {
+                transform: `translate(${dx}px, ${dy}px) scale(${k})`,
+                clipPath: `inset(${iy}px ${ix}px round ${r / k}px)`
+            };
+        }
+
+        async function openLb(img, trigger) {
+            opener = trigger; thumb = img;
             lbImg.src = img.currentSrc || img.src;
             lbImg.alt = img.alt;
             lightbox.hidden = false;
             document.body.style.overflow = 'hidden';
             lbClose.focus();
+            if (calm()) { lightbox.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 160 }); return; }
+            try { await lbImg.decode(); } catch (e) {}
+            const start = fromThumb();
+            if (!start) return;
+            thumb.classList.add('is-flying');
+            lightbox.animate([{ backgroundColor: 'rgba(3, 10, 20, 0)' }, { backgroundColor: SCRIM }], { duration: 380, easing: 'ease-out' });
+            lbClose.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 260, delay: 200, fill: 'backwards' });
+            lbImg.animate([start, { transform: 'none', clipPath: 'inset(0px 0px round 8px)' }], { duration: 520, easing: EASE })
+                .finished.then(() => thumb && thumb.classList.remove('is-flying'), () => {});
         }
-        function closeLb() {
-            lightbox.hidden = true;
-            lbImg.removeAttribute('src');
-            document.body.style.overflow = '';
-            if (opener) opener.focus();
+
+        async function closeLb() {
+            if (closing || lightbox.hidden) return;
+            closing = true;
+            const done = () => {
+                lightbox.hidden = true;
+                lbImg.removeAttribute('src');
+                document.body.style.overflow = '';
+                if (thumb) thumb.classList.remove('is-flying');
+                closing = false;
+                if (opener) opener.focus();
+            };
+            const end = !calm() && thumb && fromThumb();
+            if (!end) {
+                await lightbox.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 140 }).finished.catch(() => {});
+                return done();
+            }
+            thumb.classList.add('is-flying');
+            lightbox.animate([{ backgroundColor: SCRIM }, { backgroundColor: 'rgba(3, 10, 20, 0)' }], { duration: 320, easing: 'ease-in', fill: 'forwards' });
+            lbClose.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 120, fill: 'forwards' });
+            // exit a little faster than the entrance
+            await lbImg.animate([{ transform: 'none', clipPath: 'inset(0px 0px round 8px)' }, end], { duration: 380, easing: EASE, fill: 'forwards' })
+                .finished.catch(() => {});
+            lbImg.getAnimations().concat(lightbox.getAnimations(), lbClose.getAnimations()).forEach((a) => a.cancel());
+            done();
         }
 
         strip.addEventListener('click', (e) => {
@@ -167,7 +216,17 @@
         /* Auto-scroll on a loop. The photos are cloned once so that when
            scrollLeft passes the first set's width it can jump back by exactly
            that width, which looks seamless. */
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        // Visitors who ask for reduced motion start paused; the button lets anyone start or stop it.
+        const toggle = document.getElementById('gallery-toggle');
+        let userPaused = calm();
+        function syncToggle() {
+            if (!toggle) return;
+            toggle.setAttribute('aria-pressed', String(userPaused));
+            toggle.setAttribute('aria-label', userPaused ? 'Play the gallery' : 'Pause the gallery');
+            toggle.querySelector('use').setAttribute('href', userPaused ? '#i-play' : '#i-pause');
+        }
+        if (toggle) toggle.addEventListener('click', () => { userPaused = !userPaused; syncToggle(); });
+        syncToggle();
         const originals = [...strip.children];
         originals.forEach((el) => {
             const c = el.cloneNode(true);
@@ -201,7 +260,7 @@
             const dt = last ? Math.min(t - last, 100) / 1000 : 0;
             last = t;
             const w = loopWidth();
-            const paused = hovered || focused || dragging || touching || t < holdUntil || !visible || !lightbox.hidden || document.hidden;
+            const paused = userPaused || hovered || focused || dragging || touching || t < holdUntil || !visible || !lightbox.hidden || document.hidden;
             if (paused) {
                 pos = strip.scrollLeft; // pick up wherever the user dragged or swiped to
             } else {
