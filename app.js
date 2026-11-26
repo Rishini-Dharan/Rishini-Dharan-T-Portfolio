@@ -327,6 +327,9 @@
         if (!form) return;
 
         const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const COOLDOWN = 60 * 1000;
+        const openedAt = Date.now();
+        const lastSent = () => { try { return Number(localStorage.getItem('rd-last-send')) || 0; } catch (e) { return 0; } };
         let ready = false;
         function initEmail() {
             if (ready || typeof emailjs === 'undefined') return;
@@ -343,7 +346,15 @@
         form.addEventListener('submit', (e) => {
             e.preventDefault();
             const data = Object.fromEntries(new FormData(form));
-            const fields = form.querySelectorAll('input, textarea');
+            const fields = form.querySelectorAll('.f-row input, .f-row textarea');
+
+            // Bots fill the hidden field or submit faster than a person can type.
+            // Show them the normal success message so they don't learn to adapt.
+            if ((data.website || '').trim() || Date.now() - openedAt < 3000) {
+                form.reset();
+                say("Message sent. I'll reply to the email you gave.", 'success');
+                return;
+            }
             fields.forEach((f) => { f.classList.remove('error'); f.removeAttribute('aria-invalid'); });
 
             const empty = Array.from(fields).filter((f) => !f.value.trim());
@@ -359,6 +370,12 @@
                 email.setAttribute('aria-invalid', 'true');
                 say('That email address does not look right.', 'error');
                 email.focus();
+                return;
+            }
+
+            const wait = Math.ceil((lastSent() + COOLDOWN - Date.now()) / 1000);
+            if (wait > 0) {
+                say(`Your last message went through. Please wait ${wait} seconds before sending another.`, 'error');
                 return;
             }
 
@@ -379,6 +396,7 @@
                 message: data.message
             }).then(() => {
                 form.reset();
+                try { localStorage.setItem('rd-last-send', String(Date.now())); } catch (e) {}
                 say("Message sent. I'll reply to the email you gave.", 'success');
             }).catch((err) => {
                 say('Sending failed (' + ((err && err.text) || 'network error') + '). Please try again or use LinkedIn.', 'error');

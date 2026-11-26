@@ -43,10 +43,15 @@
     --nav-h: 68px;
     --radius: 16px;
     --radius-sm: 8px;
+    --radius-xs: 6px;
+    --radius-md: 12px;
     --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    /* ambient lift: interactive surfaces rise softly on hover; the palette is the only floating layer */
+    --shadow-lift: 0 10px 30px -12px rgba(0, 0, 0, 0.55);
 }
 
 [data-theme="light"] {
+    --shadow-lift: 0 12px 28px -14px rgba(10, 26, 47, 0.28);
     --bg: #f3f7fc;
     --surface: #ffffff;
     --surface-2: #e7eef8;
@@ -371,7 +376,7 @@ a.text-link:not(p a), .skip-link { display: inline-flex; align-items: center; mi
 .tag-win {
     display: inline-block;
     padding: 4px 10px;
-    border-radius: 6px;
+    border-radius: var(--radius-xs);
     background: var(--accent-soft);
     color: var(--accent);
 }
@@ -525,7 +530,7 @@ a.text-link:not(p a), .skip-link { display: inline-flex; align-items: center; mi
 .badge {
     margin-left: auto;
     padding: 2px 10px;
-    border-radius: 6px;
+    border-radius: var(--radius-xs);
     border: 1px solid var(--border-strong);
     font-family: var(--font-mono);
     font-size: 0.78rem;
@@ -685,6 +690,8 @@ a.text-link:not(p a), .skip-link { display: inline-flex; align-items: center; mi
     margin-bottom: 10px;
 }
 .t-body ul { list-style: none; color: var(--dim); }
+.t-body li { text-wrap: pretty; }
+.t-body h3, .row-main h3 { text-wrap: balance; }
 .t-body li + li { margin-top: 6px; }
 .t-img {
     width: 120px;
@@ -775,6 +782,7 @@ a.text-link:not(p a), .skip-link { display: inline-flex; align-items: center; mi
     background: var(--bg);
 }
 .f-row { margin-bottom: 18px; }
+.hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
 .f-row label { display: block; margin-bottom: 6px; font-size: 0.9rem; color: var(--dim); }
 .f-row input, .f-row textarea {
     width: 100%;
@@ -790,11 +798,9 @@ a.text-link:not(p a), .skip-link { display: inline-flex; align-items: center; mi
 .f-row textarea { resize: vertical; min-height: 130px; }
 .f-row input::placeholder, .f-row textarea::placeholder { color: var(--faint); }
 .f-row input:focus-visible, .f-row textarea:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
-.f-row .error { border-color: #ff8a8a; }
 .form-status { min-height: 1.5em; margin-bottom: 12px; font-size: 0.92rem; color: var(--dim); }
 .form-status.is-error { color: #ff9b9b; }
 .form-status.is-success { color: var(--accent); }
-[data-theme="light"] .f-row .error { border-color: #c62828; }
 [data-theme="light"] .form-status.is-error { color: #b42318; }
 
 /* ---------- Footer ---------- */
@@ -952,7 +958,7 @@ kbd {
 .code-card {
     grid-column: 1 / -1;
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: var(--radius-md);
     background: var(--bg);
     overflow: hidden;
 }
@@ -1002,7 +1008,7 @@ kbd {
 }
 .terminal {
     border: 1px solid var(--border-strong);
-    border-radius: 12px;
+    border-radius: var(--radius-md);
     background: var(--term-bg);
     color: var(--term-text);
     overflow: hidden;
@@ -1189,4 +1195,24 @@ kbd {
 @media (pointer: coarse) { .kbd-note { display: none; } }
 
 /* the AtCoder crest is black line art; give it its own light ground on dark cards */
-:root:not([data-theme="light"]) .cc-top img[src^="atcoder"] { background: #fff; border-radius: 6px; padding: 2px; }
+:root:not([data-theme="light"]) .cc-top img[src^="atcoder"] { background: #fff; border-radius: var(--radius-xs); padding: 2px; }
+
+/* Ambient lift on interactive surfaces (DESIGN.md: Elevation) */
+.coding-card, .g-open { transition: box-shadow 0.25s var(--ease), border-color 0.25s ease; }
+.coding-card:hover, .g-open:hover { box-shadow: var(--shadow-lift); }
+.coding-card:hover { border-color: var(--border-strong); }
+.g-open:focus-visible { box-shadow: var(--shadow-lift); }
+
+/* Header résumé: shown in the menu below 960px, as a button above it */
+.nav-menu-only { display: none; }
+@media (max-width: 960px) { .nav-menu-only { display: list-item; } }
+.contact-resume { margin: 8px 0 20px; }
+.skip-row { list-style: none; padding: 18px 0; border-top: 1px solid var(--border); }
+
+/* Hero network: fade it out behind the copy on wide screens so it never crosses text */
+@media (min-width: 961px) {
+    #hero-canvas {
+        -webkit-mask-image: linear-gradient(to right, transparent 0%, transparent 35%, #000 70%);
+        mask-image: linear-gradient(to right, transparent 0%, transparent 35%, #000 70%);
+    }
+}
