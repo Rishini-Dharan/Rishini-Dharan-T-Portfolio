@@ -1,8 +1,8 @@
 {
   "leetcode": {
     "rating": 1895,
-    "globalRank": 42365,
-    "topPercent": 4.87,
+    "globalRank": 42486,
+    "topPercent": 4.88,
     "badge": "Knight",
     "solved": 743,
     "easy": 233,
@@ -20,5 +20,5 @@
     "rating": 696,
     "rank": 25594
   },
-  "updated": "2026-11-25"
+  "updated": "2026-11-26"
 }
