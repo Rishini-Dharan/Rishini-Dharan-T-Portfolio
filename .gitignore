@@ -6,3 +6,4 @@ Thumbs.db
 .playwright-mcp/
 .wrangler/
 worker/.dev.vars
+__pycache__/

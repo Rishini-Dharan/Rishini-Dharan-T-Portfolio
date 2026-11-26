@@ -22,7 +22,7 @@
             const paused = toggle.getAttribute('aria-pressed') !== 'true';
             toggle.setAttribute('aria-pressed', String(paused));
             toggle.setAttribute('aria-label', paused ? 'Resume the network animation' : 'Pause the network animation');
-            toggle.querySelector('i').className = paused ? 'fa-solid fa-play' : 'fa-solid fa-pause';
+            toggle.querySelector('use').setAttribute('href', paused ? '#i-play' : '#i-pause');
             if (window.heroNet) window.heroNet.setPaused(paused);
         });
     }
@@ -148,10 +148,7 @@
         const h2 = head.querySelector('h2');
         const words = splitWords(h2);
         const tl = gsap.timeline({ scrollTrigger: { trigger: head, start: 'top 82%' } });
-        const kicker = head.querySelector('.kicker');
-        tl.from(kicker, { x: -24, opacity: 0, duration: 0.8, ease: 'expo.out' }, 0)
-          .add(scramble(kicker, 0.7), 0)
-          .from(words, { yPercent: 115, rotate: 4, duration: 1.1, stagger: 0.05, ease: 'expo.out' }, 0.05);
+        tl.from(words, { yPercent: 115, rotate: 4, duration: 1.1, stagger: 0.05, ease: 'expo.out' }, 0.05);
     });
 
     /* ---------------- Featured project: opens like an aperture ---------------- */
@@ -197,9 +194,14 @@
     const cards = document.querySelectorAll('.coding-card');
     cards.forEach(unreveal);
     gsap.from(cards, {
-        y: 80, opacity: 0, rotateX: -12, transformPerspective: 900, transformOrigin: '50% 100%',
-        duration: 1.2, stagger: 0.12, ease: 'expo.out',
+        y: 48, opacity: 0, duration: 1, stagger: 0.1, ease: 'expo.out',
         scrollTrigger: { trigger: '.coding-grid', start: 'top 85%' }
+    });
+    // each rating climbs from the bottom of its ladder to where it actually sits
+    document.querySelectorAll('.ladder').forEach((ladder) => {
+        ladder.classList.add('is-armed');
+        ScrollTrigger.create({ trigger: ladder, start: 'top 88%', once: true,
+            onEnter: () => requestAnimationFrame(() => ladder.classList.add('in')) });
     });
 
     /* ---------------- About: photo wipes in, then drifts ---------------- */

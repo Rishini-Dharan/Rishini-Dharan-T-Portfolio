@@ -16,7 +16,8 @@
     };
 
     function apply(stats) {
-        if (stats.atcoder && stats.atcoder.rating != null) stats.atcoder.kyu = kyu(stats.atcoder.rating);
+        // AtCoder grades (Kyu/Dan) by highest rating, not current
+        if (stats.atcoder && stats.atcoder.rating != null) stats.atcoder.kyu = kyu(stats.atcoder.maxRating || stats.atcoder.rating);
         window.SITE_STATS = stats;
 
         document.querySelectorAll('[data-stat]').forEach((el) => {
@@ -36,7 +37,49 @@
                 k.textContent = `${n} ${cap(k.dataset.k)}`;
             });
         }
+        ladders(stats);
         document.dispatchEvent(new CustomEvent('stats:updated', { detail: stats }));
+    }
+
+    // Rank ladders: band colours and marker positions on the Codeforces and AtCoder cards
+    const CF = [[0, 'newbie'], [1200, 'pupil'], [1400, 'specialist'], [1600, 'expert'], [1900, 'candidate master']];
+    const AC = [[0, 'gray'], [400, 'brown'], [800, 'green'], [1200, 'cyan'], [1600, 'blue']];
+    const band = (table, r) => table.filter(([min]) => r >= min).pop()[1];
+
+    function setLadder(sel, max, marks, label) {
+        const el = document.querySelector(sel);
+        if (!el) return;
+        const top = Math.max(...marks.map((m) => m.v));
+        if (top > max - 50) el.style.setProperty('--max', Math.ceil((top + 100) / 100) * 100);
+        el.querySelectorAll('.mark').forEach((m, i) => {
+            if (!marks[i]) return;
+            m.style.setProperty('--v', marks[i].v);
+            m.querySelector('b').textContent = marks[i].text;
+        });
+        el.setAttribute('aria-label', label);
+    }
+
+    function ladders(stats) {
+        const c = stats.codeforces, a = stats.atcoder;
+        if (c && c.rating != null) {
+            const now = cap(band(CF, c.rating)), peak = cap(band(CF, c.maxRating || c.rating));
+            const badge = document.querySelector('[data-stat="codeforces.rank"]');
+            if (badge) badge.style.setProperty('--rank', `var(--cf-${band(CF, c.rating).replace(' ', '-')}-ink)`);
+            setLadder('.ladder[data-ladder="codeforces"]', 1900,
+                [{ v: c.rating, text: `${fmt(c.rating)} · ${now}` }, { v: c.maxRating || c.rating, text: `peak ${fmt(c.maxRating || c.rating)} · ${peak}` }],
+                `Codeforces rank ladder: current ${fmt(c.rating)} in ${now}, peak ${fmt(c.maxRating || c.rating)} in ${peak}`);
+        }
+        if (a && a.rating != null) {
+            const top = a.maxRating || a.rating;
+            const now = cap(band(AC, a.rating)), peak = cap(band(AC, top));
+            const next = AC.find(([min]) => min > a.rating);
+            const badge = document.querySelector('[data-stat="atcoder.kyu"]');
+            if (badge) badge.style.setProperty('--rank', `var(--ac-${band(AC, top)}-ink)`);
+            setLadder('.ladder[data-ladder="atcoder"]', 1600,
+                [{ v: a.rating, text: `${fmt(a.rating)} · ${now}` }, { v: top, text: `peak ${fmt(top)} · ${peak}` }],
+                `AtCoder rank ladder: current ${fmt(a.rating)} in the ${now.toLowerCase()} band` +
+                (next ? `, ${next[0] - a.rating} points below ${next[1]}` : '') + `; peak ${fmt(top)}`);
+        }
     }
 
     fetch('stats.json', { cache: 'no-cache' })
