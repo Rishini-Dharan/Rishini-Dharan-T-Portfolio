@@ -15,6 +15,50 @@
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="Rishini Dharan T, AI & Full Stack Developer">
     <meta name="twitter:card" content="summary_large_image">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Rishini Dharan T",
+  "jobTitle": "AI & Full Stack Developer",
+  "url": "https://rishini-dharan.github.io/Rishini-Dharan-T-Portfolio/",
+  "image": "https://rishini-dharan.github.io/Rishini-Dharan-T-Portfolio/portrait.jpg",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Chennai",
+    "addressCountry": "IN"
+  },
+  "alumniOf": {
+    "@type": "CollegeOrUniversity",
+    "name": "St. Joseph's Institute of Technology"
+  },
+  "award": "HackIndia 2025 national winner (AI Track)",
+  "knowsAbout": [
+    "Python",
+    "TypeScript",
+    "React",
+    "FastAPI",
+    "PyTorch",
+    "TensorFlow",
+    "LightGBM",
+    "Machine learning",
+    "Docker",
+    "Google Cloud Platform"
+  ],
+  "subjectOf": {
+    "@type": "DigitalDocument",
+    "name": "Résumé",
+    "url": "https://rishini-dharan.github.io/Rishini-Dharan-T-Portfolio/Rishini_Dharan_T_Resume.pdf"
+  },
+  "sameAs": [
+    "https://github.com/Rishini-Dharan",
+    "https://www.linkedin.com/in/rishini-dharan-t/",
+    "https://leetcode.com/u/rishini_dharan/",
+    "https://codeforces.com/profile/Rishini_Dharan_T",
+    "https://atcoder.jp/users/Rishini"
+  ]
+}
+    </script>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23061325'/%3E%3Ctext x='50' y='68' font-size='52' font-family='Georgia,serif' font-style='italic' fill='%238FD0FF' text-anchor='middle'%3ER%3C/text%3E%3C/svg%3E">
     <script>
         try { document.documentElement.setAttribute('data-theme', localStorage.getItem('rd-theme') || 'light'); } catch (e) {}
@@ -29,7 +73,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500&family=Instrument+Serif:ital@1&family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500&family=Instrument+Serif:ital@1&family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
-    <link rel="stylesheet" href="style.css?v=20261126b">
+    <link rel="stylesheet" href="style.css?v=20261126c">
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3.2.0/dist/email.min.js" defer></script>
 </head>
 <body>
@@ -615,6 +659,8 @@ async def ws_chat(websocket: WebSocket):
                 </div>
 
                 <form class="contact-form reveal" id="contact-form" novalidate>
+                    <!-- honeypot: hidden from people, filled in by bots -->
+                    <div class="hp" aria-hidden="true"><label for="cf-website">Leave this empty</label><input type="text" id="cf-website" name="website" tabindex="-1" autocomplete="off"></div>
                     <div class="f-row">
                         <label for="cf-name">Your name</label>
                         <input type="text" id="cf-name" name="name" required autocomplete="name">
@@ -659,12 +705,12 @@ async def ws_chat(websocket: WebSocket):
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-    <script src="live-stats.js?v=20261126b" defer></script>
-    <script src="app.js?v=20261126b" defer></script>
-    <script src="visuals.js?v=20261126b" defer></script>
-    <script src="contributions.js?v=20261126b" defer></script>
-    <script src="programmer.js?v=20261126b" defer></script>
-    <script src="motion.js?v=20261126b" defer></script>
+    <script src="live-stats.js?v=20261126c" defer></script>
+    <script src="app.js?v=20261126c" defer></script>
+    <script src="visuals.js?v=20261126c" defer></script>
+    <script src="contributions.js?v=20261126c" defer></script>
+    <script src="programmer.js?v=20261126c" defer></script>
+    <script src="motion.js?v=20261126c" defer></script>
     <!-- Cloudflare Web Analytics (cookieless) --><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "98cac5ca64a549b7b588509b227cf2b7"}'></script>
 </body>
 </html>

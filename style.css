@@ -44,9 +44,12 @@
     --radius: 16px;
     --radius-sm: 8px;
     --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    /* ambient lift: interactive surfaces rise softly on hover; the palette is the only floating layer */
+    --shadow-lift: 0 10px 30px -12px rgba(0, 0, 0, 0.55);
 }
 
 [data-theme="light"] {
+    --shadow-lift: 0 12px 28px -14px rgba(10, 26, 47, 0.28);
     --bg: #f3f7fc;
     --surface: #ffffff;
     --surface-2: #e7eef8;
@@ -775,6 +778,7 @@ a.text-link:not(p a), .skip-link { display: inline-flex; align-items: center; mi
     background: var(--bg);
 }
 .f-row { margin-bottom: 18px; }
+.hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
 .f-row label { display: block; margin-bottom: 6px; font-size: 0.9rem; color: var(--dim); }
 .f-row input, .f-row textarea {
     width: 100%;
@@ -1190,3 +1194,9 @@ kbd {
 
 /* the AtCoder crest is black line art; give it its own light ground on dark cards */
 :root:not([data-theme="light"]) .cc-top img[src^="atcoder"] { background: #fff; border-radius: 6px; padding: 2px; }
+
+/* Ambient lift on interactive surfaces (DESIGN.md: Elevation) */
+.coding-card, .g-open { transition: box-shadow 0.25s var(--ease), border-color 0.25s ease; }
+.coding-card:hover, .g-open:hover { box-shadow: var(--shadow-lift); }
+.coding-card:hover { border-color: var(--border-strong); }
+.g-open:focus-visible { box-shadow: var(--shadow-lift); }

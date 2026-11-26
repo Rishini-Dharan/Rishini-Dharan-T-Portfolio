@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-26T14:10:00Z",
+  "title": "Design System: Rishini Dharan T · Portfolio",
+  "extensions": {
+    "colorMeta": {
+      "signal-ice": { "role": "primary", "displayName": "Signal Ice", "canonical": "#8fd0ff", "tonalRamp": ["#0b2a42", "#124466", "#1d6290", "#3283bd", "#58a6dd", "#8fd0ff", "#bfe4ff", "#e8f5ff"] },
+      "signal-deep": { "role": "primary", "displayName": "Signal Deep (light theme)", "canonical": "#0f5e9c", "tonalRamp": ["#06213a", "#0a3458", "#0f5e9c", "#2f7dbb", "#5c9dd2", "#8fbfe6", "#c3ddf3", "#eaf3fb"] },
+      "console-navy": { "role": "neutral", "displayName": "Console Navy", "canonical": "#061325", "tonalRamp": ["#030b17", "#061325", "#0a1b31", "#0f2440", "#1c3554", "#3d5573", "#7e9cc0", "#eaf4ff"] },
+      "paper": { "role": "neutral", "displayName": "Paper", "canonical": "#f3f7fc", "tonalRamp": ["#0a1a2f", "#3d5573", "#546c8a", "#9fb2c9", "#c9d6e6", "#e7eef8", "#f3f7fc", "#ffffff"] },
+      "terminal-black": { "role": "neutral", "displayName": "Terminal Black", "canonical": "#030b17" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero headline only." },
+      "headline": { "displayName": "Headline", "purpose": "One per section, balanced wrapping." },
+      "accent-word": { "displayName": "Accent word", "purpose": "Exactly one Instrument Serif italic word per headline." },
+      "body": { "displayName": "Body", "purpose": "Reading text, about 75-80 characters per line." },
+      "label": { "displayName": "Mono label", "purpose": "Code, ratings, dates, shell output; never decoration." }
+    },
+    "shadows": [
+      { "name": "ambient-lift", "value": "0 10px 30px -12px rgba(0,0,0,0.55)", "purpose": "Interactive cards and gallery photos on hover/focus (dark). Light: 0 12px 28px -14px rgba(10,26,47,0.28)." },
+      { "name": "palette-float", "value": "0 30px 80px rgba(0,0,0,0.45)", "purpose": "The command palette, the only floating surface at rest." }
+    ],
+    "motion": [
+      { "name": "ease", "value": "cubic-bezier(0.22, 1, 0.36, 1)", "purpose": "Default for state transitions." },
+      { "name": "ease-arrive", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Authored moments: theme reveal, photo enlarge, ladder climb." }
+    ],
+    "breakpoints": [
+      { "name": "phone", "value": "600px" },
+      { "name": "tablet", "value": "960px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button", "kind": "button", "refersTo": "button-primary",
+      "description": "The one main action per area.",
+      "html": "<button class=\"ds-btn-primary\">See the projects</button>",
+      "css": ".ds-btn-primary { display:inline-flex; align-items:center; min-height:46px; padding:0 22px; border-radius:999px; border:1px solid transparent; background:var(--accent,#0f5e9c); color:var(--accent-ink,#fff); font:500 0.97rem Geist, system-ui, sans-serif; cursor:pointer; transition:background-color .2s ease, transform .2s ease; } .ds-btn-primary:hover { background:color-mix(in srgb, var(--accent,#0f5e9c) 86%, var(--text,#0a1a2f)); } .ds-btn-primary:active { transform:translateY(1px); } .ds-btn-primary:focus-visible { outline:2px solid var(--accent,#0f5e9c); outline-offset:3px; }"
+    },
+    {
+      "name": "Ghost Button", "kind": "button", "refersTo": "button-ghost",
+      "description": "Secondary actions next to a primary.",
+      "html": "<button class=\"ds-btn-ghost\">GitHub profile</button>",
+      "css": ".ds-btn-ghost { display:inline-flex; align-items:center; min-height:46px; padding:0 22px; border-radius:999px; border:1px solid var(--border,rgba(6,19,37,.1)); background:var(--accent-soft,rgba(15,94,156,.1)); color:var(--text,#0a1a2f); font:500 0.97rem Geist, system-ui, sans-serif; cursor:pointer; transition:border-color .2s ease, transform .2s ease; } .ds-btn-ghost:hover { border-color:var(--border-strong,rgba(6,19,37,.22)); } .ds-btn-ghost:active { transform:translateY(1px); } .ds-btn-ghost:focus-visible { outline:2px solid var(--accent,#0f5e9c); outline-offset:3px; }"
+    },
+    {
+      "name": "Skill Chip", "kind": "chip", "refersTo": "chip",
+      "description": "Filters projects by skill; active state uses the signal colour.",
+      "html": "<button class=\"ds-chip\">Python</button> <button class=\"ds-chip is-active\">FastAPI</button>",
+      "css": ".ds-chip { min-height:44px; padding:0 14px; border-radius:8px; border:1px solid var(--border,rgba(6,19,37,.1)); background:transparent; color:var(--text,#0a1a2f); font:0.93rem Geist, system-ui, sans-serif; cursor:pointer; transition:border-color .2s, background-color .2s; } .ds-chip:hover { border-color:var(--border-strong,rgba(6,19,37,.22)); background:var(--accent-soft,rgba(15,94,156,.1)); } .ds-chip.is-active { background:var(--accent,#0f5e9c); border-color:var(--accent,#0f5e9c); color:var(--accent-ink,#fff); } .ds-chip:focus-visible { outline:2px solid var(--accent,#0f5e9c); outline-offset:2px; }"
+    },
+    {
+      "name": "Coding Card", "kind": "card", "refersTo": "card",
+      "description": "A proof card: platform, number, evidence link; lifts on hover.",
+      "html": "<article class=\"ds-card\"><h4>Codeforces</h4><p><b>1,251</b> current · 1,417 peak</p><a href=\"#\">Codeforces profile</a></article>",
+      "css": ".ds-card { display:flex; flex-direction:column; gap:12px; padding:28px; border:1px solid var(--border,rgba(6,19,37,.1)); border-radius:16px; background:var(--bg,#f3f7fc); color:var(--text,#0a1a2f); font-family:Geist, system-ui, sans-serif; transition:box-shadow .25s cubic-bezier(.22,1,.36,1), border-color .25s; } .ds-card:hover { box-shadow:0 12px 28px -14px rgba(10,26,47,.28); border-color:var(--border-strong,rgba(6,19,37,.22)); } .ds-card h4 { font:500 1.1rem 'Bricolage Grotesque', system-ui, sans-serif; margin:0; } .ds-card b { font:400 1.9rem 'Bricolage Grotesque', system-ui, sans-serif; } .ds-card a { color:var(--accent,#0f5e9c); font-weight:500; text-underline-offset:4px; }"
+    },
+    {
+      "name": "Text Input", "kind": "input", "refersTo": "input",
+      "description": "Visible label above; signal border and soft ring on focus.",
+      "html": "<label class=\"ds-field\"><span>Email</span><input class=\"ds-input\" placeholder=\"email@example.com\"></label>",
+      "css": ".ds-field { display:block; font:0.9rem Geist, system-ui, sans-serif; color:var(--dim,#3d5573); } .ds-field span { display:block; margin-bottom:6px; } .ds-input { width:100%; padding:12px 14px; border-radius:8px; border:1px solid var(--border-strong,rgba(6,19,37,.22)); background:var(--surface,#fff); color:var(--text,#0a1a2f); font:1rem Geist, system-ui, sans-serif; transition:border-color .2s; } .ds-input:focus-visible { outline:none; border-color:var(--accent,#0f5e9c); box-shadow:0 0 0 3px var(--accent-soft,rgba(15,94,156,.1)); }"
+    },
+    {
+      "name": "Rank Ladder", "kind": "custom",
+      "description": "Signature: a platform's rank bands with current and peak markers.",
+      "html": "<div class=\"ds-ladder\"><span style=\"left:0;width:22%;background:#808080\"></span><span style=\"left:22%;width:22%;background:#008000\"></span><span style=\"left:44%;width:22%;background:#03a89e\"></span><span style=\"left:66%;width:34%;background:#0000ff\"></span><i style=\"left:28%\"><b>1,251 · Pupil</b></i></div>",
+      "css": ".ds-ladder { position:relative; height:8px; margin:40px 0 16px; font:500 0.78rem Geist, system-ui, sans-serif; } .ds-ladder span { position:absolute; top:0; bottom:0; } .ds-ladder span:first-child { border-radius:4px 0 0 4px; } .ds-ladder span:nth-child(4) { border-radius:0 4px 4px 0; } .ds-ladder i { position:absolute; top:-30px; bottom:-4px; width:2px; background:#0a1a2f; } .ds-ladder i b { position:absolute; bottom:100%; left:50%; translate:-50% 0; white-space:nowrap; font-style:normal; color:#0a1a2f; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Night Console",
+    "overview": "A calm operator's screen after hours: a deep navy field, one ice-blue signal colour, and everything else in quiet frost tones. The page reads like a console that answers when asked. The work, the numbers and the code are always one click away, and nothing shouts to get attention.\n\nThe visitor is a recruiter skimming between candidates, so every surface gives evidence: a live demo, a public repo, a rating with its rank band. Decoration that carries no evidence doesn't belong. Developers who look closer find depth in the programmer layer (command palette, shell, commit graph), but it never blocks the main path.\n\nLight mode is the default for first-time visitors and dark mode is one click away. Both are composed themes, not one inverted from the other. The direction comes from the Helm reference the owner supplied.",
+    "keyCharacteristics": [
+      "One accent colour, used for actions and the current state, never for decoration.",
+      "Light-weight grotesque headlines with exactly one Instrument Serif italic word.",
+      "Monospace only where it means code, data or a measurement.",
+      "Components feel tactile and confident: they rise, press and confirm.",
+      "Proof sits next to every claim."
+    ],
+    "rules": [
+      { "name": "The One Signal Rule", "body": "Ice blue marks action and state only. If something is blue, it can be clicked or it is the current selection.", "section": "colors" },
+      { "name": "The Data Keeps Its Colours Rule", "body": "Codeforces and AtCoder rank colours and LeetCode's difficulty colours are the platforms' own. They appear only as data (ladders, donut, rank badges), with lighter variants for the dark ground, and they never become part of the interface palette.", "section": "colors" },
+      { "name": "The One Italic Word Rule", "body": "Each headline gets exactly one Instrument Serif italic word, the word that carries the meaning (\"live demo\", \"how they're built\").", "section": "typography" },
+      { "name": "The Mono Means Data Rule", "body": "Monospace is for code, numbers and measurements, never for technical decoration.", "section": "typography" },
+      { "name": "The Lift Means Interactive Rule", "body": "A shadow appears only on something you can act on, and only while you're pointing at or focused on it. At rest, the page is flat.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do put the evidence (link, number, code) next to every claim.",
+      "Do use the Signal colour only for actions and the current state.",
+      "Do give every motion a job: confirm an action, show a change of state, or keep continuity (the theme reveal, the photo enlarge).",
+      "Do respect prefers-reduced-motion with a gentler alternative, never by silently removing a feature (the gallery offers a Play button).",
+      "Do theme browser surfaces too: selection, caret, scrollbars and focus rings."
+    ],
+    "donts": [
+      "Don't add section numbers or eyebrow labels above headings.",
+      "Don't use more than one italic serif word per headline, or gradient text anywhere.",
+      "Don't use monospace as a \"techy\" costume for prose.",
+      "Don't put shadows on non-interactive surfaces or leave them at rest.",
+      "Don't tilt, parallax or fade in every section on scroll. Keep to one authored moment per surface.",
+      "Don't invent claims, testimonials or numbers. Stats come from the platforms' own data."
+    ]
+  }
+}
