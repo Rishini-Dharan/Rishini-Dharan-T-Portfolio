@@ -14,8 +14,11 @@
 
     /* ---------------- Shared content model ---------------- */
     const PROJECTS = [
-        { slug: 'qguardian', name: 'Q-Guardian OS', note: 'AI security operations center, HackIndia 2025 national winner',
+        { slug: 'qguardian', name: 'Q-Guardian OS', note: 'AI security operations center, HackIndia Spark-9 2026',
           demo: 'https://rishini-dharan.github.io/HackIndia2026/', code: 'https://github.com/Rishini-Dharan/HackIndia2026' },
+        { slug: 'qresearch', name: 'Q-Guardian (research)', note: 'HackIndia 2025 AI Track national winner, IEEE AIDML 2026 paper',
+          demo: 'https://ieeexplore.ieee.org/document/11749134' },
+        { slug: 'deepfake', name: 'Deepfake Detection', note: 'ResNeXt CNN, 87% on 150+ videos (private repo)' },
         { slug: 'm5', name: 'M5 Forecasting Engine', note: '40 LightGBM models serving 28-day forecasts',
           demo: 'https://m5-forecasting-gules.vercel.app', code: 'https://github.com/Rishini-Dharan/m5_forecasting' },
         { slug: 'mining', name: 'Mining Emission & Filtration', note: 'HackIndia 2025 preliminary round winner',
@@ -26,7 +29,7 @@
         { slug: 'agent', name: 'Agent System', note: 'local-first multi-agent orchestrator',
           code: 'https://github.com/Rishini-Dharan/agent-system' }
     ];
-    const SECTIONS = ['work', 'skills', 'shell', 'about', 'experience', 'gallery', 'contact'];
+    const SECTIONS = ['work', 'skills', 'shell', 'about', 'experience', 'gallery', 'ask', 'contact'];
 
     function goTo(id, focusSel) {
         const el = document.getElementById(id);
@@ -66,7 +69,7 @@
             { group: 'Action', label: 'Write me a message', run: () => goTo('contact', '#cf-name') },
             { group: 'Profile', label: 'GitHub', hint: 'Rishini-Dharan', run: () => openUrl('https://github.com/Rishini-Dharan') },
             { group: 'Profile', label: 'LinkedIn', run: () => openUrl('https://www.linkedin.com/in/rishini-dharan-t/') },
-            { group: 'Profile', label: 'LeetCode', hint: window.STATS ? `${window.STATS.leetcode.badge} · ${window.STATS.leetcode.rating.toLocaleString('en-US')}` : 'Knight · 1,895', run: () => openUrl('https://leetcode.com/u/rishini_dharan/') }
+            { group: 'Profile', label: 'LeetCode', hint: 'Knight · 1,895', run: () => openUrl('https://leetcode.com/u/rishini_dharan/') }
         );
 
         // each typed word must appear as a subsequence somewhere (word order is free); tighter matches score higher
@@ -200,8 +203,8 @@
             },
             whoami() {
                 line('Rishini Dharan T, AI & full-stack developer in Chennai.');
-                line('B.Tech AI & Data Science, CGPA 8.75. HackIndia 2025 national winner. LeetCode Knight.');
-                line('Open to AI and full-stack internships for Summer 2026.');
+                line('B.Tech AI & Data Science, CGPA 8.66. HackIndia 2025 national winner (AI Track). First-author IEEE AIDML 2026 paper. LeetCode Knight.');
+                line('Graduating May 2027. Open to SDE-1 and AI Engineer roles.');
             },
             ls(args) {
                 const what = args[0] || 'projects';
@@ -219,11 +222,15 @@
                 });
             },
             stats() {
-                const S = window.STATS || {}, n = (v) => Number(v).toLocaleString('en-US');
-                const lc = S.leetcode, cf = S.codeforces, ac = S.atcoder;
-                if (lc) line(`  LeetCode    ${n(lc.rating)} rating, ${lc.badge || 'no badge'}, ${n(lc.solved)} solved (${lc.easy} E / ${lc.medium} M / ${lc.hard} H)`);
-                if (cf) line(`  Codeforces  ${n(cf.rating)} current, ${n(cf.maxRating)} peak, ${n(cf.solved)} solved`);
-                if (ac) line(`  AtCoder     ${n(ac.rating)} current, ${n(ac.maxRating || ac.rating)} peak, top ${ac.topPercent}%`);
+                const st = window.SITE_STATS || {};
+                const f = (n) => Number(n).toLocaleString('en-US');
+                const lc = st.leetcode || { rating: 1895, badge: 'Knight', solved: 740, easy: 232, medium: 396, hard: 112 };
+                const cf = st.codeforces || { rating: 1251, maxRating: 1417, solved: 192 };
+                const ac = st.atcoder || { rating: 696, maxRating: 772, rank: 25594, topPercent: 20.58 };
+                line(`  LeetCode    ${f(lc.rating)} rating, ${lc.badge}, ${f(lc.solved)} solved (${lc.easy} E / ${lc.medium} M / ${lc.hard} H)`);
+                line(`  Codeforces  ${f(cf.rating)} current, ${f(cf.maxRating)} peak, ${f(cf.solved)} solved`);
+                line(`  AtCoder     ${f(ac.rating)} current, ${f(ac.maxRating || ac.rating)} peak, rank ${f(ac.rank)}` + (ac.topPercent ? ` (top ${ac.topPercent}%)` : ''));
+                if (st.updated) line('  updated ' + st.updated, 'term-dim');
             },
             cat(args) {
                 const f = (args[0] || 'about').replace(/\.(md|txt)$/, '');
@@ -231,8 +238,7 @@
                 if (project) { describe(project); return; }
                 if (f === 'skills' || f === 'stats') { COMMANDS[f](); return; }
                 if (f === 'resume' || f === 'cv') {
-                    line('There is no resume file on this site yet.', 'term-dim');
-                    line(['Ask for one: ', { href: '#contact', text: 'contact' }, ' or ', { href: 'https://www.linkedin.com/in/rishini-dharan-t/', text: 'LinkedIn' }]);
+                    line(['Resume: ', { href: 'Rishini_Dharan_T_Resume.pdf', text: 'Rishini_Dharan_T_Resume.pdf' }]);
                     return;
                 }
                 if (f !== 'about') line('cat: ' + f + ': no such file, showing about instead.', 'term-dim');
