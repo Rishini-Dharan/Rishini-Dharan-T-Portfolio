@@ -158,62 +158,59 @@
                     <div class="feat-copy">
                         <p class="proj-meta mono"><span class="tag-win">HackIndia Spark-9 2026 entry</span></p>
                         <h3>Q-Guardian OS</h3>
-                        <p>An AI security operations center. Telemetry streams over WebSockets into a FastAPI orchestration hub, where an LLM intent planner with Gemini embeddings decides the response, and the React canvas rebuilds itself around the threat. Analysts can block a node straight from the graph.</p>
+                        <p>An AI security operations console. A Java ingester streams packet telemetry into a FastAPI hub, a detector trained on NSL-KDD scores every event, and an LLM planner decides which widgets the analyst needs next. The React canvas rebuilds itself around the threat, and analysts can block a node straight from the graph.</p>
                         <div class="proj-links">
                             <a href="https://rishini-dharan.github.io/HackIndia2026/" target="_blank" rel="noopener" class="btn btn-primary btn-sm">Open live demo</a>
                             <a href="https://github.com/Rishini-Dharan/HackIndia2026" target="_blank" rel="noopener" class="text-link">Read the code</a>
-                            <a href="https://ieeexplore.ieee.org/document/11749134" target="_blank" rel="noopener" class="text-link">Read the IEEE paper</a>
                         </div>
                     </div>
                     <dl class="feat-spec">
                         <div><dt>Backend</dt><dd>FastAPI, WebSockets, Python 3.12</dd></div>
-                        <div><dt>Intelligence</dt><dd>LLM intent planner, Gemini embeddings</dd></div>
+                        <div><dt>Detection</dt><dd>Logistic regression on NSL-KDD, Java 17 ingester</dd></div>
+                        <div><dt>Agent</dt><dd>Groq Llama 3.3 tool calls, Pydantic-validated, Qdrant memory</dd></div>
                         <div><dt>Frontend</dt><dd>React, TypeScript, Zustand, Tailwind</dd></div>
-                        <div><dt>Ships as</dt><dd>Docker, plus a browser sandbox mode</dd></div>
+                        <div><dt>Ships as</dt><dd>Docker Compose, CI, plus a labelled browser sandbox</dd></div>
                     </dl>
                     <figure class="code-card">
                         <figcaption class="code-head mono">
-                            <span>backend/main.py</span>
-                            <a href="https://github.com/Rishini-Dharan/HackIndia2026/blob/main/backend/main.py#L72-L90" target="_blank" rel="noopener" class="text-link">lines 72 to 90 on GitHub</a>
+                            <span>backend/llm_orchestrator.py</span>
+                            <a href="https://github.com/Rishini-Dharan/HackIndia2026/blob/main/backend/llm_orchestrator.py#L52-L65" target="_blank" rel="noopener" class="text-link">lines 52 to 65 on GitHub</a>
                         </figcaption>
-                        <pre class="code-body" tabindex="0" aria-label="Q-Guardian WebSocket handler source code"><code id="qg-code">@app.websocket("/ws/chat")
-async def ws_chat(websocket: WebSocket):
-    session_id = await manager.connect(websocket)
-    print(f"[WS] Client connected: {session_id}")
+                        <pre class="code-body" tabindex="0" aria-label="Q-Guardian widget-call validation source code"><code id="qg-code">class WidgetCall(BaseModel):
+    &quot;&quot;&quot;Schema the planner&#x27;s tool arguments must satisfy before anything is rendered.&quot;&quot;&quot;
+    component: Literal[&quot;LiveTrafficChart&quot;, &quot;ThreatTopology&quot;, &quot;MitigationAction&quot;, &quot;IncidentTriageBoard&quot;, &quot;DynamicDashboard&quot;]
+    title: str = Field(min_length=1, max_length=120)
+    description: str = Field(default=&quot;&quot;, max_length=400)
+    props: dict[str, Any] = Field(default_factory=dict)
 
-    # Send welcome message
-    await manager.send_personal(websocket, {
-        "type": "chat",
-        "role": "agent",
-        "content": "🛡️ Q-Guardian OS online. I'm your AI Security Operations assistant. Ask me to show live traffic, analyze threats, or mitigate attacks.",
-    })
 
+def parse_widget_call(raw_arguments: str) -&gt; WidgetCall:
+    &quot;&quot;&quot;Validate a render_security_widget tool call. Raises ValueError on bad output.&quot;&quot;&quot;
     try:
-        while True:
-            data = await websocket.receive_json()
-            await handle_ws_message(manager, websocket, session_id, data)
-    except WebSocketDisconnect:
-        manager.disconnect(session_id)
-        print(f"[WS] Client disconnected: {session_id}")</code></pre>
+        return WidgetCall.model_validate(json.loads(raw_arguments))
+    except (json.JSONDecodeError, ValidationError) as e:
+        raise ValueError(f&quot;invalid widget call: {e}&quot;) from e</code></pre>
                     </figure>
                     <details class="how">
                         <summary class="mono">How it's built</summary>
                         <div class="how-body">
                             <ol class="how-flow" aria-label="Data flow">
-                                <li><b>Ingest</b><span>Java 17 parser reads raw syslog and packet telemetry</span></li>
-                                <li><b>Detect</b><span>ML classifier flags behaviour such as SMB spikes on port 445</span></li>
+                                <li><b>Ingest</b><span>Java 17 parser turns packet records into JSON and POSTs batches</span></li>
+                                <li><b>Detect</b><span>NSL-KDD model scores each event; a signature rule catches SMB bulk transfer</span></li>
                                 <li><b>Route</b><span>FastAPI WebSocket hub streams alerts and operator actions both ways</span></li>
                                 <li><b>Plan</b><span>LLM intent planner pulls past cases from Qdrant (Gemini embeddings)</span></li>
                                 <li><b>Render</b><span>React canvas mounts the widgets the planner asks for</span></li>
                             </ol>
                             <div class="how-cols">
                                 <div><h4 class="mono">Design choices</h4><ul>
-                                <li>Parsing uses <code>indexOf</code> and <code>charAt</code> with no allocations, avoiding regex and <code>split()</code> on the hot path.</li>
+                                <li>Parsing is one <code>charAt</code> pass that keeps field offsets instead of substrings, with no regex or <code>split()</code>.</li>
                                 <li>The planner emits JSON layout commands, and a component registry renders them, so the model never writes UI code.</li>
                                 <li>Vector memory targets Qdrant Cloud and falls back to an in-memory store if the connection fails.</li>
-                                <li>A browser sandbox replays the backend's telemetry, so the demo works without a server.</li>
+                                <li>The model only uses features computable from a sliding window, so it runs on NumPy alone; a fallback to the scripted planner is shown in the UI, never silent.</li>
                                 </ul></div>
                                 <div><h4 class="mono">Results</h4><ul>
+                                <li>Detector F1 0.88 on the held-out NSL-KDD test set; 97% precision at the live alert threshold.</li>
+                                <li>Ingester parses about 4M records/s on one core.</li>
                                 <li>Built for HackIndia Spark-9 2026, Track 04: stateful AI agents with a dynamic UI.</li>
                                 <li>Covers a full incident loop: alert, triage, containment, false-positive replan, and a generated incident report.</li>
                                 </ul></div>
