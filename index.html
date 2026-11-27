@@ -162,14 +162,15 @@
                         <div class="proj-links">
                             <a href="https://rishini-dharan.github.io/HackIndia2026/" target="_blank" rel="noopener" class="btn btn-primary btn-sm">Open live demo</a>
                             <a href="https://github.com/Rishini-Dharan/HackIndia2026" target="_blank" rel="noopener" class="text-link">Read the code</a>
+                            <a href="https://github.com/Rishini-Dharan/HackIndia2026/blob/main/docs/images/demo.gif" target="_blank" rel="noopener" class="text-link">Watch the 20-second demo</a>
                         </div>
                     </div>
                     <dl class="feat-spec">
                         <div><dt>Backend</dt><dd>FastAPI, WebSockets, Python 3.12</dd></div>
                         <div><dt>Detection</dt><dd>Logistic regression on NSL-KDD, Java 17 ingester</dd></div>
-                        <div><dt>Agent</dt><dd>Groq Llama 3.3 tool calls, Pydantic-validated, Qdrant memory</dd></div>
+                        <div><dt>Agent</dt><dd>gpt-oss-120b on Groq, Pydantic-validated tool calls, Qdrant case memory</dd></div>
                         <div><dt>Frontend</dt><dd>React, TypeScript, Zustand, Tailwind</dd></div>
-                        <div><dt>Ships as</dt><dd>Docker Compose, CI, plus a labelled browser sandbox</dd></div>
+                        <div><dt>Ships as</dt><dd>Render backend, GitHub Pages UI, Docker Compose, CI</dd></div>
                     </dl>
                     <figure class="code-card">
                         <figcaption class="code-head mono">
@@ -211,6 +212,8 @@ def parse_widget_call(raw_arguments: str) -&gt; WidgetCall:
                                 <div><h4 class="mono">Results</h4><ul>
                                 <li>Detector F1 0.88 on the held-out NSL-KDD test set; 97% precision at the live alert threshold.</li>
                                 <li>Ingester parses about 4M records/s on one core.</li>
+                                <li>The live demo runs on the deployed backend, with every detection tagged with a MITRE ATT&amp;CK technique.</li>
+                                <li>Planner eval: 16/20 with gpt-oss-120b, level with a keyword baseline but missing different cases.</li>
                                 <li>Built for HackIndia Spark-9 2026, Track 04: stateful AI agents with a dynamic UI.</li>
                                 <li>Covers a full incident loop: alert, triage, containment, false-positive replan, and a generated incident report.</li>
                                 </ul></div>
