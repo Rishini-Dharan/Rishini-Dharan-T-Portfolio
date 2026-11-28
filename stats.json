@@ -4,9 +4,9 @@
     "globalRank": 42486,
     "topPercent": 4.88,
     "badge": "Knight",
-    "solved": 747,
+    "solved": 748,
     "easy": 234,
-    "medium": 399,
+    "medium": 400,
     "hard": 114
   },
   "codeforces": {
@@ -14,13 +14,13 @@
     "maxRating": 1417,
     "rank": "pupil",
     "maxRank": "specialist",
-    "solved": 197
+    "solved": 199
   },
   "atcoder": {
-    "rating": 696,
-    "maxRating": 772,
-    "rank": 25594,
-    "topPercent": 20.58
+    "rating": 1032,
+    "maxRating": 1032,
+    "rank": 14731,
+    "topPercent": 11.78
   },
   "updated": "2026-11-28"
 }
