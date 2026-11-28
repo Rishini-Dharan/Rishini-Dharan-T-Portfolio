@@ -29,7 +29,7 @@
         let nodes = [], edges = [], pulses = [];
         let colors = {};
         let pointer = { x: -9999, y: -9999, active: false, last: 0 };
-        let visible = true, running = false, lastIdle = 0;
+        let visible = true, running = false, lastIdle = 0, idleBeats = 0;
         let bootStart = null, paused = false;
 
         // 0..1 visibility of a layer during the boot sequence (layers switch on left to right)
@@ -59,10 +59,19 @@
             ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
             const small = W < 720;
-            const layers = small ? [3, 5, 5, 3] : [4, 7, 9, 7, 4, 2];
+            const layers = small ? [3, 5, 5, 3] : [4, 6, 6, 6, 4, 2];
             const x0 = W * 0.06, x1 = W * 0.94;
-            // desktop hero copy sits in the lower third, so the network owns the band above it
-            const top = H * 0.14, bottom = H * (small ? 0.9 : 0.5);
+            // desktop: the network owns the band between the nav and the hero copy, measured live
+            // so it never runs into the text; small screens draw it dimmed behind everything
+            let top = H * 0.14;
+            let bottom = H * 0.9;
+            if (!small) {
+                const navH = parseFloat(cssVar('--nav-h')) || 64;
+                top = navH + 16;
+                const inner = hero.querySelector('.hero-inner');
+                const copyTop = inner ? inner.getBoundingClientRect().top - rect.top : H * 0.5;
+                bottom = Math.max(top + 120, copyTop - 28);
+            }
             nodes = []; edges = []; pulses = [];
 
             layers.forEach((count, li) => {
@@ -76,7 +85,7 @@
             for (const a of nodes) {
                 for (const b of nodes) {
                     if (b.layer === a.layer + 1) {
-                        const e = { a, b, w: 0.35 + Math.random() * 0.65 };
+                        const e = { a, b, w: 0.2 + Math.random() * 0.8 };
                         edges.push(e);
                         a.out.push(e);
                     }
@@ -100,13 +109,20 @@
             if (pointer.active) {
                 for (const n of nodes) {
                     const d = Math.hypot(n.x - pointer.x, n.y - pointer.y);
-                    if (d < 130) fire(n, (1 - d / 130) * 0.08);
+                    if (d < 150) fire(n, (1 - d / 150) * 0.08);
                 }
-            } else if (!REDUCED && !paused && now - lastIdle > 2600 && now - pointer.last > 3000) {
-                // idle: a single faint input so the hero never reads as a still image
+            }
+            // idle (no pointer movement for 3s, even if the cursor rests over the hero):
+            // a faint input every beat, and every fourth beat a full forward pass,
+            // so the network keeps visibly computing instead of freezing
+            if (!REDUCED && !paused && now - lastIdle > 2600 && now - pointer.last > 3000) {
                 lastIdle = now;
-                const inputs = nodes.filter(n => n.layer === 0);
-                fire(inputs[(Math.random() * inputs.length) | 0], 0.7);
+                if (++idleBeats % 4 === 0) {
+                    forwardPass();
+                } else {
+                    const inputs = nodes.filter(n => n.layer === 0);
+                    fire(inputs[(Math.random() * inputs.length) | 0], 0.7);
+                }
             }
 
             // saturated neurons emit pulses along their strongest outgoing edges
@@ -137,12 +153,17 @@
             ctx.lineWidth = 1;
             ctx.strokeStyle = colors.edge;
             const layerCount = nodes.length ? nodes[nodes.length - 1].layer : 0;
+            // three weight bands so the mesh has depth instead of a uniform haze
+            const BANDS = [[0, 0.45, 0.8], [0.45, 0.75, 1.5], [0.75, 1.01, 2.6]];
             for (let l = 0; l < layerCount; l++) {
-                ctx.globalAlpha = shown(l + 1);
-                if (!ctx.globalAlpha) continue;
-                ctx.beginPath();
-                for (const e of edges) if (e.a.layer === l) { ctx.moveTo(e.a.x, e.a.y); ctx.lineTo(e.b.x, e.b.y); }
-                ctx.stroke();
+                const on = shown(l + 1);
+                if (!on) continue;
+                for (const [lo, hi, k] of BANDS) {
+                    ctx.globalAlpha = Math.min(1, on * k);
+                    ctx.beginPath();
+                    for (const e of edges) if (e.a.layer === l && e.w >= lo && e.w < hi) { ctx.moveTo(e.a.x, e.a.y); ctx.lineTo(e.b.x, e.b.y); }
+                    ctx.stroke();
+                }
             }
             ctx.globalAlpha = 1;
 
@@ -165,7 +186,7 @@
                 if (!on) continue;
                 ctx.globalAlpha = on;
                 ctx.fillStyle = colors.node;
-                ctx.beginPath(); ctx.arc(n.x, n.y, 3, 0, Math.PI * 2); ctx.fill();
+                ctx.beginPath(); ctx.arc(n.x, n.y, 3.5, 0, Math.PI * 2); ctx.fill();
                 ctx.globalAlpha = 1;
                 if (n.act > 0.04) {
                     ctx.globalAlpha = Math.min(1, n.act * 1.4);
