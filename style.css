@@ -270,6 +270,8 @@ a.text-link:not(p a), .skip-link { display: inline-flex; align-items: center; mi
     width: 100%;
     height: 100%;
 }
+/* set by visuals.js when there is no room for the network above the copy */
+#hero-canvas.net-behind { opacity: 0.4; }
 .hero-inner {
     position: relative;
     display: grid;
