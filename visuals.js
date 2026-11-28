@@ -29,7 +29,7 @@
         let nodes = [], edges = [], pulses = [];
         let colors = {};
         let pointer = { x: -9999, y: -9999, active: false, last: 0 };
-        let visible = true, running = false, lastIdle = 0;
+        let visible = true, running = false, lastIdle = 0, idleBeats = 0;
         let bootStart = null, paused = false;
 
         // 0..1 visibility of a layer during the boot sequence (layers switch on left to right)
@@ -109,13 +109,20 @@
             if (pointer.active) {
                 for (const n of nodes) {
                     const d = Math.hypot(n.x - pointer.x, n.y - pointer.y);
-                    if (d < 130) fire(n, (1 - d / 130) * 0.08);
+                    if (d < 150) fire(n, (1 - d / 150) * 0.08);
                 }
-            } else if (!REDUCED && !paused && now - lastIdle > 2600 && now - pointer.last > 3000) {
-                // idle: a single faint input so the hero never reads as a still image
+            }
+            // idle (no pointer movement for 3s, even if the cursor rests over the hero):
+            // a faint input every beat, and every fourth beat a full forward pass,
+            // so the network keeps visibly computing instead of freezing
+            if (!REDUCED && !paused && now - lastIdle > 2600 && now - pointer.last > 3000) {
                 lastIdle = now;
-                const inputs = nodes.filter(n => n.layer === 0);
-                fire(inputs[(Math.random() * inputs.length) | 0], 0.7);
+                if (++idleBeats % 4 === 0) {
+                    forwardPass();
+                } else {
+                    const inputs = nodes.filter(n => n.layer === 0);
+                    fire(inputs[(Math.random() * inputs.length) | 0], 0.7);
+                }
             }
 
             // saturated neurons emit pulses along their strongest outgoing edges
