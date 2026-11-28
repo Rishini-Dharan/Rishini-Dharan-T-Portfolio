@@ -70,23 +70,17 @@
                 x0 = g.left - rect.left + (parseFloat(cs.paddingLeft) || 0);
                 x1 = g.right - rect.left - (parseFloat(cs.paddingRight) || 0);
             }
-            // tall desktop screens: the network owns the band between the nav and the hero copy.
-            // when that band is too short to hold it (short laptops, small screens), draw it full
-            // size and dimmed behind the copy instead of squashing it into a strip
+            // desktop: the network owns the band style.css reserves between the nav and the copy.
+            // single-column layouts (<=960px) draw it full size and dimmed behind the copy
             let top = H * 0.14;
             let bottom = H * 0.9;
-            let behind = true;
-            if (!small) {
+            const behind = W <= 960;
+            if (!behind) {
                 const navH = parseFloat(cssVar('--nav-h')) || 64;
                 const inner = hero.querySelector('.hero-inner');
                 const copyTop = inner ? inner.getBoundingClientRect().top - rect.top : H * 0.5;
-                if (copyTop - 28 - (navH + 16) >= 220) {
-                    top = navH + 16;
-                    bottom = copyTop - 28;
-                    behind = false;
-                } else {
-                    top = navH + 24;
-                }
+                top = navH + 16;
+                bottom = Math.max(top + 200, copyTop - 28);
             }
             canvas.classList.toggle('net-behind', behind);
             nodes = []; edges = []; pulses = [];

@@ -1228,3 +1228,16 @@ kbd {
 .contact-resume { margin: 8px 0 20px; }
 .skip-row { list-style: none; padding: 18px 0; border-top: 1px solid var(--border); }
 
+
+/* Desktop hero: always reserve a band above the copy for the network,
+   so it is never squashed or pushed behind the text on short screens */
+@media (min-width: 961px) {
+    .hero { padding-top: calc(var(--nav-h) + 280px); }
+}
+/* short laptop screens: a slightly smaller band and a headline sized to the viewport
+   height, so network + full hero copy fit in one screen */
+@media (min-width: 961px) and (max-height: 820px) {
+    .hero { padding-top: calc(var(--nav-h) + 200px); padding-bottom: 40px; }
+    .hero-title { font-size: clamp(2.6rem, 11vh, 5.2rem); }
+    .hero-side .lead { font-size: 1.02rem; margin-bottom: 20px; }
+}
