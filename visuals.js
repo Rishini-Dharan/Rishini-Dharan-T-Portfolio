@@ -61,17 +61,25 @@
             const small = W < 720;
             const layers = small ? [3, 5, 5, 3] : [4, 6, 6, 6, 4, 2];
             const x0 = W * 0.06, x1 = W * 0.94;
-            // desktop: the network owns the band between the nav and the hero copy, measured live
-            // so it never runs into the text; small screens draw it dimmed behind everything
+            // tall desktop screens: the network owns the band between the nav and the hero copy.
+            // when that band is too short to hold it (short laptops, small screens), draw it full
+            // size and dimmed behind the copy instead of squashing it into a strip
             let top = H * 0.14;
             let bottom = H * 0.9;
+            let behind = true;
             if (!small) {
                 const navH = parseFloat(cssVar('--nav-h')) || 64;
-                top = navH + 16;
                 const inner = hero.querySelector('.hero-inner');
                 const copyTop = inner ? inner.getBoundingClientRect().top - rect.top : H * 0.5;
-                bottom = Math.max(top + 120, copyTop - 28);
+                if (copyTop - 28 - (navH + 16) >= 220) {
+                    top = navH + 16;
+                    bottom = copyTop - 28;
+                    behind = false;
+                } else {
+                    top = navH + 24;
+                }
             }
+            canvas.classList.toggle('net-behind', behind);
             nodes = []; edges = []; pulses = [];
 
             layers.forEach((count, li) => {
