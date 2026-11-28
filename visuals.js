@@ -59,10 +59,19 @@
             ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
             const small = W < 720;
-            const layers = small ? [3, 5, 5, 3] : [4, 7, 9, 7, 4, 2];
+            const layers = small ? [3, 5, 5, 3] : [4, 6, 6, 6, 4, 2];
             const x0 = W * 0.06, x1 = W * 0.94;
-            // desktop hero copy sits in the lower third, so the network owns the band above it
-            const top = H * 0.14, bottom = H * (small ? 0.9 : 0.5);
+            // desktop: the network owns the band between the nav and the hero copy, measured live
+            // so it never runs into the text; small screens draw it dimmed behind everything
+            let top = H * 0.14;
+            let bottom = H * 0.9;
+            if (!small) {
+                const navH = parseFloat(cssVar('--nav-h')) || 64;
+                top = navH + 16;
+                const inner = hero.querySelector('.hero-inner');
+                const copyTop = inner ? inner.getBoundingClientRect().top - rect.top : H * 0.5;
+                bottom = Math.max(top + 120, copyTop - 28);
+            }
             nodes = []; edges = []; pulses = [];
 
             layers.forEach((count, li) => {
@@ -76,7 +85,7 @@
             for (const a of nodes) {
                 for (const b of nodes) {
                     if (b.layer === a.layer + 1) {
-                        const e = { a, b, w: 0.35 + Math.random() * 0.65 };
+                        const e = { a, b, w: 0.2 + Math.random() * 0.8 };
                         edges.push(e);
                         a.out.push(e);
                     }
@@ -137,12 +146,17 @@
             ctx.lineWidth = 1;
             ctx.strokeStyle = colors.edge;
             const layerCount = nodes.length ? nodes[nodes.length - 1].layer : 0;
+            // three weight bands so the mesh has depth instead of a uniform haze
+            const BANDS = [[0, 0.45, 0.8], [0.45, 0.75, 1.5], [0.75, 1.01, 2.6]];
             for (let l = 0; l < layerCount; l++) {
-                ctx.globalAlpha = shown(l + 1);
-                if (!ctx.globalAlpha) continue;
-                ctx.beginPath();
-                for (const e of edges) if (e.a.layer === l) { ctx.moveTo(e.a.x, e.a.y); ctx.lineTo(e.b.x, e.b.y); }
-                ctx.stroke();
+                const on = shown(l + 1);
+                if (!on) continue;
+                for (const [lo, hi, k] of BANDS) {
+                    ctx.globalAlpha = Math.min(1, on * k);
+                    ctx.beginPath();
+                    for (const e of edges) if (e.a.layer === l && e.w >= lo && e.w < hi) { ctx.moveTo(e.a.x, e.a.y); ctx.lineTo(e.b.x, e.b.y); }
+                    ctx.stroke();
+                }
             }
             ctx.globalAlpha = 1;
 
@@ -165,7 +179,7 @@
                 if (!on) continue;
                 ctx.globalAlpha = on;
                 ctx.fillStyle = colors.node;
-                ctx.beginPath(); ctx.arc(n.x, n.y, 3, 0, Math.PI * 2); ctx.fill();
+                ctx.beginPath(); ctx.arc(n.x, n.y, 3.5, 0, Math.PI * 2); ctx.fill();
                 ctx.globalAlpha = 1;
                 if (n.act > 0.04) {
                     ctx.globalAlpha = Math.min(1, n.act * 1.4);

@@ -1209,10 +1209,3 @@ kbd {
 .contact-resume { margin: 8px 0 20px; }
 .skip-row { list-style: none; padding: 18px 0; border-top: 1px solid var(--border); }
 
-/* Hero network: fade it out behind the copy on wide screens so it never crosses text */
-@media (min-width: 961px) {
-    #hero-canvas {
-        -webkit-mask-image: linear-gradient(to right, transparent 0%, transparent 35%, #000 70%);
-        mask-image: linear-gradient(to right, transparent 0%, transparent 35%, #000 70%);
-    }
-}
