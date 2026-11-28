@@ -984,6 +984,16 @@ kbd {
     color: var(--dim);
     tab-size: 4;
 }
+/* On phones, wrapping 100-character code lines made the box taller than the
+   screen; keep lines intact and scroll sideways instead (the box is focusable). */
+@media (max-width: 640px) {
+    .code-body {
+        white-space: pre;
+        overflow-wrap: normal;
+        font-size: 0.76rem;
+        padding: 14px 16px;
+    }
+}
 .tk-kw { color: var(--accent); }
 .tk-fn { color: var(--text); }
 .tk-str { color: #f2c48d; }

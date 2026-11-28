@@ -175,7 +175,7 @@
                     <figure class="code-card">
                         <figcaption class="code-head mono">
                             <span>backend/llm_orchestrator.py</span>
-                            <a href="https://github.com/Rishini-Dharan/HackIndia2026/blob/main/backend/llm_orchestrator.py#L52-L65" target="_blank" rel="noopener" class="text-link">lines 52 to 65 on GitHub</a>
+                            <a href="https://github.com/Rishini-Dharan/HackIndia2026/blob/ccb98dac17c24f2159c2d41d9c5ceeae01455efb/backend/llm_orchestrator.py#L55-L72" target="_blank" rel="noopener" class="text-link">lines 55 to 72 on GitHub</a>
                         </figcaption>
                         <pre class="code-body" tabindex="0" aria-label="Q-Guardian widget-call validation source code"><code id="qg-code">class WidgetCall(BaseModel):
     &quot;&quot;&quot;Schema the planner&#x27;s tool arguments must satisfy before anything is rendered.&quot;&quot;&quot;
@@ -185,8 +185,12 @@
     props: dict[str, Any] = Field(default_factory=dict)
 
 
+class WidgetBatch(BaseModel):
+    widgets: list[WidgetCall] = Field(min_length=1, max_length=4)
+
+
 def parse_widget_call(raw_arguments: str) -&gt; WidgetCall:
-    &quot;&quot;&quot;Validate a render_security_widget tool call. Raises ValueError on bad output.&quot;&quot;&quot;
+    &quot;&quot;&quot;Validate a single-widget tool call. Raises ValueError on bad output.&quot;&quot;&quot;
     try:
         return WidgetCall.model_validate(json.loads(raw_arguments))
     except (json.JSONDecodeError, ValidationError) as e:
