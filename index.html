@@ -199,21 +199,23 @@ def parse_widget_call(raw_arguments: str) -&gt; WidgetCall:
                                 <li><b>Ingest</b><span>Java 17 parser turns packet records into JSON and POSTs batches</span></li>
                                 <li><b>Detect</b><span>NSL-KDD model scores each event; a signature rule catches SMB bulk transfer</span></li>
                                 <li><b>Route</b><span>FastAPI WebSocket hub streams alerts and operator actions both ways</span></li>
-                                <li><b>Plan</b><span>LLM intent planner pulls past cases from Qdrant (Gemini embeddings)</span></li>
+                                <li><b>Plan</b><span>LLM planner pulls the visitor&rsquo;s past cases from Qdrant memory</span></li>
                                 <li><b>Render</b><span>React canvas mounts the widgets the planner asks for</span></li>
                             </ol>
                             <div class="how-cols">
                                 <div><h4 class="mono">Design choices</h4><ul>
                                 <li>Parsing is one <code>charAt</code> pass that keeps field offsets instead of substrings, with no regex or <code>split()</code>.</li>
                                 <li>The planner emits JSON layout commands, and a component registry renders them, so the model never writes UI code.</li>
-                                <li>Vector memory targets Qdrant Cloud and falls back to an in-memory store if the connection fails.</li>
+                                <li>Each visitor gets a private session: their own simulated attack, workspace and saved cases, with per-visitor and global rate limits on the shared LLM.</li>
+                                <li>The planner returns every widget a request needs in one validated tool call, so &ldquo;traffic and topology&rdquo; gets both views.</li>
                                 <li>The model only uses features computable from a sliding window, so it runs on NumPy alone; a fallback to the scripted planner is shown in the UI, never silent.</li>
                                 </ul></div>
                                 <div><h4 class="mono">Results</h4><ul>
                                 <li>Detector F1 0.88 on the held-out NSL-KDD test set; 97% precision at the live alert threshold.</li>
                                 <li>Ingester parses about 4M records/s on one core.</li>
                                 <li>The live demo runs on the deployed backend, with every detection tagged with a MITRE ATT&amp;CK technique.</li>
-                                <li>Planner eval: 16/20 with gpt-oss-120b, level with a keyword baseline but missing different cases.</li>
+                                <li>Planner eval with gpt-oss-120b: 20/20 on the main set and 12/12 on a held-out set it was never tuned on (keyword baseline: 16/20 and 6/12).</li>
+                                <li>Cross-checked on UNSW-NB15: the NSL-KDD detector doesn&rsquo;t transfer to modern traffic, which the README states openly, along with the next step.</li>
                                 <li>Built for HackIndia Spark-9 2026, Track 04: stateful AI agents with a dynamic UI.</li>
                                 <li>Covers a full incident loop: alert, triage, containment, false-positive replan, and a generated incident report.</li>
                                 </ul></div>
