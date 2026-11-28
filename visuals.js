@@ -60,7 +60,16 @@
 
             const small = W < 720;
             const layers = small ? [3, 5, 5, 3] : [4, 6, 6, 6, 4, 2];
-            const x0 = W * 0.06, x1 = W * 0.94;
+            // desktop: span the content column (the .container), not the whole viewport,
+            // so wide screens don't stretch it into a banner wider than the copy
+            let x0 = W * 0.06, x1 = W * 0.94;
+            const grid = hero.querySelector('.hero-inner');
+            if (!small && grid) {
+                const g = grid.getBoundingClientRect();
+                const cs = getComputedStyle(grid);
+                x0 = g.left - rect.left + (parseFloat(cs.paddingLeft) || 0);
+                x1 = g.right - rect.left - (parseFloat(cs.paddingRight) || 0);
+            }
             // tall desktop screens: the network owns the band between the nav and the hero copy.
             // when that band is too short to hold it (short laptops, small screens), draw it full
             // size and dimmed behind the copy instead of squashing it into a strip
